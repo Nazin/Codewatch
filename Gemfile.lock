@@ -55,6 +55,7 @@ GEM
     mime-types (1.17.2)
     multi_json (1.1.0)
     pg (0.13.2)
+    pg (0.13.2-x86-mingw32)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.1)
@@ -104,6 +105,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
