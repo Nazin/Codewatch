@@ -1,4 +1,7 @@
 Www::Application.routes.draw do
+  
+  match '' => 'page#home'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
