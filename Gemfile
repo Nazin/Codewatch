@@ -41,12 +41,12 @@ group :test do
   #rspec generators:
   gem 'rspec-rails', '2.9.0'
   #notify for guarded rspecs (linux):
-  gem 'rb-inotify', '0.8.8'
-  gem 'libnotify', '0.5.9'
+  gem 'rb-inotify', '0.8.8', :platform => :ruby
+  gem 'libnotify', '0.5.9', :platform => :ruby
   #notify for guarded rspecs (win):
-  # gem 'rb-fchange', '0.0.5'
-  # gem 'rb-notifu', '0.0.4'
-  # gem 'win32console', '1.3.0'
+  gem 'rb-fchange', '0.0.5', :platform => :mingw
+  gem 'rb-notifu', '0.0.4', :platform => :mingw
+  gem 'win32console', '1.3.0', :platform => :mingw
   #speed test up:
   gem 'guard-spork', '0.3.2'
   gem 'spork', '0.9.0'
