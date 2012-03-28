@@ -1,5 +1,11 @@
 Www::Application.routes.draw do
   
+  get "code_snippets/new"
+
+  get "code_snippets/create"
+
+  get "code_snippets/show"
+
   match '' => 'page#home'
   
   # The priority is based upon order of creation:
