@@ -31,11 +31,18 @@ group :development do
   gem 'annotate', '~> 2.4.1.beta'
   #rspec generators:
   gem 'rspec-rails', '2.9.0'
+  #automate tests:
+  gem 'guard-rspec', '0.5.5'
 end
 
 group :test do
-  #english like testing
+  #english like testing:
   gem 'capybara', '1.1.2'
+  #rspec generators:
+  gem 'rspec-rails', '2.9.0'
+  #notify for guarded rspecs
+  gem 'rb-inotify', '0.8.8'
+  gem 'libnotify', '0.5.9'
 end
 
 

@@ -19,3 +19,4 @@
 
 # emacs temp files.
 *~
+bundler_stubs/
