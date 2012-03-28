@@ -8,6 +8,8 @@ gem 'rails', '3.2.2'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+#highlight syntax:
+gem "pygments.rb", "~> 0.2.7"
 
 
 # Gems used only for assets and not required
@@ -25,6 +27,7 @@ end
 
 
 group :development do
+  #annotate models with schema info:
   gem 'annotate', '~> 2.4.1.beta'
 end
 

@@ -1,10 +1,8 @@
 Www::Application.routes.draw do
   
-  get "code_snippets/new"
+  resources :code_snippets
 
-  get "code_snippets/create"
-
-  get "code_snippets/show"
+ 
 
   match '' => 'page#home'
   

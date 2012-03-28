@@ -1,2 +1,18 @@
 <h1>CodeSnippets#new</h1>
 <p>Find me in app/views/code_snippets/new.html.erb</p>
+
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@code_snippet) do |f| %>
+
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+
+      <%= f.label :code %>
+      <%= f.text_field :code %>
+
+      <%= f.submit "Submit code snippet", :class => "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
