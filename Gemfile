@@ -40,9 +40,16 @@ group :test do
   gem 'capybara', '1.1.2'
   #rspec generators:
   gem 'rspec-rails', '2.9.0'
-  #notify for guarded rspecs
+  #notify for guarded rspecs (linux):
   gem 'rb-inotify', '0.8.8'
   gem 'libnotify', '0.5.9'
+  #notify for guarded rspecs (win):
+  # gem 'rb-fchange', '0.0.5'
+  # gem 'rb-notifu', '0.0.4'
+  # gem 'win32console', '1.3.0'
+  #speed test up:
+  gem 'guard-spork', '0.3.2'
+  gem 'spork', '0.9.0'
 end
 
 
