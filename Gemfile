@@ -29,6 +29,13 @@ end
 group :development do
   #annotate models with schema info:
   gem 'annotate', '~> 2.4.1.beta'
+  #rspec generators:
+  gem 'rspec-rails', '2.9.0'
+end
+
+group :test do
+  #english like testing
+  gem 'capybara', '1.1.2'
 end
 
 
