@@ -1,31 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl">
   <head>
-     <title>Codewatch.pl | <%= yield(:title) %></title>
+    <title><%= full_title yield(:title) %></title>
     <%= stylesheet_link_tag    "application", media: "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
   </head>
   <body>
     <div id="main">
-      <div id="top">
-	<div id="logo">
-	  <%= link_to "", controller: "page", action: "home" %>
-	</div>
-	<ul id="nav">
-	  <li><%= link_to "About", controller: "page", action: "home" %></li>
-	  <li><%= link_to "Contact", controller: "page", action: "home" %></li>
-	  <li><%= link_to "Help", controller: "page", action: "home" %></li>
-	  <li><%= link_to "Sign up", controller:"page", action: "home" %></li>
-	</ul>
-      </div>
+      <%=render "layouts/header"%>
       <div id="content">
 	<%= yield %>
       </div>
       <div id="clearFooter"></div>
     </div>
-    <div id="footer">
-      <div id="footerIn">copyright &copy; codewatch.pl</div>
-    </div>
+    <%=render "layouts/footer"%>
+    <%= debug(params) if Rails.env.development? %>
   </body>
 </html>

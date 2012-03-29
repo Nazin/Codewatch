@@ -2,10 +2,13 @@ Www::Application.routes.draw do
   
   resources :code_snippets
 
+  match '/help', to: 'page#help'
+  match '/about', to: 'page#about'
+  match '/contact', to: 'page#contact'
+  match '/signup', to: 'page#signup'
  
+  root to: 'page#home'
 
-  match '' => 'page#home'
-  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
