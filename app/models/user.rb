@@ -2,7 +2,13 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
 	
+	has_many :user_companies
+	has_many :companies, :through => :user_companies
+	
+	validates :mail, presence: true, length: {maximum: 64}, :uniqueness => true, :email => {:strict_mode => true}
 	validates :name, presence: true, length: {maximum: 32, minimum: 3}
+	validates :password, presence: true, length: {minimum: 6}
+	validates :password_confirmation, presence: true, length: {minimum: 6}
 	
 	attr_accessor :password, :password_confirmation
 	

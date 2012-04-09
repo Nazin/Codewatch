@@ -137,10 +137,10 @@ div#main p {
     margin: 10px 0;
     line-height: 1.5;
 }
-.niceForm {
+.codewatchForm form {
     margin-top: 15px;
 }
-.niceForm label {
+.codewatchForm form label {
     display: block;
     font-weight: bold;
     float: left;
@@ -148,17 +148,22 @@ div#main p {
     text-align: right;
     margin-top: 5px;
 }
-.niceForm div.e {
+.codewatchForm form div.e {
     clear: right;
     margin: 0 0 10px 160px;
     padding-bottom: 10px;
     border-bottom: 1px dotted #ccc;
 }
-.niceForm input {
+.codewatchForm form div.e ul.errors {
+    font-size: 11px;
+    color: red;
+    margin: 5px;
+}
+.codewatchForm form input {
     border: 1px solid #164B5F;
     padding: 2px;
 }
-.niceForm .send {
+.codewatchForm form .send {
     margin-left: 162px;
     padding: 4px;
     font-weight: bold;
