@@ -1,0 +1,58 @@
+<h1>Sign up</h1>
+
+<%= form_for :signup, :url => { :action => "signup" }, :html => { :class => "niceForm" }, :builder => ErrorFormBuilder do |form| %>
+
+	<%= form.fields_for :user do |f| %>
+
+		<%= f.label :mail %>
+		<div class="e"><%= f.email_field :mail %></div>
+
+		<%= f.label :name, "Username" %>
+		<div class="e"><%= f.text_field :name %></div>
+
+		<%= f.label :password %>
+		<div class="e"><%= f.password_field :password %></div>
+
+		<%= f.label :password_confirmation %>
+		<div class="e"><%= f.password_field :password_confirmation %></div>
+	
+	<% end %>
+	
+	<%= form.fields_for :company do |f| %>
+		
+		<%= f.label :name, "Company name" %>
+		<div class="e"><%= f.text_field :name %></div>
+		
+	<% end %>	
+		
+	<%= form.submit "Sign Up", :class => 'send' %>
+<% end %>
+
+<%= form_tag({:controller => "user", :action => "signup"}, :class => "niceForm", :builder => ErrorFormBuilder) do %>
+
+	<% #if @user.errors.any? %> 
+		<div class="errors"><ul>
+			<% #@user.errors.full_messages.each do |msg| %>
+				<li><%#= msg %></li> 
+			<% #end %> 
+		</ul></div>	
+	<% #end %> 
+
+	<%= label_tag "user_email", "Email"%>
+	<div class="e"><%= text_field "user", "mail" %></div>
+
+	<%= label_tag "user_name", "Username"%>
+	<div class="e"><%= text_field "user", "name" %></div>
+
+	<%= label_tag "user_password", "Password"%>
+	<div class="e"><%= password_field "user", "password" %></div>
+
+	<%= label_tag "user_password_confirmation", "Password Confirmation"%>
+	<div class="e"><%= password_field "user", "password_confirmation" %></div>
+
+	<%= label_tag "company_name", "Company name"%>
+	<div class="e"><%= text_field "company", "name" %></div>
+	
+	<%= submit_tag "Sign Up", :class => 'send' %>
+
+<% end %>

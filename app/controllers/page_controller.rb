@@ -1,17 +1,13 @@
 class PageController < ApplicationController
-  def home
-  end
+	def home
+	end
   
-  def about 
-  end
+	def about 
+	end
   
-  def contact 
-  end
-  
-  def singup 
-    #need session controller 
-  end
+	def contact 
+	end
 
-  def help
-  end
+	def help
+	end
 end

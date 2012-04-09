@@ -11,13 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120328123942) do
+ActiveRecord::Schema.define(:version => 20120409125911) do
 
   create_table "code_snippets", :force => true do |t|
-    t.string   "title"
-    t.text     "code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "title",      :limit => 32, :null => false
+    t.text     "code",                     :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
   end
+
+  create_table "users", :force => true do |t|
+    t.string   "mail",        :limit => 64,                    :null => false
+    t.string   "name",        :limit => 32,                    :null => false
+    t.string   "passHash",    :limit => 40,                    :null => false
+    t.string   "passSalt",    :limit => 5,                     :null => false
+    t.string   "fullName",    :limit => 64
+    t.boolean  "havePicture",               :default => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+  end
+
+  add_index "users", ["mail"], :name => "index_users_on_mail"
 
 end

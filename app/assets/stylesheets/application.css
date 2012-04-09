@@ -137,3 +137,32 @@ div#main p {
     margin: 10px 0;
     line-height: 1.5;
 }
+.niceForm {
+    margin-top: 15px;
+}
+.niceForm label {
+    display: block;
+    font-weight: bold;
+    float: left;
+    width: 150px;
+    text-align: right;
+    margin-top: 5px;
+}
+.niceForm div.e {
+    clear: right;
+    margin: 0 0 10px 160px;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted #ccc;
+}
+.niceForm input {
+    border: 1px solid #164B5F;
+    padding: 2px;
+}
+.niceForm .send {
+    margin-left: 162px;
+    padding: 4px;
+    font-weight: bold;
+    background: red;
+    color: #fff;
+    border: 1px solid #141414;
+}
