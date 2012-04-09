@@ -7,6 +7,9 @@ class UserController < ApplicationController
 			@user = User.new params[:signup][:user]
 			@company = Company.new params[:signup][:company]
 			
+			@user.valid?
+			@company.valid?
+			
 			if @user.valid? && @company.valid?
 				
 				#TODO: send mail
