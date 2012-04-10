@@ -1,9 +1,19 @@
-<h1>CodeSnippets#new</h1>
+<% provide(:title, 'Code Snippets') %>
+<h1>Code Snippets</h1>
+<p>Code snippets!</p>
+
+
+
+
+
 
 <%= cw_form_for @code_snippet do |f| %>
-
 	<%= f.text_field :title %>
+  <%= select "code_snippet", "lang", @lexers, include_blank: true %>
 	<%= f.text_area :code %>
-
 	<%= f.submit "Submit" %>
 <% end %>
+
+<ul>
+  <%= link_to "Snippets home", code_snippets_path %>
+</ul>

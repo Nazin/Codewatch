@@ -2,6 +2,13 @@
 <p><%= @code_snippet.title %></p>
 
 
+
+<% @a.each do |elt| %>
+<%= elt.inspect %>
+<% end %>
+
+
+
 <div>
   <%= raw @highlighted %>
 </div>
