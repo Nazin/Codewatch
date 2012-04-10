@@ -1,7 +1,7 @@
 module ApplicationHelper
 
 	ActionView::Base.default_form_builder = StandardFormBuilder
-	
+
 	def cw_form_for(name, *args, &block)
 
 		options = args.extract_options!
