@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: companies
+#
+#  id   :integer         not null, primary key
+#  name :string(32)      not null
+#  slug :string(255)     not null
+#
+
 class Company < ActiveRecord::Base
 	
 	has_many :user_companies
@@ -7,3 +16,5 @@ class Company < ActiveRecord::Base
 	
 	acts_as_url :name, :url_attribute => :slug
 end
+
+
