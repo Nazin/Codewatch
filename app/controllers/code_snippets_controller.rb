@@ -14,6 +14,7 @@ class CodeSnippetsController < ApplicationController
     if @code_snippet.save
       redirect_to @code_snippet
     else
+      @lexers = @@lexers.collect { |l| [l.name, l.aliases.first] }
       render 'new'
     end
   end
