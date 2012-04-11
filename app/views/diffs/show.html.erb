@@ -2,34 +2,7 @@
 <p><%= @snippet[0].title %> vs. <%= @snippet[1].title %></p>
 
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <div>
-          <%= raw gen_line_numbers @lines[0] %>
-          </div>
-      </td>
-      <td>
-        <div>
-          <%= raw @highlighted[0] %>
-        </div>
-      </td>
-  </tbody>
-</table>
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <div>
-          <%= raw gen_line_numbers @lines[1] %>
-          </div>
-      </td>
-      <td>
-        <div>
-          <%= raw @highlighted[1] %>
-        </div>
-      </td>
-  </tbody>
-</table>
 
+<%= render partial: 'diff_snippet', locals: { lines: @lines[0], highlighted: @highlighted[0] } %>
+
+<%= render partial: 'diff_snippet', locals: { lines: @lines[1], highlighted: @highlighted[1] } %>
