@@ -11,7 +11,7 @@ class CodeSnippetsController < ApplicationController
 
   def create
     @code_snippet = CodeSnippet.new params[:code_snippet]
-    @code_snippet.sha_url = sha1 @code_snippet.code
+    @code_snippet.sha = sha1 @code_snippet.code
     if @code_snippet.save
       redirect_to @code_snippet
     else
@@ -21,6 +21,7 @@ class CodeSnippetsController < ApplicationController
   end
 
   def show
+    
     @code_snippet = CodeSnippet.find params[:id]
     
     lexer = @code_snippet.lang
@@ -31,8 +32,8 @@ class CodeSnippetsController < ApplicationController
     end
   end
 
-  def sha_url
-    @code_snippet = CodeSnippet.find_by_sha_url params[:sha_url]
+  def sha
+    @code_snippet = CodeSnippet.find_by_sha params[:sha]
     unless @code_snippet
       redirect_to code_snippets_path, flash: {error: "Code snippet not found"}
     else
@@ -44,7 +45,6 @@ class CodeSnippetsController < ApplicationController
       end
       render 'show'
     end
-
   end
 
   private

@@ -1,6 +1,6 @@
 Www::Application.routes.draw do
 
-  match '/code_snippets/tmp/:sha_url', to: 'code_snippets#sha_url', :as => :sha_url
+match '/code_snippets/tmp/:sha', to: 'code_snippets#sha'
 
 	resources :code_snippets
 
