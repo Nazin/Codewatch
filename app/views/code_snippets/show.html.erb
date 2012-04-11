@@ -4,11 +4,21 @@
 
 
 
-
-<div>
-  <%= raw @highlighted %>
-</div>
-
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <div>
+          <%= raw gen_line_numbers @lines %>
+          </div>
+      </td>
+      <td>
+        <div>
+          <%= raw @highlighted %>
+        </div>
+      </td>
+  </tbody>
+</table>
 
 <ul>
   <%= link_to "Snippets home", code_snippets_path %>

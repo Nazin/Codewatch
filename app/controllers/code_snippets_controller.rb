@@ -16,6 +16,8 @@ class CodeSnippetsController < ApplicationController
       redirect_to @code_snippet
     else
       @lexers = @@lexers
+     # flash[:warning] =  "Invalid form input"
+     # redirect_to action: 'new'
       render 'new'
     end
   end
@@ -23,7 +25,7 @@ class CodeSnippetsController < ApplicationController
   def show
     
     @code_snippet = CodeSnippet.find params[:id]
-    
+    @lines = @code_snippet.code.lines.count
     lexer = @code_snippet.lang
     if lexer
       @highlighted =  Pygments.highlight(@code_snippet.code, :lexer => lexer )
@@ -34,6 +36,7 @@ class CodeSnippetsController < ApplicationController
 
   def sha
     @code_snippet = CodeSnippet.find_by_sha params[:sha]
+    @lines = @code_snippet.code.lines.count
     unless @code_snippet
       redirect_to code_snippets_path, flash: {error: "Code snippet not found"}
     else
