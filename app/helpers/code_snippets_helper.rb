@@ -4,6 +4,12 @@ module CodeSnippetsHelper
     "/code_snippets/tmp/#{snippet.sha}"
   end
 
-
+  def gen_line_numbers n
+    numbers = ""
+    1.upto(n) do |i|
+      numbers << "#{i} <br />"
+    end
+    numbers
+  end
 
 end
