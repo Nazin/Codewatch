@@ -9,9 +9,7 @@
 
 <%= cw_form_for @code_snippet do |f| %>
 	<%= f.text_field :title %>
-  <%= label :code_snippet, :lang %>
-<!-- TODO div, errors-->
-  <%= select :code_snippet, :lang, @lexers, include_blank: true %>
+	<%= f.select :lang, @lexers, include_blank: true, :label => 'Language' %>
 	<%= f.text_area :code %>
 	<%= f.submit "Submit" %>
 <% end %>
