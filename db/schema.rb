@@ -19,12 +19,10 @@ ActiveRecord::Schema.define(:version => 20120411102900) do
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
     t.string   "lang"
-    t.string   "sha_url"
     t.string   "sha"
   end
 
   add_index "code_snippets", ["sha"], :name => "index_code_snippets_on_sha", :unique => true
-  add_index "code_snippets", ["sha_url"], :name => "index_code_snippets_on_sha_url", :unique => true
 
   create_table "companies", :force => true do |t|
     t.string "name", :limit => 32, :null => false
