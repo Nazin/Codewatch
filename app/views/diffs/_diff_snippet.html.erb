@@ -3,12 +3,14 @@
     <tr>
       <td>
         <div>
-          <%= raw gen_line_numbers lines %>
+          <%= raw gen_line_numbers diff_file.size %>
           </div>
       </td>
       <td>
         <div>
-          <%= raw highlighted %>
+          <% diff_file.each do |el| %>
+          <%= raw el.line %>
+          <% end %>         
         </div>
       </td>
   </tbody>

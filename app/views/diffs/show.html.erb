@@ -1,8 +1,9 @@
 <h1>Diff</h1>
-<p><%= @snippet[0].title %> vs. <%= @snippet[1].title %></p>
 
 
 
-<%= render partial: 'diff_snippet', locals: { lines: @lines[0], highlighted: @highlighted[0] } %>
 
-<%= render partial: 'diff_snippet', locals: { lines: @lines[1], highlighted: @highlighted[1] } %>
+<%= render partial: 'diff_snippet', locals: { diff_file: @diff_files[0] } %>
+
+<%= render partial: 'diff_snippet', locals: { diff_file: @diff_files[1] } %>
+
