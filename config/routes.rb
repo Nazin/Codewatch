@@ -1,5 +1,7 @@
 Www::Application.routes.draw do
 
+  match '/code_snippets/tmp/:sha_url', to: 'code_snippets#sha_url', :as => :sha_url
+
 	resources :code_snippets
 
 	match '/help', to: 'page#help'
@@ -9,6 +11,9 @@ Www::Application.routes.draw do
 	match '/sign-up', to: 'user#signup'
 	match '/sign-in', to: 'user#signin'
 	
+
+
+
 	root to: 'page#home'
 
   # The priority is based upon order of creation:

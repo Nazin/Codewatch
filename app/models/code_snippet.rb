@@ -5,12 +5,12 @@ class CodeSnippet < ActiveRecord::Base
   
 
 
-	attr_accessible :title, :code, :lang
+	attr_accessible :title, :code, :lang, :sha_url
 
 	validates :title, presence: true, length: {maximum: 50}
 	validates :code, presence: true
   validates :lang, presence: true, inclusion: { in: @@lexers }
-
+  validates :sha_url, presence: true
 
 
 end
