@@ -16,6 +16,8 @@ class CodeSnippetsController < ApplicationController
       redirect_to @code_snippet
     else
       @lexers = @@lexers
+     # flash[:warning] =  "Invalid form input"
+     # redirect_to action: 'new'
       render 'new'
     end
   end
