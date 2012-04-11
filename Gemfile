@@ -11,7 +11,7 @@ gem 'pg'
 #highlight syntax:
 gem 'pygments.rb', '~> 0.2.7'
 #css styles
-gem 'bootstrap-sass', '2.0.0'
+gem 'bootstrap-sass', '~> 2.0.2'
 
 gem 'stringex', '~> 1.3.2'
 gem 'email_validator'
