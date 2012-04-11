@@ -1,11 +1,11 @@
 class CodeSnippetsController < ApplicationController
-  
+   
   def index
     @code_snippets = CodeSnippet.all
   end
   
   def new
-    @lexers = @@lexers.collect { |l| [l.name, l.aliases.first] }
+    @lexers = @@lexers
     @code_snippet = CodeSnippet.new
   end
 
@@ -14,17 +14,13 @@ class CodeSnippetsController < ApplicationController
     if @code_snippet.save
       redirect_to @code_snippet
     else
-      @lexers = @@lexers.collect { |l| [l.name, l.aliases.first] }
+      @lexers = @@lexers
       render 'new'
     end
   end
 
   def show
     @code_snippet = CodeSnippet.find params[:id]
-    
-    
-    @a = []
-    params.each { |k, v| @a << " #{k}::#{v} " }
     lexer = @code_snippet.lang
     if lexer
       @highlighted =  Pygments.highlight(@code_snippet.code, :lexer => lexer )
@@ -36,9 +32,8 @@ class CodeSnippetsController < ApplicationController
 private
 
   class << self
-    @@lexers  =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
-   
-
+    @@lexers =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
+    @@lexers =  @@lexers.collect { |l| [l.name, l.aliases.first] }
   end
 
 
