@@ -1,0 +1,35 @@
+<h1>Diff</h1>
+<p><%= @snippet[0].title %> vs. <%= @snippet[1].title %></p>
+
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <div>
+          <%= raw gen_line_numbers @lines[0] %>
+          </div>
+      </td>
+      <td>
+        <div>
+          <%= raw @highlighted[0] %>
+        </div>
+      </td>
+  </tbody>
+</table>
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <div>
+          <%= raw gen_line_numbers @lines[1] %>
+          </div>
+      </td>
+      <td>
+        <div>
+          <%= raw @highlighted[1] %>
+        </div>
+      </td>
+  </tbody>
+</table>
+

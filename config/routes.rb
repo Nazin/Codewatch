@@ -1,6 +1,10 @@
 Www::Application.routes.draw do
 
-match '/code_snippets/tmp/:sha', to: 'code_snippets#sha'
+  match "diff/new", to: 'diff#new'
+
+  resources :diffs, only: [:new, :create, :show] 
+
+  match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
 
 	resources :code_snippets
 

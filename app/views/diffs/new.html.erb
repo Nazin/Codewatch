@@ -1,0 +1,23 @@
+<% provide(:title, 'Diff') %>
+<h1>Diff</h1>
+<p>Diff!</p>
+
+
+
+
+
+
+<%= form_tag diffs_path  do %>
+
+	<%= text_field_tag :title %>
+  <%= label :diff, :lang %>
+<!-- TODO div, errors-->
+  <%= select :diff, :lang, @lexers, include_blank: true %>
+
+  <%= text_area_tag :code_1 %>
+  <%= text_area_tag :code_2 %>
+		
+	<%= submit_tag "Diff" %>
+<% end %>
+
+
