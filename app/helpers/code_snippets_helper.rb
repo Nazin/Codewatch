@@ -5,10 +5,11 @@ module CodeSnippetsHelper
   end
 
   def gen_line_numbers n
-    numbers = ""
+    numbers = "<pre>"
     1.upto(n) do |i|
-      numbers << "#{i} <br />"
+      numbers << "#{i} \n"
     end
+    numbers << "</pre>"
     numbers
   end
 
