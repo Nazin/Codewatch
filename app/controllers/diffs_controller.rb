@@ -30,6 +30,8 @@ public
     pygmentized_b = pygmentize code_2, lang
     Rails.logger.fatal "1111111111111111111111111111111111"
 
+    
+
 
     merge_diff_with_pygments! @diff_a, pygmentized_a
     merge_diff_with_pygments! @diff_b, pygmentized_b
@@ -51,6 +53,9 @@ private
  
  def merge_diff_with_pygments! diff_file, pygmentized_code
    lines = pygmentized_code.lines.to_a
+   lines.each do |line|
+     line.gsub! "\n",""
+   end
  
    return diff_file if lines.size == 0
 
