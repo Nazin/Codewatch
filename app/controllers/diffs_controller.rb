@@ -28,16 +28,10 @@ public
     @diff_a, @diff_b = Codewatch::DiffFile.diff code_1, code_2
     pygmentized_a = pygmentize code_1, lang
     pygmentized_b = pygmentize code_2, lang
-    Rails.logger.fatal "1111111111111111111111111111111111"
-
-    
-
-
+     
+      
     merge_diff_with_pygments! @diff_a, pygmentized_a
     merge_diff_with_pygments! @diff_b, pygmentized_b
-
-    Rails.logger.fatal @diff_a.inspect
-    Rails.logger.fatal @diff_b.inspect
 
     render 'show'
   end
@@ -61,7 +55,8 @@ private
    lines.each do |line|
      line.gsub! "\n",""
    end
- 
+   
+   #TODO refactor
    lines[0]["<div class=\"highlight\"><pre>"]=""
    diff_file.each_real_with_index do |line, i|
      line.line = lines[i]

@@ -17,16 +17,16 @@ module Codewatch
       @lines =[]
     end
 
-    def mutual
-      @lines << (DiffLine.new :mutual)
+    def mutual line=""
+      @lines << (DiffLine.new :mutual, line)
     end
 
-    def fake 
-      @lines << (DiffLine.new :fake)
+    def fake line=""
+      @lines << (DiffLine.new :fake, line)
     end
     
-    def extra
-      @lines << (DiffLine.new :extra)
+    def extra line=""
+      @lines << (DiffLine.new :extra, line)
     end
 
     def each_real
@@ -66,7 +66,7 @@ module Codewatch
           file_b.write code_b + "\n"
         end
       end
-          
+      
       diff_result = %x(diff --unified=999999 #{filename_a} #{filename_b})
       diff_lines = diff_result.lines.to_a
       diff_lines = diff_lines[3..999999]
@@ -80,14 +80,14 @@ module Codewatch
         unless line.empty?
           case line[0]
           when "+"
-            diff_a.extra
-            diff_b.fake
+            diff_a.fake line
+            diff_b.extra line
           when "-"
-            diff_a.fake
-            diff_b.extra
+            diff_a.extra line
+            diff_b.fake line
           else
-            diff_a.mutual
-            diff_b.mutual
+            diff_a.mutual line
+            diff_b.mutual line
           end
         end
 
