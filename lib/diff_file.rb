@@ -74,23 +74,27 @@ module Codewatch
       diff_a = DiffFile.new
       diff_b = DiffFile.new
       
-            
-      diff_lines.each do |line|
-       
-        unless line.empty?
-          case line[0]
-          when "+"
-            diff_a.fake line
-            diff_b.extra line
-          when "-"
-            diff_a.extra line
-            diff_b.fake line
-          else
-            diff_a.mutual line
-            diff_b.mutual line
+      if !diff_lines
+        0.upto(code_a.lines.count-1) do |i|
+          diff_a.mutual
+          diff_b.mutual
+        end
+      else
+        diff_lines.each do |line|
+          unless line.empty?
+            case line[0]
+            when "+"
+              diff_a.fake line
+              diff_b.extra line
+            when "-"
+              diff_a.extra line
+              diff_b.fake line
+            else
+              diff_a.mutual line
+              diff_b.mutual line
+            end
           end
         end
-
       end
       File.delete filename_a
       File.delete filename_b

@@ -1,5 +1,6 @@
 class DiffsController < ApplicationController
   require 'diff_file'
+
 private   
   class << self
     @@lexers =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
