@@ -8,12 +8,12 @@
     <tr>
       <td>
         <div>
-          <%= render partial: 'diff_snippet', locals: { diff_file: @diff_files[0] } %>     
+          <%= render partial: 'diff_snippet', locals: { diff_file: @diff_a } %>     
         </div>
       </td>
       <td>
         <div>
-          <%= render partial: 'diff_snippet', locals: { diff_file: @diff_files[1] } %>
+          <%= render partial: 'diff_snippet', locals: { diff_file: @diff_b } %>
         </div>
       </td>
   </tbody>
