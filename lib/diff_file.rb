@@ -68,11 +68,15 @@ module Codewatch
       end
           
       diff_result = %x(diff --unified=999999 #{filename_a} #{filename_b})
-      
+      diff_lines = diff_result.lines.to_a
+      diff_lines = diff_lines[3..999999]
+
       diff_a = DiffFile.new
       diff_b = DiffFile.new
       
-      diff_result.lines.each do |line|
+            
+      diff_lines.each do |line|
+       
         unless line.empty?
           case line[0]
           when "+"

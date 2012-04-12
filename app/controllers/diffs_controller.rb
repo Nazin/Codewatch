@@ -36,6 +36,9 @@ public
     merge_diff_with_pygments! @diff_a, pygmentized_a
     merge_diff_with_pygments! @diff_b, pygmentized_b
 
+    Rails.logger.fatal @diff_a.inspect
+    Rails.logger.fatal @diff_b.inspect
+
     render 'show'
   end
  
@@ -53,12 +56,12 @@ private
  
  def merge_diff_with_pygments! diff_file, pygmentized_code
    lines = pygmentized_code.lines.to_a
+   return diff_file if lines.size == 0
+
    lines.each do |line|
      line.gsub! "\n",""
    end
  
-   return diff_file if lines.size == 0
-
    lines[0]["<div class=\"highlight\"><pre>"]=""
    diff_file.each_real_with_index do |line, i|
      line.line = lines[i]
