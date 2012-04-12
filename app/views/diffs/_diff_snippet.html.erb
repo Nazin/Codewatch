@@ -8,16 +8,7 @@
       </td>
       <td>
         <div>
-          <div class="highlight"><pre>
-          <% diff_file.each do |el| %>
-            <% if el.status == :fake %>
-              <div class="diff-fake">  <%= raw el.line %> </div>
-            <% elsif el.status == :mutual %>
-              <div class="diff-mutual">  <%= raw el.line %> </div>
-            <% elsif el.status == :extra %>
-              <div class="diff-extra">  <%= raw el.line %> </div>
-            <% end %>         
-          <% end %>         
+         <%= raw diff_file_to_html diff_file %>
         </div>
       </td>
   </tbody>
