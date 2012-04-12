@@ -23,29 +23,43 @@ class DiffsController < ApplicationController
     @highlighted[0] = pygmentize code_1, lang
     @highlighted[1] = pygmentize code_2, lang
     
+
+    Rails.logger.fatal "1111111111111111111111111111111111"
+
+    #TODO index of out bound lines.size-1
+    lines = @highlighted[0].lines.to_a
+    lines[0]["<div class=\"highlight\"><pre>"]=""
+    Rails.logger.fatal lines.inspect
+#    lines[lines.size-1]["</pre>"]=""
+                        
     i = 0
-    h_array = @highlighted[0].split
     @diff_files[0].each_real do |line|
-      line.line=h_array[i]
+      line.line = lines[i]
       i+=1
     end
 
+    lines = @highlighted[1].lines.to_a
+    lines[0]["<div class=\"highlight\"><pre>"]=""
+ #   lines[lines.size-1]["</pre>"]=""
+                        
     i = 0
-    h_array = @highlighted[1].split
     @diff_files[1].each_real do |line|
-      line.line=h_array[i]
+      line.line = lines[i]
       i+=1
     end
+
     render 'show'
   end
-private
+ 
+
+  private
 
   class DiffLine
-    attr_reader :is_real
+    attr_reader :status
     attr_accessor :line
-
-    def initialize is_real, line=""
-      @is_real=is_real
+    
+    def initialize status, line=""
+      @status=status
       @line=line
     end
   end
@@ -57,17 +71,21 @@ private
       @lines =[]
     end
 
-    def add_real
-      @lines << (DiffLine.new true)
+    def add_mutual
+      @lines << (DiffLine.new :mutual)
     end
 
     def add_fake 
-      @lines << (DiffLine.new false)
+      @lines << (DiffLine.new :fake)
+    end
+    
+    def add_extra
+      @lines << (DiffLine.new :extra)
     end
 
     def each_real
       @lines.each do |el|
-        unless el.is_real
+        if el.status == :fake
           next
         end
         yield el
@@ -107,30 +125,30 @@ private
      #TODO 99999 ?!
      lines.split(/\n/)[3..999999].each do |i|
        if i.empty?
-         diff_file_a.add_real
-         diff_file_b.add_real
+        # diff_file_a.add_real
+        # diff_file_b.add_real
        else
          case i[0,1]
          when "+" then 
-           diff_file_a.add_real
+           diff_file_a.add_extra
            diff_file_b.add_fake
          when "-"; then 
-           diff_file_b.add_real
+           diff_file_b.add_extra
            diff_file_a.add_fake
          else
-           diff_file_b.add_real
-           diff_file_a.add_real
+           diff_file_b.add_mutual
+           diff_file_a.add_mutual
          end
        end
      end
    end
- 
+   
    File.delete(fileAName)
    File.delete(fileBName)
-
+   
    [diff_file_a, diff_file_b]
  end
-  
+ 
  #TODO lexer
  def pygmentize code, lexer
    if lexer
@@ -139,10 +157,10 @@ private
      code
    end
  end
-
-
-  class << self
+ 
+ 
+ class << self
     @@lexers =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
-    @@lexers =  @@lexers.collect { |l| [l.name, l.aliases.first] }
+   @@lexers =  @@lexers.collect { |l| [l.name, l.aliases.first] }
   end 
 end

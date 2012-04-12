@@ -3,7 +3,21 @@
 
 
 
-<%= render partial: 'diff_snippet', locals: { diff_file: @diff_files[0] } %>
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <div>
+          <%= render partial: 'diff_snippet', locals: { diff_file: @diff_files[0] } %>     
+        </div>
+      </td>
+      <td>
+        <div>
+          <%= render partial: 'diff_snippet', locals: { diff_file: @diff_files[1] } %>
+        </div>
+      </td>
+  </tbody>
+</table>
 
-<%= render partial: 'diff_snippet', locals: { diff_file: @diff_files[1] } %>
+
 
