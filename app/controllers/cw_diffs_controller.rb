@@ -1,16 +1,16 @@
-class DiffsController < ApplicationController
+class CwDiffsController < ApplicationController
   require 'diff_file'
 
 public 
  
   def new 
     @diff = CwDiff.new
-    @lexers = DiffsController.lexers
+    @lexers = CwDiffsController.lexers
   end
 
 
   def create
-    @lexers = DiffsController.lexers
+    @lexers = CwDiffsController.lexers
     @diff = CwDiff.new params[:diff]
     if @diff.build
       @diff_a, @diff_b = Codewatch::DiffFile.diff @diff.code_a, @diff.code_b

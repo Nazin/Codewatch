@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DiffsController do
+describe CwDiffsController do
 
 
 

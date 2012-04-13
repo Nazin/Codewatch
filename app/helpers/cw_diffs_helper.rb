@@ -1,4 +1,4 @@
-module DiffsHelper
+module CwDiffsHelper
   
   def diff_file_to_html diff_file
     html = '<div class="highlight"><pre>'

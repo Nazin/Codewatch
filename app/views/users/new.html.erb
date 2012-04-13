@@ -3,7 +3,7 @@
 
 
 
-<%= form_for @user do |f| %>
+<%= cw_form_for @user do |f| %>
   <%= f.text_field :mail %>
   <%= f.text_field :name, label: 'Username' %>
   <%= f.password_field :password %>
