@@ -2,7 +2,7 @@ Www::Application.routes.draw do
 
 	resources :users
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
-  resources :cw_diffs, only: [:new, :create, :show]
+  resources :cw_diffs, only: [:new, :create, :show], as: :diff
 
 
   match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
