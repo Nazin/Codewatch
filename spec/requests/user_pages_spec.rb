@@ -19,7 +19,7 @@ describe "User pages" do
     it { should have_selector('title', text: 'Sign up') }
   end
 
-  describe "signup" do
+  describe "signup with creating new company" do
 
     before { visit signup_path }
 
@@ -33,10 +33,12 @@ describe "User pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name",         with: "Example User"
-        fill_in "Email",        with: "user@example.com"
+        fill_in "Username",         with: "Example User"
+        fill_in "Mail",         with: "user@example.com"
         fill_in "Password",     with: "foobar"
         fill_in "Confirmation", with: "foobar"
+        fill_in "user_user_companies_attributes_0_role", with: "a"
+        fill_in "user_user_companies_attributes_0_company_attributes_name", with: "CompanyInc"
       end
 
       it "should create a user" do

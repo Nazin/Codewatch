@@ -9,7 +9,7 @@
   <%= f.password_field :password %>
 	<%= f.password_field :password_confirmation, label: 'Confirmation' %>   
   <%= f.fields_for :user_companies do |link| %>
-    <%= link.text_field :role %>
+    <%= link.text_field :role, label: 'Role' %>
     <%= link.fields_for :company do |g| %>
       <%= g.text_field :name %>
      <% end %>
