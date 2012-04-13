@@ -1,15 +1,17 @@
 Www::Application.routes.draw do
 
+	resources :users
+	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
+  resources :diffs, only: [:new, :create, :show] 
+
 
   match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
 	match '/help', to: 'page#help'
 	match '/about', to: 'page#about'
 	match '/contact', to: 'page#contact'
-	match '/sign-up', to: 'user#signup'
-	match '/sign-in', to: 'user#signin'
-	
-	resources :code_snippets
-  resources :diffs, only: [:new, :create, :show] 
+	match '/signup', to: 'users#new'
+#	match '/signin', to: 'user#signin'
+
 
 
 

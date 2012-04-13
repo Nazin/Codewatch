@@ -33,6 +33,7 @@ group :development do
 end
 
 group :test do
+  gem 'factory_girl_rails', '1.4.0' #factory for models
   #english like testing:
   gem 'capybara', '1.1.2'
   #rspec generators:
