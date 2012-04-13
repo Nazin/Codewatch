@@ -16,7 +16,7 @@
   </div>
 <% end %>
 
-<%= form_for @diff do |f| %>
+<%= cw_form_for @diff do |f| %>
 	<%= f.text_field :title %>
   <%= f.select :lang, @lexers, include_blank: true, :label => 'Language' %>
   <%= f.text_field :url_a, :label => 'Snippet A Url' %>
