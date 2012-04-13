@@ -1,4 +1,4 @@
-class Diff
+class CwDiff
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
@@ -14,26 +14,23 @@ class Diff
   def build
     return false unless valid?
     if use_urls?
-      @sha_a = extract_sha @url_a
-      @sha_b = extract_sha @url_b
+      @sha_a = extract_sha url_a
+      @sha_b = extract_sha url_b
       if cannot_retrieve_shas?
         add_sha_errors
         return
       end
-      @snippet_a = CodeSnippet.find_by_sha @sha_a
-      @snippet_b = CodeSnippet.find_by_sha @sha_b
+      @snippet_a = CodeSnippet.find_by_sha sha_a
+      @snippet_b = CodeSnippet.find_by_sha sha_b
       if cannot_retrieve_snippets?
         add_snippet_errors
         return
       end
-      @code_a = @snippet_a.code
-      @code_b = @snippet_b.code
+      code_a = @snippet_a.code
+      code_b = @snippet_b.code
     end
     true
   end
-
-    
-    
 
   def initialize attributes={}
     attributes.each do |name,value|
@@ -73,7 +70,7 @@ private
   end
 
   def use_urls? 
-    @code_b.blank? && @code_a.blank?
+    code_b.blank? && code_a.blank?
   end
 end
 

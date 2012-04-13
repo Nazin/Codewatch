@@ -2,19 +2,15 @@ source 'https://rubygems.org'
 
 
 gem 'rails', '3.2.2'
+gem 'pg'
+gem 'pygments.rb', '~> 0.2.7' #highlight syntax:
+gem 'bcrypt-ruby', '3.0.1' #password_digest
+gem 'stringex', '~> 1.3.2' #string exstenions
+gem 'email_validator'
 
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'pg'
-#highlight syntax:
-gem 'pygments.rb', '~> 0.2.7'
-
-
-
-gem 'stringex', '~> 1.3.2'
-gem 'email_validator'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -31,12 +27,9 @@ end
 
 
 group :development do
-  #annotate models with schema info:
-  gem 'annotate', '~> 2.4.1.beta'
-  #rspec generators:
-  gem 'rspec-rails', '2.9.0'
-  #automate tests:
-  gem 'guard-rspec', '0.5.5'
+  gem 'annotate', '~> 2.4.1.beta' #annotate models with schema info
+  gem 'rspec-rails', '2.9.0 ' #rspec generators
+  gem 'guard-rspec', '0.5.5' #automate tests
 end
 
 group :test do

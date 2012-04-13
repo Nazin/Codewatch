@@ -4,14 +4,14 @@ class DiffsController < ApplicationController
 public 
  
   def new 
-    @diff = Diff.new
+    @diff = CwDiff.new
     @lexers = DiffsController.lexers
   end
 
 
   def create
     @lexers = DiffsController.lexers
-    @diff = Diff.new params[:diff]
+    @diff = CwDiff.new params[:diff]
     if @diff.build
       @diff_a, @diff_b = Codewatch::DiffFile.diff @diff.code_a, @diff.code_b
       pygmentized_a = pygmentize @diff.code_a, @diff.lang

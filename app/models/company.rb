@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: companies
+#
+#  id   :integer         not null, primary key
+#  name :string(32)      not null
+#  slug :string(255)     not null
+#
+
 class Company < ActiveRecord::Base
 	
 	has_many :user_companies
