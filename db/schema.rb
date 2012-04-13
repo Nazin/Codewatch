@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120413163357) do
+ActiveRecord::Schema.define(:version => 20120413172701) do
 
   create_table "code_snippets", :force => true do |t|
     t.string   "title",      :limit => 32, :null => false
@@ -41,14 +41,13 @@ ActiveRecord::Schema.define(:version => 20120413163357) do
   add_index "user_companies", ["user_id"], :name => "index_user_companies_on_user_id"
 
   create_table "users", :force => true do |t|
-    t.string   "mail",        :limit => 64,                    :null => false
-    t.string   "name",        :limit => 32,                    :null => false
-    t.string   "passHash",    :limit => 40,                    :null => false
-    t.string   "passSalt",    :limit => 5,                     :null => false
-    t.string   "fullName",    :limit => 64
-    t.boolean  "havePicture",               :default => false
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+    t.string   "mail",            :limit => 64,                    :null => false
+    t.string   "name",            :limit => 32,                    :null => false
+    t.string   "fullName",        :limit => 64
+    t.boolean  "havePicture",                   :default => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.string   "password_digest"
   end
 
   add_index "users", ["mail"], :name => "index_users_on_mail"
