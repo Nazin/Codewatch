@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   
   def new
     @user = User.new
-    @user.user_companies.build_company
+    user_companies = @user.user_companies.build
+    user_companies.build_company
  
   end
 
