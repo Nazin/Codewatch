@@ -7,9 +7,8 @@ class Diff
 
   validates_with DiffValidator
   validates :title, presence: true, length: {maximum: 50, minumum: 5}
-#	validates :code, presence: true
-  validates :lang, presence: true  #, inclusion: { in: DiffController.lexers }
-#  validates :sha, presence: true
+  validates :lang, presence: true  #TODO #, inclusion: { in: DiffController.lexers }
+
 
 
   def build

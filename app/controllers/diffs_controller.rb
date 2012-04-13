@@ -30,7 +30,7 @@ private
  #TODO lexer
  def pygmentize code, lexer
    if lexer
-     Pygments.highlight(code, lexer: "ruby" )
+     Pygments.highlight(code, lexer: lexer )
    else
      code
    end
