@@ -1,20 +1,25 @@
 <% provide(:title, 'Sign up') %>
 <h1>Sign up</h1>
 
-<%= cw_form_for :signup, :url => { :action => "signup" } do |form| %>
 
-	<%= form.fields_for @user do |f| %>
 
-		<%= f.text_field :mail %>
-		<%= f.text_field :name, :label => 'Username' %>
-		<%= f.password_field :password %>
-		<%= f.password_field :password_confirmation %>
-	<% end %>
-	
-	<%= form.fields_for @company do |f| %>
-		
-		<%= f.text_field :name, :label => "Company name" %>
-	<% end %>	
-		
-	<%= form.submit "Sign Up" %>
+<%= form_for @user do |f| %>
+  <%= f.text_field :mail %>
+  <%= f.text_field :name, label: 'Username' %>
+  <%= f.password_field :password %>
+	<%= f.password_field :password_confirmation, label: 'Confirmation' %>   
+  <%= f.fields_for :user_companies do |link| %>
+    <%= link.text_field :role %>
+    <%= link.fields_for :company do |g| %>
+      <%= g.text_field :name %>
+     <% end %>
+  <% end %>
+  <%= f.submit "Create my account" %>
 <% end %>
+
+
+
+
+
+
+

@@ -12,4 +12,7 @@ class UserCompany < ActiveRecord::Base
 	
 	belongs_to :user
 	belongs_to :company
+  accepts_nested_attributes_for :company
+  attr_accessible :role, :company_attributes
+
 end
