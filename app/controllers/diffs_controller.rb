@@ -1,42 +1,29 @@
 class DiffsController < ApplicationController
   require 'diff_file'
 
-private   
-  class << self
-    @@lexers =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
-    @@lexers =  @@lexers.collect { |l| [l.name, l.aliases.first] }
-  end
-
 public 
-  def diff
-  end
-
+ 
   def new 
-    @lexers = @@lexers
+    @diff = Diff.new
+    @lexers = DiffsController.lexers
   end
 
 
   def create
-    inits = {}
-    @snippets = []
-    #TODO refactor params, -> new.html.erb
-    lang = params[:diff][:lang]
-    title = params[:title]
-    code_1 = params[:code_1]
-    code_2 = params[:code_2]
-   
-
-    @diff_a, @diff_b = Codewatch::DiffFile.diff code_1, code_2
-    pygmentized_a = pygmentize code_1, lang
-    pygmentized_b = pygmentize code_2, lang
-     
-      
-    merge_diff_with_pygments! @diff_a, pygmentized_a
-    merge_diff_with_pygments! @diff_b, pygmentized_b
-
-    render 'show'
+    @lexers = DiffsController.lexers
+    @diff = Diff.new params[:diff]
+    if @diff.build
+      @diff_a, @diff_b = Codewatch::DiffFile.diff @diff.code_a, @diff.code_b
+      pygmentized_a = pygmentize @diff.code_a, @diff.lang
+      pygmentized_b = pygmentize @diff.code_b, @diff.lang
+      merge_diff_with_pygments! @diff_a, pygmentized_a
+      merge_diff_with_pygments! @diff_b, pygmentized_b
+      render 'show'
+    else
+      flash.now[:notice] = "Invalid form input"
+      render 'new'
+    end
   end
- 
 
 private
 
@@ -64,5 +51,12 @@ private
    end
    diff_file
  end
- 
+
+
+ def self.lexers
+   lexers =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase}
+   lexers =  lexers.collect { |l| [l.name, l.aliases.first] }
+   lexers
+ end
+  
 end

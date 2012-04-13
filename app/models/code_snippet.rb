@@ -1,5 +1,7 @@
 class CodeSnippet < ActiveRecord::Base
   
+
+  #TODO code duplication, @@lexers also in Controller (Diff, CodeSnippet)
   @@lexers  =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
   @@lexers = @@lexers.collect { |elt| elt.aliases.first }
   

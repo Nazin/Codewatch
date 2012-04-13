@@ -6,18 +6,24 @@
 
 
 
+<!-- TODO -->
+<% if @diff.errors[:base] %>
+  <div id="error_explanation">
+    <ul>
+      errors[:base] handling
+      <li><%= @diff.errors[:base] %></li>
+    </ul>
+  </div>
+<% end %>
 
-<%= form_tag diffs_path  do %>
-
-	<%= text_field_tag :title %>
-  <%= label :diff, :lang %>
-<!-- TODO div, errors-->
-  <%= select :diff, :lang, @lexers, include_blank: true %>
-
-  <%= text_area_tag :code_1 %>
-  <%= text_area_tag :code_2 %>
-		
-	<%= submit_tag "Diff" %>
+<%= form_for @diff do |f| %>
+	<%= f.text_field :title %>
+  <%= f.select :lang, @lexers, include_blank: true, :label => 'Language' %>
+  <%= f.text_field :url_a, :label => 'Snippet A Url' %>
+  <%= f.text_area :code_a, :label => 'Snippet A Code'%>
+  <%= f.text_field :url_b, :label => 'Snippet A Url' %>
+  <%= f.text_area :code_b, :label => 'Snippet A Code'%>
+	<%= f.submit "Diff" %>
 <% end %>
 
 
