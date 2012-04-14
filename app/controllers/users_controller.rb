@@ -14,9 +14,10 @@ class UsersController < ApplicationController
     @user = User.new params[:user]
     if @user.save
       flash[:success] = "Welcome to Codewatch.pl!"
+      sign_in @user
       redirect_to @user
     else
-      flash.now[:warning] =  "Invalid form input"
+      flash.now[:warning] =  "Invalid informations"
       render 'new'
     end
   end
