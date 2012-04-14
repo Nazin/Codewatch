@@ -9,17 +9,16 @@
 	</head>
 	<body>
 		<div id="main">
-			<%=render "layouts/header"%>
+			<%= render "layouts/header" %>
 			<div id="content">
-        <!-- TODO extract flash handling -->
         <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-        <% end %> 
+        <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+        <% end %>
         <%= yield %>
 			</div>
 			<div id="clearFooter"></div>
 		</div>
-		<%=render "layouts/footer"%>
+		<%= render "layouts/footer" %>
 		<%= debug(params) if Rails.env.development? %>
 	</body>
 </html>

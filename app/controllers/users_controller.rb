@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new params[:user]
     if @user.save
+      flash[:success] = "Welcome to Codewatch.pl!"
       redirect_to @user
     else
       flash.now[:warning] =  "Invalid form input"

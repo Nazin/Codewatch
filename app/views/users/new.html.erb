@@ -4,14 +4,14 @@
 
 
 <%= cw_form_for @user do |f| %>
-  <%= f.text_field :mail %>
+  <%= f.text_field :mail, label: 'Email' %>
   <%= f.text_field :name, label: 'Username' %>
   <%= f.password_field :password %>
 	<%= f.password_field :password_confirmation, label: 'Confirmation' %>   
   <%= f.fields_for :user_companies do |link| %>
-    <%= link.text_field :role, label: 'Role' %>
+    <%= link.text_field :role, label: 'Company Role' %>
     <%= link.fields_for :company do |g| %>
-      <%= g.text_field :name %>
+      <%= g.text_field :name, label: 'Company Name' %>
      <% end %>
   <% end %>
   <%= f.submit "Create my account" %>
