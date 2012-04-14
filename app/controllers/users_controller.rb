@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class UsersController < ApplicationController
 	
 	before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
@@ -62,7 +63,9 @@ class UsersController < ApplicationController
 		redirect_to users_path
 	end
 
+
 private
+
 	
 	def signed_in_user
 		unless signed_in?

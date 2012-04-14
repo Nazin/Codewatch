@@ -1,6 +1,6 @@
 Www::Application.routes.draw do
 
-	resources :users
+	resources :users, except: :create
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
 	resources :cw_diffs, only: [:new, :create, :show]
 	resources :sessions, only: [:new, :create, :destroy]

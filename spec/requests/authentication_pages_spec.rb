@@ -48,7 +48,7 @@ describe "AuthenticationPages" do
         end
         
         describe "submitting a CREATE request to the Users#create action" do
-          before { post users_path(user) }
+          before { post signup_path }
           specify { response.should redirect_to(root_path)  }
         end
       end
