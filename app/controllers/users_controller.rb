@@ -24,56 +24,34 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find params[:id]
-  end
- #   @companies = Company.all
- #   @user_company = @user.user_companies.build
-    #TODO FILL
-  #rescue ActiveRecord::StatementInvalid
+  rescue ActiveRecord::StatementInvalid
     # Handle duplicate email addresses gracefully by redirecting.
-  #  redirect_to root_path
-  #rescue ActionController::InvalidAuthenticityToken
+    redirect_to root_path
+  rescue ActionController::InvalidAuthenticityToken
     # Experience has shown that the vast majority of these are bots
     # trying to spam the system, so catch & log the exception.
-  
-#  warning = "ActionController::InvalidAuthenticityToken: #{params.inspect}"
+    #warning = "ActionController::InvalidAuthenticityToken: #{params.inspect}"
     #logger.warn warning
- 
-#   redirect_to root_path
-#  end
-
-  def show
-    @user = User.find params[:id]
+    redirect_to root_path
   end
-  
+
   def edit
+    @user = User.find params[:id]
   end
 
   def update
+    @user = User.find params[:id]
+    if @user.update_attributes params[:user]
+      flash[:success] = "Profile updated"
+      sign_in @user
+      redirect_to @user
+    else
+      flash.now[:warning] =  "Invalid informations"
+      render 'edit'
+    end
   end
 
 	def destroy
   end
-	def signup
-		
-		if request.post?
-			
-			@user = User.new params[:signup][:user]
-			@company = Company.new params[:signup][:company]
-			
-			 @user.valid?
-			 @company.valid?
-			
-			if @user.valid? && @company.valid?
-				
-				#TODO: send mail
-				#TODO: save models
-			end
-		else
-			@user = User.new 
-			@company = Company.new 
-		end
-	end
 
-	def signin
-	end
 end
