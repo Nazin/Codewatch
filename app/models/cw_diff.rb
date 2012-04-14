@@ -14,8 +14,8 @@ class CwDiff
   def build
     return false unless valid?
     if use_urls?
-      @sha_a = extract_sha url_a
-      @sha_b = extract_sha url_b
+      @sha_a = extract_sha @url_a
+      @sha_b = extract_sha @url_b
       if cannot_retrieve_shas?
         add_sha_errors
         return
@@ -26,8 +26,8 @@ class CwDiff
         add_snippet_errors
         return
       end
-      code_a = @snippet_a.code
-      code_b = @snippet_b.code
+      @code_a = @snippet_a.code
+      @code_b = @snippet_b.code
     end
     true
   end
