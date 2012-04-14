@@ -3,8 +3,12 @@
 
 <div class="row">
 
-       <h1>
-        <%= @user.name %>
-      </h1>
+<ul>
+  <li>Name: <%= @user.name %> </li>
+  <li>Email: <%= @user.mail %>  </li>
+  <% @user.user_companies.each do |link| %>
+  <li>Company::Role: <%= link.company.name %> :: <%= link.role %>  </li>
+  <% end %>
+</ul>
 
 </div>

@@ -28,6 +28,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find params[:id]
+    @user_companies = @user.user_companies
   rescue ActiveRecord::StatementInvalid
     # Handle duplicate email addresses gracefully by redirecting.
     redirect_to root_path
