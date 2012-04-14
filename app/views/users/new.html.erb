@@ -3,7 +3,7 @@
 
 
 
-<%= cw_form_for @user do |f| %>
+<%= cw_form_for @user, :url => signup_path do |f| %>
   <%= f.text_field :mail, label: 'Email' %>
   <%= f.text_field :name, label: 'Name' %>
   <%= f.password_field :password %>
