@@ -11,7 +11,7 @@ public
 
   def create
     @lexers = CwDiffsController.lexers
-    @diff = CwDiff.new params[:diff]
+    @diff = CwDiff.new params[:cw_diff]
     if @diff.build
       @diff_a, @diff_b = Codewatch::DiffFile.diff @diff.code_a, @diff.code_b
       pygmentized_a = pygmentize @diff.code_a, @diff.lang
