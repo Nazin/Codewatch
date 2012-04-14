@@ -7,7 +7,10 @@ gem 'pygments.rb', '~> 0.2.7' #highlight syntax:
 gem 'bcrypt-ruby', '3.0.1' #password_digest
 gem 'stringex', '~> 1.3.2' #string exstenions
 gem 'email_validator'
-gem 'bootstrap-sass', '2.0.0'
+gem 'bootstrap-sass', '2.0.0' #twitter css
+gem 'faker', '1.0.1' #creating sample users
+gem 'will_paginate', '3.0.3'
+gem 'bootstrap-will_paginate', '0.0.5'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -34,10 +37,8 @@ end
 
 group :test do
   gem 'factory_girl_rails', '1.4.0' #factory for models
-  #english like testing:
-  gem 'capybara', '1.1.2'
-  #rspec generators:
-  gem 'rspec-rails', '2.9.0'
+  gem 'capybara', '1.1.2'   #english like testing
+  gem 'rspec-rails', '2.9.0'   #rspec generators
   #notify for guarded rspecs (linux):
   gem 'rb-inotify', '0.8.8', :platform => :ruby
   gem 'libnotify', '0.5.9', :platform => :ruby
@@ -45,14 +46,12 @@ group :test do
   gem 'rb-fchange', '0.0.5', :platform => :mingw
   gem 'rb-notifu', '0.0.4', :platform => :mingw
   gem 'win32console', '1.3.0', :platform => :mingw
-  #speed test up:
-  gem 'guard-spork', '0.3.2'
-  gem 'spork', '0.9.0'
+  gem 'guard-spork', '0.3.2'  #speed test up
+  gem 'spork', '0.9.0'  #speed test up
 end
 
 
 gem 'jquery-rails'
-
 gem 'execjs'
 gem 'therubyracer', :platform => :ruby
 
