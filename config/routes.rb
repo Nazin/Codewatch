@@ -3,15 +3,17 @@ Www::Application.routes.draw do
 	resources :users
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
   resources :cw_diffs, only: [:new, :create, :show]
-
+  resources :sessions, only: [:new, :create, :destroy]
 
   match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
+
 	match '/help', to: 'page#help'
 	match '/about', to: 'page#about'
 	match '/contact', to: 'page#contact'
-	match '/signup', to: 'users#new'
-#	match '/signin', to: 'user#signin'
 
+	match '/signup', to: 'users#new'
+	match '/signin', to: 'sessions#new'
+  match '/signout', to: 'sessions#destroy', via: :delete
 
 
 
