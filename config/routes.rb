@@ -2,10 +2,10 @@ Www::Application.routes.draw do
 
 	resources :users
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
-  resources :cw_diffs, only: [:new, :create, :show]
-  resources :sessions, only: [:new, :create, :destroy]
+	resources :cw_diffs, only: [:new, :create, :show]
+	resources :sessions, only: [:new, :create, :destroy]
 
-  match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
+	match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
 
 	match '/help', to: 'page#help'
 	match '/about', to: 'page#about'
@@ -13,9 +13,7 @@ Www::Application.routes.draw do
 
 	match '/signup', to: 'users#new'
 	match '/signin', to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy', via: :delete
-
-
+	match '/signout', to: 'sessions#destroy', via: :delete
 
 	root to: 'page#home'
 
