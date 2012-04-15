@@ -10,13 +10,13 @@
 
 
 <ul class="code_snippets">
-  <% @code_snippets.each do |snippet| %>
-    <li>
-      <%= link_to snippet.title, code_snippet_sha_path(snippet) %>
-    </li>
-  <% end %>
+	<% @code_snippets.each do |snippet| %>
+		<li>
+			<%= link_to snippet.title, code_snippet_sha_path(snippet) %>
+		</li>
+	<% end %>
 </ul>
 
 <ul>
-  <%= link_to "Create new", new_code_snippet_path%>
+	<%= link_to "Create new", new_code_snippet_path%>
 </ul>

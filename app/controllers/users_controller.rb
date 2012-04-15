@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 	
 	before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
 	before_filter :correct_user, only: [:edit, :update]
-	before_filter :admin_user,     only: :destroy
+	before_filter :admin_user,		 only: :destroy
 	before_filter :registered_user, only: [:new, :create]
 	
 	def index
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 			sign_in @user #TODO przekierowanie na jakąś główną stroną z informacją żeby sprawdził maila oraz wysłanie maila z linkiemaktywacyjnego
 			redirect_to @user
 		elsif request.post?
-			flash.now[:warning] =  "Invalid informations"
+			flash.now[:warning] =	 "Invalid informations"
 		else
 			user_companies = @user.user_companies.build
 			user_companies.build_company
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
 			sign_in @user
 			redirect_to @user
 		else
-			flash.now[:warning] =  "Invalid informations"
+			flash.now[:warning] =	 "Invalid informations"
 			render 'edit'
 		end
 	end

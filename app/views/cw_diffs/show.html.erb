@@ -3,19 +3,19 @@
 
 
 <table>
-  <tbody>
-    <tr>
-      <td>
-        <div>
-          <%= render partial: 'diff_snippet', locals: { diff_file: @diff_a } %>     
-        </div>
-      </td>
-      <td>
-        <div>
-          <%= render partial: 'diff_snippet', locals: { diff_file: @diff_b } %>
-        </div>
-      </td>
-  </tbody>
+	<tbody>
+		<tr>
+			<td>
+				<div>
+					<%= render partial: 'diff_snippet', locals: { diff_file: @diff_a } %>			
+				</div>
+			</td>
+			<td>
+				<div>
+					<%= render partial: 'diff_snippet', locals: { diff_file: @diff_b } %>
+				</div>
+			</td>
+	</tbody>
 </table>
 
 

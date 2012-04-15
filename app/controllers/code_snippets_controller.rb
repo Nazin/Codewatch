@@ -17,7 +17,7 @@ class CodeSnippetsController < ApplicationController
 			redirect_to code_snippet_sha_path(@code_snippet)
 		else
 			@lexers = @@lexers
-			flash.now[:warning] =  "Invalid form input"
+			flash.now[:warning] =	 "Invalid form input"
 			render 'new'
 		end
 	end
@@ -30,7 +30,7 @@ class CodeSnippetsController < ApplicationController
 			@lines = @code_snippet.code.lines.count
 			lexer = @code_snippet.lang
 			if lexer
-				@highlighted =  Pygments.highlight(@code_snippet.code, :lexer => lexer )
+				@highlighted =	Pygments.highlight(@code_snippet.code, :lexer => lexer )
 			else
 				@highlighted = @code_snippet.code
 			end
@@ -42,8 +42,8 @@ class CodeSnippetsController < ApplicationController
 	private
 
 	class << self
-		@@lexers =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
-		@@lexers =  @@lexers.collect { |l| [l.name, l.aliases.first] }
+		@@lexers =	Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
+		@@lexers =	@@lexers.collect { |l| [l.name, l.aliases.first] }
 	end
 
 	def sha1 code
@@ -55,7 +55,7 @@ class CodeSnippetsController < ApplicationController
 	def random_string len
 		newstring = ""
 		chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-		1.upto(len)  { |i| newstring << chars[rand(chars.size-1)] }
+		1.upto(len)	 { |i| newstring << chars[rand(chars.size-1)] }
 		newstring
 	end
 

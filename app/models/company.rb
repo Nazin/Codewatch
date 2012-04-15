@@ -2,19 +2,19 @@
 #
 # Table name: companies
 #
-#  id   :integer         not null, primary key
-#  name :string(32)      not null
-#  slug :string(255)     not null
+#	 id		:integer				 not null, primary key
+#	 name :string(32)			 not null
+#	 slug :string(255)		 not null
 #
 
 class Company < ActiveRecord::Base
 	
 	has_many :user_companies
 	has_many :users, :through => :user_companies
-  accepts_nested_attributes_for :user_companies
+	accepts_nested_attributes_for :user_companies
 
 	
-  attr_accessible :name, :slug
+	attr_accessible :name, :slug
 
 	validates :name, presence: true, length: {maximum: 32, minimum: 3}, :uniqueness => true
 	

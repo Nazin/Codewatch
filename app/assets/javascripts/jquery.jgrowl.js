@@ -7,7 +7,7 @@
  * Written by Stan Lemon <stosh1985@gmail.com>
  * Last updated: 2011.03.27
  *
- * jGrowl is a jQuery plugin implementing unobtrusive userland notifications.  These 
+ * jGrowl is a jQuery plugin implementing unobtrusive userland notifications.	 These 
  * notifications function similarly to the Growl Framework available for
  * Mac OS X (http://growl.info).
  *
@@ -23,9 +23,9 @@
  * - Ammended some CSS to provide default positioning for nested usage.
  * - Changed some CSS to be prefixed with jGrowl- to prevent namespacing issues
  * - Added two new options - openDuration and closeDuration to allow 
- *   better control of notification open and close speeds, respectively 
- *   Patch contributed by Jesse Vincet.
- * - Added afterOpen callback.  Patch contributed by Russel Branca.
+ *	 better control of notification open and close speeds, respectively 
+ *	 Patch contributed by Jesse Vincet.
+ * - Added afterOpen callback.	Patch contributed by Russel Branca.
  *
  * Changes in 1.2.4
  * - Fixed IE bug with the close-all button
@@ -37,7 +37,7 @@
  * - The callbacks no longer use the container as context, instead they use the actual notification
  * - The callbacks now receive the container as a parameter after the options parameter
  * - beforeOpen and beforeClose now check the return value, if it's false - the notification does
- *   not continue.  The open callback will also halt execution if it returns false.
+ *	 not continue.	The open callback will also halt execution if it returns false.
  * - Fixed bug where containers would get confused
  * - Expanded the pause functionality to pause an entire container.
  *
@@ -48,7 +48,7 @@
  * - Fixed instance where the interval would fire the close method multiple times.
  * - Added CSS to hide from print media
  * - Fixed issue with closer button when div { position: relative } is set
- * - Fixed leaking issue with multiple containers.  Special thanks to Matthew Hanlon!
+ * - Fixed leaking issue with multiple containers.	Special thanks to Matthew Hanlon!
  *
  * Changes in 1.2.0
  * - Added message pooling to limit the number of messages appearing at a given time.
@@ -93,7 +93,7 @@
  * Changes in 1.0.2
  * - All CSS styling is now external.
  * - Added a theme parameter which specifies a secondary class for styling, such
- *   that notifications can be customized in appearance on a per message basis.
+ *	 that notifications can be customized in appearance on a per message basis.
  * - Notification life span is now customizable on a per message basis.
  * - Added the ability to disable the global closer, enabled by default.
  * - Added callbacks for when a notification is opened or closed.
@@ -146,47 +146,47 @@
 
 		/** Default JGrowl Settings **/
 		defaults: {
-			pool: 			0,
-			header: 		'',
-			group: 			'',
-			sticky: 		false,
-			position: 		'top-right',
-			glue: 			'after',
-			theme: 			'default',
-			themeState: 	'highlight',
-			corners: 		'10px',
-			check: 			250,
-			life: 			3000,
-			closeDuration:  'normal',
-			openDuration:   'normal',
-			easing: 		'swing',
-			closer: 		true,
+			pool:				0,
+			header:			'',
+			group:			'',
+			sticky:			false,
+			position:			'top-right',
+			glue:				'after',
+			theme:			'default',
+			themeState:		'highlight',
+			corners:		'10px',
+			check:			250,
+			life:				3000,
+			closeDuration:	'normal',
+			openDuration:		'normal',
+			easing:			'swing',
+			closer:			true,
 			closeTemplate: '&times;',
 			closerTemplate: '<div>[ close all ]</div>',
-			log: 			function(e,m,o) {},
-			beforeOpen: 	function(e,m,o) {},
-			afterOpen: 		function(e,m,o) {},
-			open: 			function(e,m,o) {},
-			beforeClose: 	function(e,m,o) {},
-			close: 			function(e,m,o) {},
-			animateOpen: 	{
-				opacity: 	'show'
+			log:			function(e,m,o) {},
+			beforeOpen:		function(e,m,o) {},
+			afterOpen:		function(e,m,o) {},
+			open:				function(e,m,o) {},
+			beforeClose:	function(e,m,o) {},
+			close:			function(e,m,o) {},
+			animateOpen:	{
+				opacity:	'show'
 			},
-			animateClose: 	{
-				opacity: 	'hide'
+			animateClose:		{
+				opacity:	'hide'
 			}
 		},
 		
 		notifications: [],
 		
 		/** jGrowl Container Node **/
-		element: 	null,
+		element:	null,
 	
 		/** Interval Function **/
-		interval:   null,
+		interval:		null,
 		
 		/** Create a Notification **/
-		create: 	function( message , o ) {
+		create:		function( message , o ) {
 			var o = $.extend({}, this.defaults, o);
 
 			/* To keep backward compatibility with 1.24 and earlier, honor 'speed' if the user has set it */
@@ -200,7 +200,7 @@
 			o.log.apply( this.element , [this.element,message,o] );
 		},
 		
-		render: 		function( notification ) {
+		render:			function( notification ) {
 			var self = this;
 			var message = notification.message;
 			var o = notification.options;
@@ -287,7 +287,7 @@
 		update:	 function() {
 			$(this.element).find('div.jGrowl-notification:parent').each( function() {
 				if ( $(this).data("jGrowl") != undefined && $(this).data("jGrowl").created != undefined && 
-					 ($(this).data("jGrowl").created.getTime() + parseInt($(this).data("jGrowl").life))  < (new Date()).getTime() && 
+					 ($(this).data("jGrowl").created.getTime() + parseInt($(this).data("jGrowl").life))	 < (new Date()).getTime() && 
 					 $(this).data("jGrowl").sticky != true && 
 					 ($(this).data("jGrowl.pause") == undefined || $(this).data("jGrowl.pause") != true) ) {
 
@@ -320,12 +320,12 @@
 		},
 
 		/** Shutdown jGrowl, removing it and clearing the interval **/
-		shutdown:   function() {
+		shutdown:		function() {
 			$(this.element).removeClass('jGrowl').find('div.jGrowl-notification').remove();
 			clearInterval( this.interval );
 		},
 		
-		close: 	function() {
+		close:	function() {
 			$(this.element).find('div.jGrowl-notification').each(function(){
 				$(this).trigger('jGrowl.beforeClose');
 			});

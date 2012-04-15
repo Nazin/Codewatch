@@ -54,8 +54,8 @@ class CwDiffsController < ApplicationController
 
 
 	def self.lexers
-		lexers =  Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase}
-		lexers =  lexers.collect { |l| [l.name, l.aliases.first] }
+		lexers =	Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase}
+		lexers =	lexers.collect { |l| [l.name, l.aliases.first] }
 		lexers
 	end
 	
