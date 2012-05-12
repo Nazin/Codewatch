@@ -21,9 +21,10 @@ class User < ActiveRecord::Base
 	has_secure_password	
 
 	has_many :user_companies
+	has_many :user_actions
 	has_many :companies, through: :user_companies
-	accepts_nested_attributes_for :user_companies
-
+	
+	accepts_nested_attributes_for :user_companies, :user_actions
 
 	validates :mail, presence: true, length: {maximum: 64}, uniqueness: {case_sensitive: false}, email: {strict_mode: true}
 	validates :name, presence: true, length: {maximum: 32, minimum: 3}
@@ -35,5 +36,4 @@ private
 	def create_remember_token
 		self.remember_token = SecureRandom.urlsafe_base64
 	end
-
 end

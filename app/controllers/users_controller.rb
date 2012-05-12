@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 	
 	before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
 	before_filter :correct_user, only: [:edit, :update]
-	before_filter :admin_user,		 only: :destroy
+	before_filter :admin_user, only: :destroy
 	before_filter :registered_user, only: [:new, :create]
 	
 	def index
@@ -14,12 +14,21 @@ class UsersController < ApplicationController
 		
 		@user = User.new params[:user]
 
-		if request.post? && @user.save
-			flash[:success] = "Welcome to Codewatch.pl!"
-			sign_in @user #TODO przekierowanie na jakąś główną stroną z informacją żeby sprawdził maila oraz wysłanie maila z linkiemaktywacyjnego
-			redirect_to @user
-		elsif request.post?
-			flash.now[:warning] =	 "Invalid informations"
+		if request.post?
+
+			@user.user_companies[0].role = UserCompany::ROLE_OWNER
+			
+			@user.user_actions.build
+			@user.user_actions[0].type = UserAction::TYPE_ACTIVATION
+			key = @user.user_actions[0].generate_key
+			
+			if @user.save
+				flash[:success] = "Before you can login, you must active your account with the code sent to your email address."
+				mail(@user.mail, @user.name, 'Activation link', '<p>Welcome!</p><p>blablablblablbal</p><p>'+key+'</p>')
+				redirect_to root_path
+			else
+				flash.now[:warning] = "Invalid informations"
+			end
 		else
 			user_companies = @user.user_companies.build
 			user_companies.build_company

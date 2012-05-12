@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120414140850) do
+ActiveRecord::Schema.define(:version => 20120512115548) do
 
   create_table "code_snippets", :force => true do |t|
     t.string   "title",      :limit => 32, :null => false
@@ -30,6 +30,14 @@ ActiveRecord::Schema.define(:version => 20120414140850) do
     t.string "name", :limit => 32, :null => false
     t.string "slug",               :null => false
   end
+
+  create_table "user_actions", :force => true do |t|
+    t.string  "key",     :limit => 32, :null => false
+    t.integer "type",    :limit => 2,  :null => false
+    t.integer "user_id",               :null => false
+  end
+
+  add_index "user_actions", ["user_id"], :name => "index_user_actions_on_user_id"
 
   create_table "user_companies", :force => true do |t|
     t.integer "user_id",                 :null => false
@@ -50,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20120414140850) do
     t.string   "password_digest"
     t.string   "remember_token"
     t.boolean  "admin",                         :default => false
+    t.boolean  "isActive",                      :default => false
   end
 
   add_index "users", ["mail"], :name => "index_users_on_mail"
