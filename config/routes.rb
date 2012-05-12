@@ -6,6 +6,7 @@ Www::Application.routes.draw do
 	resources :sessions, only: [:new, :create, :destroy]
 
 	match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
+	match '/activate/:key', to: 'users#activate'
 
 	match '/help', to: 'page#help'
 	match '/about', to: 'page#about'

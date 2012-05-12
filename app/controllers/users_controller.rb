@@ -19,15 +19,19 @@ class UsersController < ApplicationController
 			@user.user_companies[0].role = UserCompany::ROLE_OWNER
 			
 			@user.user_actions.build
-			@user.user_actions[0].type = UserAction::TYPE_ACTIVATION
+			@user.user_actions[0].atype = UserAction::TYPE_ACTIVATION
 			key = @user.user_actions[0].generate_key
 			
 			if @user.save
+				
 				flash[:success] = "Before you can login, you must active your account with the code sent to your email address."
-				mail(@user.mail, @user.name, 'Activation link', '<p>Welcome!</p><p>blablablblablbal</p><p>'+key+'</p>')
+				
+				url = url_for :controller => 'users', :action => 'activate', :key => key
+				
+				mail(@user.mail, @user.name, 'Account activation', '<p>Hi there,</p><p>You’re nearly done!</p><p>We just need you to activate your account.</p><p>To insure our future messages reach you please add us to your address book.</p><p>To activate your account please click the link below:</p><a href="' + url + '">' + url + '</a>')
 				redirect_to root_path
 			else
-				flash.now[:warning] = "Invalid informations"
+				flash[:warning] = "Invalid informations"
 			end
 		else
 			user_companies = @user.user_companies.build
@@ -35,6 +39,22 @@ class UsersController < ApplicationController
 		end 
 	end
 
+	def activate 
+		
+		user_action = UserAction.find_by_key_and_isActive_and_atype params[:key], true, UserAction::TYPE_ACTIVATION
+		
+		if user_action
+			user_action.user.isActive = true
+			user_action.isActive = false
+			user_action.save :validate => false
+			flash[:success] = "Your account has been activated, you can now sign in."
+		else
+			flash[:warning] = "Given key is wrong"
+		end
+		
+		redirect_to root_path
+	end
+	
 	def show
 		
 		@user = User.find params[:id]

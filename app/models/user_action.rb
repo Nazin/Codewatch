@@ -4,7 +4,7 @@ class UserAction < ActiveRecord::Base
 	TYPE_REMINDER = 2
 	TYPE_INVITATION = 3
 	
-	belongs_to :user
+	belongs_to :user, :autosave => true
 	
 	def generate_key
 		
