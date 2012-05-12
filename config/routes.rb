@@ -6,15 +6,15 @@ Www::Application.routes.draw do
 	resources :sessions, only: [:new, :create, :destroy]
 
 	match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
-	match '/activate/:key', to: 'users#activate'
 
 	match '/help', to: 'page#help'
 	match '/about', to: 'page#about'
 	match '/contact', to: 'page#contact'
 
-	match '/signup', to: 'users#new'
-	match '/signin', to: 'sessions#new'
-	match '/signout', to: 'sessions#destroy', via: :delete
+	match '/signup', to: 'users#signup'
+	match '/signin', to: 'users#signin'
+	match '/signout', to: 'users#signout', via: :delete
+	match '/activate/:key', to: 'users#activate'
 
 	root to: 'page#home'
 
