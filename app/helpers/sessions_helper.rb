@@ -1,7 +1,13 @@
 module SessionsHelper
 	
 	def sign_in user
-		cookies.permanent[:remember_token] = user.remember_token
+		#cookies.permanent[:remember_token] = user.remember_token
+		
+		 cookies.permanent[:remember_token] = {
+			:value => user.remember_token,
+			:domain => :all
+		}
+		
 		current_user = user
 	end
 

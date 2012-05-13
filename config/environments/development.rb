@@ -35,5 +35,3 @@ Www::Application.configure do
 	# Expands the lines which load the assets
 	config.assets.debug = true
 end
-
-Www::Application.config.session_store :cookie_store, key: 'cw_session', :domain => '.localhost'

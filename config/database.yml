@@ -20,14 +20,6 @@ development:
   username: postgres
   password:
 
-staging:
-  adapter: postgresql
-  encoding: unicode
-  database: codewatch_development
-  pool: 5
-  username: postgres
-  password:
-
 test:
   adapter: postgresql
   encoding: unicode
