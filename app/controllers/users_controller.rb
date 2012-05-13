@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class UsersController < ApplicationController
 	
 	before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
@@ -28,7 +27,7 @@ class UsersController < ApplicationController
 				
 				url = url_for :controller => 'users', :action => 'activate', :key => key
 				
-				mail(@user.mail, @user.name, 'Account activation', '<p>Hi there,</p><p>You’re nearly done!</p><p>We just need you to activate your account.</p><p>To insure our future messages reach you please add us to your address book.</p><p>To activate your account please click the link below:</p><a href="' + url + '">' + url + '</a>')
+				mail(@user.mail, @user.name, 'Account activation', '<p>Hi there,</p><p>You\'re nearly done!</p><p>We just need you to activate your account.</p><p>To insure our future messages reach you please add us to your address book.</p><p>To activate your account please click the link below:</p><a href="' + url + '">' + url + '</a>')
 				redirect_to root_path
 			else
 				flash[:warning] = "Invalid informations"

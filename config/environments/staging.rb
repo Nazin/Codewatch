@@ -35,5 +35,5 @@ Www::Application.configure do
 	# Expands the lines which load the assets
 	config.assets.debug = true
 	
-	config.session_store :cookie_store, key: 'cw_session', :domain => '.codewatch.pl'
+	config.session_store :cookie_store, key: 'cw_session', :domain => '.localhost'
 end

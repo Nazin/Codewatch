@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
 	
+	before_filter :check_company
+	
 	protect_from_forgery
 	include SessionsHelper
 	
@@ -20,5 +22,11 @@ MESSAGE_END
 		Net::SMTP.start('localhost', 25) do |smtp|
 			smtp.send_message message, 'no-reply@codewatch.pl', [to]
 		end
+	end
+	
+	def check_company
+		
+		
+		
 	end
 end
