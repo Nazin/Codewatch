@@ -1,12 +1,11 @@
 class UsersController < ApplicationController
 	
-	before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
-	before_filter :correct_user, only: [:edit, :update]
-	before_filter :admin_user, only: :destroy
-	before_filter :registered_user, only: [:new, :create]
-	
+	before_filter :can_access_company, only: [:index, :show]
+	before_filter :is_guest, only: [:signup, :signin, :activate]
+	before_filter :is_signed_in, only: [:signout]
+
 	def index
-		@users = User.paginate page: params[:page]
+		@users = @company.users.paginate page: params[:page]
 	end
 	
 	def signup
@@ -26,7 +25,7 @@ class UsersController < ApplicationController
 				flash[:success] = "Before you can login, you must active your account with the code sent to your email address."
 				
 				url = url_for :controller => 'users', :action => 'activate', :key => key
-				
+				#todo zawrzec linka do "firmy" w mailu (tj firma.codewatch.pl)
 				mail(@user.mail, @user.name, 'Account activation', '<p>Hi there,</p><p>You\'re nearly done!</p><p>We just need you to activate your account.</p><p>To insure our future messages reach you please add us to your address book.</p><p>To activate your account please click the link below:</p><a href="' + url + '">' + url + '</a>')
 				redirect_to root_path
 			else
@@ -83,62 +82,26 @@ class UsersController < ApplicationController
 	def show
 		
 		@user = User.find params[:id]
-		@user_companies = @user.user_companies
 		
-		rescue ActiveRecord::StatementInvalid
-		# Handle duplicate email addresses gracefully by redirecting.
-		redirect_to root_path
-		rescue ActionController::InvalidAuthenticityToken
-		# Experience has shown that the vast majority of these are bots
-		# trying to spam the system, so catch & log the exception.
-		#warning = "ActionController::InvalidAuthenticityToken: #{params.inspect}"
-		#logger.warn warning
-		redirect_to root_path
+		if not @company.users.include?(@user)
+			flash[:warning] = "You don't have access to that's user profile"
+			redirect_to dashboard_path
+		end
 	end
 
 	def edit
-	end
-
-	def update
 		
-		if @user.update_attributes params[:user]
-			flash[:success] = "Profile updated"
-			sign_in @user
-			redirect_to @user
-		else
-			flash.now[:warning] =	 "Invalid informations"
-			render 'edit'
+		@user = current_user
+		
+		if request.put?
+
+			if @user.update_attributes params[:user] #todo nie sprawdzanie hasel - osobny formularz do hasel, uploader obrazkow
+				flash[:success] = "Profile updated"
+				sign_in @user
+				redirect_to dashboard_path
+			else
+				flash[:warning] = "Invalid informations"
+			end
 		end
-	end
-
-	def destroy
-		@user.destroy
-		flash[:success] = "User destroyed."
-		redirect_to users_path
-	end
-
-
-private
-
-	
-	def signed_in_user
-		unless signed_in?
-			store_location
-			redirect_to signin_path, notice: "Please sign in" 
-		end
-	end
-
-	def correct_user
-		@user = User.find params[:id]
-		redirect_to root_path unless current_user? @user
-	end
-
-	def admin_user
-		@user = User.find params[:id]
-		redirect_to root_path unless current_user.admin? && !(current_user? @user)
-	end
-
-	def registered_user
-		redirect_to root_path, notice: "You already have an account" if signed_in?
 	end
 end

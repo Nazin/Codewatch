@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120512125800) do
+ActiveRecord::Schema.define(:version => 20120513145439) do
 
   create_table "code_snippets", :force => true do |t|
     t.string   "title",      :limit => 32, :null => false
@@ -30,6 +30,17 @@ ActiveRecord::Schema.define(:version => 20120512125800) do
     t.string "name", :limit => 32, :null => false
     t.string "slug",               :null => false
   end
+
+  create_table "projects", :force => true do |t|
+    t.string   "name",       :limit => 32,  :null => false
+    t.integer  "ptype",      :limit => 2,   :null => false
+    t.string   "location",   :limit => 128, :null => false
+    t.integer  "company_id",                :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "projects", ["company_id"], :name => "index_projects_on_company_id"
 
   create_table "user_actions", :force => true do |t|
     t.string  "key",      :limit => 32,                   :null => false
