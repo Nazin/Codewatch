@@ -59,5 +59,10 @@ module Www
     config.assets.version = '1.0'
 	
 	config.action_mailer.default_url_options = { :host => "codewatch.pl" }
+	config.action_mailer.delivery_method = :smtp
+	config.action_mailer.smtp_settings = {
+		:address => "localhost",
+		:port => 25
+	}
   end
 end
