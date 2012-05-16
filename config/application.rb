@@ -65,7 +65,8 @@ module Www
 	config.action_mailer.smtp_settings = {
 		:address => "localhost",
 		:port => 25,
-		:domain => "codewatch.pl"
+		:domain => "codewatch.pl",
+		:openssl_verify_mode => "none"
 	}
 	config.action_mailer.raise_delivery_errors = true
   end
