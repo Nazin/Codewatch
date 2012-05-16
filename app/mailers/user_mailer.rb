@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
 	
-	default from: "Codewatch.pl <no-reply@codewatch.pl>"
+	default from: "no-reply@codewatch.pl"
 	
 	def activate_email user, key
 		
