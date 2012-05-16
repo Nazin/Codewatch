@@ -58,11 +58,14 @@ module Www
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 	
-	config.action_mailer.default_url_options = { :host => "codewatch.pl" }
+	config.action_mailer.default_url_options = { 
+		:host => "codewatch.pl" 
+	}
 	config.action_mailer.delivery_method = :smtp
 	config.action_mailer.smtp_settings = {
 		:address => "localhost",
-		:port => 25
+		:port => 25,
+		:domain => "codewatch.pl"
 	}
 	config.action_mailer.raise_delivery_errors = true
   end
