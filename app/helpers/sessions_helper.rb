@@ -1,11 +1,12 @@
 module SessionsHelper
 	
 	def sign_in user
-		cookies.permanent[:remember_token] = user.remember_token
-		current_user = user
-	end
-
-	def current_user= user
+		
+		cookies.permanent[:remember_token] = {
+			:value => user.remember_token,
+			:domain => :all
+		}
+		
 		@current_user = user
 	end
 
@@ -18,8 +19,8 @@ module SessionsHelper
 	end
 
 	def sign_out
-		current_user = nil
-		cookies.delete :remember_token
+		@current_user = nil
+		cookies.delete :remember_token, :domain => :all
 	end
 
 	def current_user? user
@@ -34,8 +35,6 @@ module SessionsHelper
 	def store_location
 		session[:return_to] = request.fullpath
 	end
-	
-
 private
 	
 	def user_from_remember_token
@@ -46,5 +45,4 @@ private
 	def clear_return_to
 		session.delete :return_to
 	end
- 
 end

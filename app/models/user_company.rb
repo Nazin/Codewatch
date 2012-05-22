@@ -10,9 +10,13 @@
 
 class UserCompany < ActiveRecord::Base
 	
+	ROLE_OWNER = 1
+	ROLE_ADMIN = 2
+	ROLE_USER = 3
+	ROLE_SPECTATOR = 4
+	
 	belongs_to :user
 	belongs_to :company
 	accepts_nested_attributes_for :company
 	attr_accessible :role, :company_attributes
-
 end

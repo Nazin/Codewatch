@@ -1,6 +1,6 @@
 Www::Application.routes.draw do
 
-	resources :users, except: :create
+	resources :users, only: [:index]
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
 	resources :cw_diffs, only: [:new, :create, :show]
 	resources :sessions, only: [:new, :create, :destroy]
@@ -10,11 +10,16 @@ Www::Application.routes.draw do
 	match '/help', to: 'page#help'
 	match '/about', to: 'page#about'
 	match '/contact', to: 'page#contact'
+	
+	match '/signup', to: 'users#signup'
+	match '/signin', to: 'users#signin'
+	match '/signout', to: 'users#signout', via: :delete
+	match '/activate/:key', to: 'users#activate'
+	match '/users/edit', to: 'users#edit', as: :user_edit
+	match '/users/:id', to: 'users#show'
 
-	match '/signup', to: 'users#new'
-	match '/signin', to: 'sessions#new'
-	match '/signout', to: 'sessions#destroy', via: :delete
-
+	match '/dashboard', to: 'projects#dashboard'
+	
 	root to: 'page#home'
 
   # The priority is based upon order of creation:

@@ -1,91 +1,108 @@
-# -*- coding: utf-8 -*-
 class UsersController < ApplicationController
 	
-	before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
-	before_filter :correct_user, only: [:edit, :update]
-	before_filter :admin_user,		 only: :destroy
-	before_filter :registered_user, only: [:new, :create]
-	
+	before_filter :can_access_company, only: [:index, :show]
+	before_filter :is_guest, only: [:signup, :signin, :activate]
+	before_filter :is_signed_in, only: [:signout]
+
 	def index
-		@users = User.paginate page: params[:page]
+		@users = @company.users.paginate page: params[:page]
 	end
 	
-	def new
+	def signup
 		
 		@user = User.new params[:user]
 
-		#TODO add not_null constraint on company_id and check whether still works.
-		if request.post? && @user.save
-			flash[:success] = "Welcome to Codewatch.pl!"
-			sign_in @user #TODO przekierowanie na jakąś główną stroną z informacją żeby sprawdził maila oraz wysłanie maila z linkiemaktywacyjnego
-			redirect_to @user
-		elsif request.post?
-			flash.now[:warning] =	 "Invalid informations"
+		if request.post?
+
+			@user.user_companies[0].role = UserCompany::ROLE_OWNER
+			
+			@user.user_actions.build
+			@user.user_actions[0].atype = UserAction::TYPE_ACTIVATION
+			key = @user.user_actions[0].generate_key
+			
+			if @user.save
+				
+				flash[:success] = "Before you can login, you must active your account with the code sent to your email address."
+				UserMailer.activate_email(@user, key).deliver
+				
+				redirect_to root_path
+			else
+				flash[:warning] = "Invalid informations"
+			end
+>>>>>>> 6c3a3dfe0ce7b4051dba5924b113ebb17dcfe29c
 		else
 			user_companies = @user.user_companies.build
 			user_companies.build_company
 		end 
 	end
 
+	def signin
+		
+		if request.post?
+			
+			user = User.find_by_mail params[:session][:mail]
+			authenticated = user && user.authenticate(params[:session][:password])
+			
+			if user && authenticated && user.isActive
+				sign_in user			
+				redirect_back_or_to user
+			elsif user && authenticated && !user.isActive
+				flash.now[:error] = 'Account is inactive. Please check your inbox for activation link'
+			elsif user && !authenticated
+				flash.now[:error] = 'Invalid password given'
+			else
+				flash.now[:error] = 'No user with this email address'
+			end
+		end
+	end
+	
+	def signout
+		sign_out
+		redirect_to root_path
+	end
+	
+	def activate 
+		
+		user_action = UserAction.find_by_key_and_isActive_and_atype params[:key], true, UserAction::TYPE_ACTIVATION
+		
+		if user_action
+			
+			user_action.user.isActive = true
+			user_action.isActive = false
+			user_action.save :validate => false
+			
+			flash[:success] = "Your account has been activated, you can now sign in."
+			UserMailer.welcome_email(user_action.user).deliver
+		else
+			flash[:warning] = "Given key is wrong"
+		end
+		
+		redirect_to root_path
+	end
+	
 	def show
 		
 		@user = User.find params[:id]
-		@user_companies = @user.user_companies
 		
-		rescue ActiveRecord::StatementInvalid
-		# Handle duplicate email addresses gracefully by redirecting.
-		redirect_to root_path
-		rescue ActionController::InvalidAuthenticityToken
-		# Experience has shown that the vast majority of these are bots
-		# trying to spam the system, so catch & log the exception.
-		#warning = "ActionController::InvalidAuthenticityToken: #{params.inspect}"
-		#logger.warn warning
-		redirect_to root_path
+		if not @company.users.include?(@user)
+			flash[:warning] = "You don't have access to that's user profile"
+			redirect_to dashboard_path
+		end
 	end
 
 	def edit
-	end
-
-	def update
 		
-		if @user.update_attributes params[:user]
-			flash[:success] = "Profile updated"
-			sign_in @user
-			redirect_to @user
-		else
-			flash.now[:warning] =	 "Invalid informations"
-			render 'edit'
+		@user = current_user
+		
+		if request.put?
+
+			if @user.update_attributes params[:user] #todo nie sprawdzanie hasel - osobny formularz do hasel, uploader obrazkow
+				flash[:success] = "Profile updated"
+				sign_in @user
+				redirect_to dashboard_path
+			else
+				flash[:warning] = "Invalid informations"
+			end
 		end
-	end
-
-	def destroy
-		@user.destroy
-		flash[:success] = "User destroyed."
-		redirect_to users_path
-	end
-
-
-private
-
-	
-	def signed_in_user
-		unless signed_in?
-			store_location
-			redirect_to signin_path, notice: "Please sign in" 
-		end
-	end
-
-	def correct_user
-		@user = User.find params[:id]
-		redirect_to root_path unless current_user? @user
-	end
-
-	def admin_user
-		@user = User.find params[:id]
-		redirect_to root_path unless current_user.admin? && !(current_user? @user)
-	end
-
-	def registered_user
-		redirect_to root_path, notice: "You already have an account" if signed_in?
 	end
 end
