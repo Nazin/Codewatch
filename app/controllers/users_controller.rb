@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 		
 		@user = User.new params[:user]
 
+		#TODO add not_null constraint on company_id and check whether still works.
 		if request.post? && @user.save
 			flash[:success] = "Welcome to Codewatch.pl!"
 			sign_in @user #TODO przekierowanie na jakąś główną stroną z informacją żeby sprawdził maila oraz wysłanie maila z linkiemaktywacyjnego
