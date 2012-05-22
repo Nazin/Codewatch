@@ -4,6 +4,7 @@ class Project < ActiveRecord::Base
 	TYPE_GIT = 2
 	
 	belongs_to :company
+	has_and_belongs_to_many :users
 	
 	attr_accessible :name, :ptype, :location
 	validates :company_id, presence: true

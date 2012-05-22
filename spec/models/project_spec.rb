@@ -14,6 +14,7 @@ describe Project do
 	it { should respond_to :location }
 	it { should respond_to :ptype }
 	it { should respond_to :company_id }
+	it { should respond_to :users }
 	its(:company) {should == company }
 	it { should be_valid }
 
@@ -36,7 +37,7 @@ describe Project do
 
 
 	describe "when ptype has to high value" do
-		before { @project.ptype =3 }
+		before { @project.ptype = 3 }
 		it { should_not be_valid }
 	end
 

@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 	has_many :user_companies
 	has_many :user_actions
 	has_many :companies, through: :user_companies
-	
+	has_and_belongs_to_many  :projects
 	accepts_nested_attributes_for :user_companies, :user_actions
 
 	validates :mail, presence: true, length: {maximum: 64}, uniqueness: {case_sensitive: false}, email: {strict_mode: true}

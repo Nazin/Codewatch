@@ -1,10 +1,13 @@
 Www::Application.routes.draw do
 
+
+	resources :projects
 	resources :users, only: [:index]
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
 	resources :cw_diffs, only: [:new, :create, :show]
 	resources :sessions, only: [:new, :create, :destroy]
 
+	match '/projects/dashbaoard', to: 'projects#dashboard'
 	match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
 
 	match '/help', to: 'page#help'
