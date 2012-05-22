@@ -10,5 +10,12 @@
 require 'spec_helper'
 
 describe Company do
-	pending "add some examples to (or delete) #{__FILE__}"
+	
+	#TODO moar tests
+
+	before { @company = Company.new name: "HP", slug: "hp" }
+
+	subject { @company }
+	it { should respond_to :projects }
+
 end

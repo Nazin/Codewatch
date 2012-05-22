@@ -9,5 +9,11 @@ FactoryGirl.define do
 			admin true
 		end
 	end
+
+	factory :company do
+		name "Google"
+		slug "goo"
+	end
+		
 end
 
