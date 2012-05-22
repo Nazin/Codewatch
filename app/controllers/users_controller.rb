@@ -29,7 +29,6 @@ class UsersController < ApplicationController
 			else
 				flash[:warning] = "Invalid informations"
 			end
->>>>>>> 6c3a3dfe0ce7b4051dba5924b113ebb17dcfe29c
 		else
 			user_companies = @user.user_companies.build
 			user_companies.build_company
