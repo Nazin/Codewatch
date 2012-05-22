@@ -36,7 +36,7 @@ describe Project do
 
 
 	describe "when ptype has to high value" do
-		before { @project.location = 2 }
+		before { @project.ptype =3 }
 		it { should_not be_valid }
 	end
 
