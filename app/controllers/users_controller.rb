@@ -13,7 +13,11 @@ class UsersController < ApplicationController
 		@user = User.new params[:user]
 
 		if request.post?
-
+			#TODO weird syntax and why zeroth?
+			# [0] ??
+			# what about this:
+			# user_company = @user.user_companies.build role: role
+			# user_company.company = @company
 			@user.user_companies[0].role = UserCompany::ROLE_OWNER
 			
 			@user.user_actions.build

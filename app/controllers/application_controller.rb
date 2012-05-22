@@ -1,20 +1,17 @@
 class ApplicationController < ActionController::Base
 	
-	before_filter :check_company
+	before_filter :check_company # provides @company field
 	
 	protect_from_forgery
 	include SessionsHelper
+	include UserCompanyHelper
 	
 private
 	
 	def check_company
-		
 		domain_parts = request.host.split('.')
-		
 		if domain_parts.length == 3
-			
 			@company = Company.find_by_slug domain_parts[0]
-			
 			if @company.nil?
 				flash[:warning] = "Given url is not correct"
 				redirect_home
@@ -42,7 +39,7 @@ private
 			redirect_home
 		end
 	end
-	
+
 	def redirect_home
 		
 		domain_parts = request.host.split('.')
