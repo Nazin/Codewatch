@@ -13,11 +13,7 @@ class UsersController < ApplicationController
 		@user = User.new params[:user]
 
 		if request.post?
-			#TODO weird syntax and why zeroth?
-			# [0] ??
-			# what about this:
-			# user_company = @user.user_companies.build role: role
-			# user_company.company = @company
+
 			@user.user_companies[0].role = UserCompany::ROLE_OWNER
 			
 			@user.user_actions.build
@@ -47,8 +43,15 @@ class UsersController < ApplicationController
 			authenticated = user && user.authenticate(params[:session][:password])
 			
 			if user && authenticated && user.isActive
-				sign_in user			
-				redirect_back_or_to user
+				
+				sign_in user
+				domain_parts = request.host.split('.')
+				
+				if domain_parts.length > 2
+					redirect_back_or_to dashboard_path
+				else
+					redirect_to request.protocol + user.companies[0].slug + '.' + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80?":#{request.port}":'')
+				end
 			elsif user && authenticated && !user.isActive
 				flash.now[:error] = 'Account is inactive. Please check your inbox for activation link'
 			elsif user && !authenticated

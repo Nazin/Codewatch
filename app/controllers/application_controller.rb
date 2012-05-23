@@ -24,8 +24,9 @@ private
 	def is_signed_in
 		unless signed_in?
 			store_location
-			redirect_to signin_path, notice: "Please sign in" 
+			redirect_to signin_path, notice: "Please sign in"
 		end
+		signed_in?
 	end
 	
 	def is_guest
@@ -33,15 +34,14 @@ private
 	end
 	
 	def can_access_company
-		is_signed_in
-		if not @company.users.include?(@current_user)
+		if is_signed_in and not @company.users.include?(@current_user)
 			flash[:warning] = "You don't have access to that company"
 			redirect_home
 		end
 	end
 
 	def redirect_home
-		
+
 		domain_parts = request.host.split('.')
 		
 		if domain_parts.length > 2
