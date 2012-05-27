@@ -1,7 +1,19 @@
 class CreateTasks < ActiveRecord::Migration
-  def up
-  end
+	def change
+		create_table :tasks do |t|
+			t.string :title, limit: 64, null: false
+			t.text :description 
+			t.timestamp :posted, null: false
+			t.timestamp :updated
+			t.integer :state, limit: 1, null: false
+			t.date :deadline, null: false
+			t.references :project, null: false
+		#	t.references :milestone, null: false
+			t.references :user, null: false
+			t.belongs_to :responsible_user, null: false
 
-  def down
-  end
+			t.timestamps
+		end
+	end
+
 end

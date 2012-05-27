@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120527124309) do
+ActiveRecord::Schema.define(:version => 20120527154849) do
 
   create_table "code_snippets", :force => true do |t|
     t.string   "title",      :limit => 32, :null => false
@@ -19,12 +19,10 @@ ActiveRecord::Schema.define(:version => 20120527124309) do
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
     t.string   "lang"
-    t.string   "sha_url"
     t.string   "sha"
   end
 
   add_index "code_snippets", ["sha"], :name => "index_code_snippets_on_sha", :unique => true
-  add_index "code_snippets", ["sha_url"], :name => "index_code_snippets_on_sha_url", :unique => true
 
   create_table "companies", :force => true do |t|
     t.string "name", :limit => 32, :null => false
@@ -45,6 +43,20 @@ ActiveRecord::Schema.define(:version => 20120527124309) do
   create_table "projects_users", :id => false, :force => true do |t|
     t.integer "project_id"
     t.integer "user_id"
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.string   "title",               :limit => 64, :null => false
+    t.text     "description"
+    t.datetime "posted",                            :null => false
+    t.datetime "updated"
+    t.integer  "state",               :limit => 2,  :null => false
+    t.date     "deadline",                          :null => false
+    t.integer  "project_id",                        :null => false
+    t.integer  "user_id",                           :null => false
+    t.integer  "responsible_user_id",               :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "user_actions", :force => true do |t|

@@ -18,6 +18,7 @@ class Project < ActiveRecord::Base
 	
 	belongs_to :company
 	has_and_belongs_to_many :users
+	has_many :tasks
 	
 	attr_accessible :name, :ptype, :location, :user_ids
 	validates :company_id, presence: true

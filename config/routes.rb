@@ -1,5 +1,9 @@
 Www::Application.routes.draw do
 
+	resources :tasks, except: [:create, :update]
+	match '/tasks/new', to: 'tasks#new', via: :post
+	match '/tasks/:id/edit', to: 'tasls#edit'
+
 
 	resources :projects, except: [:create, :update]
 	match '/projects/new', to: 'projects#new', via: :post

@@ -5,7 +5,27 @@ namespace :db do
 		make_companies
 		make_roles
 		make_projects
+		make_tasks_for_admin
   end
+end
+
+
+def make_tasks_for_admin
+	admin = User.find_by_mail "admin@codewatch.pl"
+	project = admin.companies.find_by_id(2).projects.find_by_id 6
+	10.times do |n|
+		title = "task #{n}"
+		description = "descr"
+		posted = 1.day.ago
+		state = 1
+		deadline  = 1.day.from_now
+		task = Task.new title: title, description: description, state: state, deadline: deadline
+		task.posted= 0.days.from_now
+		task.user = admin
+		task.responsible_user = admin
+		task.project = project
+		task.save
+	end
 end
 
 def make_roles

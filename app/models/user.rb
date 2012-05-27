@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
 	has_many :user_companies
 	has_many :user_actions
 	has_many :companies, through: :user_companies
+	has_many :tasks
+	has_many :responsible_tasks, class_name: 'Task', foreign_key: :responsible_user_id
 	has_and_belongs_to_many  :projects
 	accepts_nested_attributes_for :user_companies, :user_actions
 
