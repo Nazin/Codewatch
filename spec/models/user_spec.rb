@@ -2,15 +2,17 @@
 #
 # Table name: users
 #
-#	 id							 :integer					not null, primary key
-#	 mail						 :string(64)			not null
-#	 name						 :string(32)			not null
-#	 fullName				 :string(64)
-#	 havePicture		 :boolean					default(FALSE)
-#	 created_at			 :datetime				not null
-#	 updated_at			 :datetime				not null
-#	 password_digest :string(255)
-#	 remember_token	 :string(255)
+#  id              :integer         not null, primary key
+#  mail            :string(64)      not null
+#  name            :string(32)      not null
+#  fullName        :string(64)
+#  havePicture     :boolean         default(FALSE)
+#  created_at      :datetime        not null
+#  updated_at      :datetime        not null
+#  password_digest :string(255)
+#  remember_token  :string(255)
+#  admin           :boolean         default(FALSE)
+#  isActive        :boolean         default(FALSE)
 #
 
 require 'spec_helper'

@@ -99,7 +99,7 @@ class UsersController < ApplicationController
 	def edit
 		
 		@user = current_user
-		
+	
 		if request.put?
 
 			if @user.update_attributes params[:user] #todo nie sprawdzanie hasel - osobny formularz do hasel, uploader obrazkow
@@ -107,7 +107,7 @@ class UsersController < ApplicationController
 				sign_in @user
 				redirect_to dashboard_path
 			else
-				flash[:warning] = "Invalid informations"
+				flash[:warning] = "#{@user.errors}a Invalid #{params[:user]} informations #{@user.inspect}"
 			end
 		end
 	end

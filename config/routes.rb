@@ -5,7 +5,9 @@ Www::Application.routes.draw do
 	match '/projects/new', to: 'projects#new', via: :post
 	match '/projects/:id/edit', to: 'projects#edit'
 
-	resources :users, only: [:index]
+
+	match '/users/edit', to: 'users#edit', as: :user_edit
+	resources :users, only: [:index,:show]
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
 	resources :cw_diffs, only: [:new, :create, :show]
 	resources :sessions, only: [:new, :create, :destroy]
@@ -21,8 +23,8 @@ Www::Application.routes.draw do
 	match '/signin', to: 'users#signin'
 	match '/signout', to: 'users#signout', via: :delete
 	match '/activate/:key', to: 'users#activate'
-	match '/users/edit', to: 'users#edit', as: :user_edit
-	match '/users/:id', to: 'users#show'
+
+#	match '/users/:id/edit', to: 'users#edit', as: :user_edit
 
 	match '/dashboard', to: 'projects#dashboard'
 	
