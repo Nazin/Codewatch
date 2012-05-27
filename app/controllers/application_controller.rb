@@ -16,6 +16,7 @@ private
 				flash[:warning] = "Given url is not correct"
 				redirect_home
 			end
+			current_company = @company
 		else
 			@company = nil
 		end

@@ -50,7 +50,7 @@ class UsersController < ApplicationController
 				if domain_parts.length > 2
 					redirect_back_or_to dashboard_path
 				else
-					redirect_to request.protocol + user.companies[0].slug + '.' + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80?":#{request.port}":'')
+					redirect_to request.protocol + user.companies[0].slug + '.' + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80? ":#{request.port}":'')
 				end
 			elsif user && authenticated && !user.isActive
 				flash.now[:error] = 'Account is inactive. Please check your inbox for activation link'

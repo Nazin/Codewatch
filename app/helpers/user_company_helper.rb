@@ -1,4 +1,9 @@
 module UserCompanyHelper 
+	
+	def current_company= company
+			@company = company
+	end
+
 
 	#TODO not sure if it works
 	def company_owner?
@@ -21,7 +26,9 @@ private
 	def has_role? role
 		#TODO @company ?? where does it come from?
 		#HOW where does this instance ( @company) comes from?
-		uc1 = UserCompany.where("company_id = ? and user_id = ?",@company.id, current_user.id).pluck(:role)
+		company_id = @company.id
+		user_id = current_user.id
+		uc1 = UserCompany.where("company_id = ? and user_id = ?",company_id, user_id).pluck(:role)
 		uc1.first == role
 	end
 

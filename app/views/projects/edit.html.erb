@@ -1,0 +1,11 @@
+<h1>Edit project</h1>
+
+<%=link_to "View projects", projects_path, :class => 'button r' %>
+
+<%= cw_form_for @project, url: edit_project_path do |f| %>
+	<%= f.text_field :name %>
+	<%= f.text_field :ptype %>
+	<%= f.text_field :location %>
+	<%= f.collection_select :user_ids, User.find(:all, :order => 'name'), :id, :name, {}, multiple: true%>
+	<%= f.submit "Save message" %>
+<% end %>
