@@ -1,7 +1,9 @@
 Www::Application.routes.draw do
 
 
-	resources :projects
+	resources :projects, except: [:create, :update]
+	match '/projects/new', to: 'projects#new'
+
 	resources :users, only: [:index]
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
 	resources :cw_diffs, only: [:new, :create, :show]
