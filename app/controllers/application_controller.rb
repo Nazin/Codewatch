@@ -29,6 +29,7 @@ private
 		signed_in?
 	end
 	
+	# pbatko: ?
 	def is_guest
 		redirect_to root_path, notice: "You already have an account" if signed_in?
 	end

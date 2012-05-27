@@ -1,7 +1,7 @@
 <li>
 Project name:	<%= project.name %></br>
-Repository type: <%= project.type %> </br>
+Repository type: <%= project.ptype %> </br>
 	<%= link_to "delete", project, method: :delete, confirm: "You sure?" %>
-	<%= link_to "edit", edit_project_path project  %>
+	<%= link_to "edit", edit_project_path(project)  %>
 	<%= link_to "view", project  %>
 </li></br>
