@@ -17,4 +17,12 @@ class UserMailer < ActionMailer::Base
 		
 		mail(:to => "#{@user.name} <#{@user.mail}>", :subject => "Welcome @ codewatch.pl")
 	end
+	
+	def invite_email to, company, key
+		
+		@company = company
+		@url = url_for :controller => 'users', :action => 'signup', :key => key
+		
+		mail(:to => to, :subject => "Invitation @ codewatch.pl")
+	end
 end

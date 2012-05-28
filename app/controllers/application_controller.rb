@@ -10,17 +10,22 @@ class ApplicationController < ActionController::Base
 private
 	
 	def check_company
+		
 		domain_parts = request.host.split('.')
+		
 		if domain_parts.length == 3
+			
 			@company = Company.find_by_slug domain_parts[0]
+			
 			if @company.nil?
 				flash[:warning] = "Given url is not correct"
 				redirect_home
 			end
-			current_company = @company
 		else
 			@company = nil
 		end
+		
+		@home = request.protocol + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80?":#{request.port}":'')
 	end
 	
 	def is_signed_in
@@ -48,7 +53,7 @@ private
 		domain_parts = request.host.split('.')
 		
 		if domain_parts.length > 2
-			redirect_to request.protocol + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80?":#{request.port}":'')
+			redirect_to @home
 		else
 			redirect_to root_path
 		end

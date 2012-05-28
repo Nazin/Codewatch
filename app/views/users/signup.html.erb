@@ -1,22 +1,18 @@
 <% provide(:title, 'Sign up') %>
 <h1>Sign up</h1>
 
-<%= cw_form_for @user, :url => signup_path do |f| %>
+<% url = @invitation.nil? ? signup_path : (url_for :controller => 'users', :action => 'signup', :key => @invitation.key) %>
+<%= cw_form_for @user, :url => url do |f| %>
 	<%= f.text_field :mail, label: 'Email' %>
 	<%= f.text_field :name, label: 'Name' %>
 	<%= f.password_field :password %>
 	<%= f.password_field :password_confirmation, label: 'Confirm Password' %>		
-	<%= f.fields_for :user_companies do |link| %>
-		<%= link.fields_for :company do |g| %>
-			<%= g.text_field :name, label: 'Company Name' %>
-		 <% end %>
+	<% if @invitation.nil? %>
+		<%= f.fields_for :user_companies do |link| %>
+			<%= link.fields_for :company do |g| %>
+				<%= g.text_field :name, label: 'Company Name' %>
+			<% end %>
+		<% end %>
 	<% end %>
 	<%= f.submit 'Create my account' %>
 <% end %>
-
-
-
-
-
-
-
