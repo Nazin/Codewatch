@@ -17,7 +17,7 @@ module ApplicationHelper
 		if subtitle.blank?
 			base
 		else
-			base + " | " + subtitle
+			subtitle + " | " + base
 		end
 	end
 

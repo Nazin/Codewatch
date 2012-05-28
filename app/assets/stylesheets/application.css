@@ -1,12 +1,3 @@
-/*
- * This is a manifest file that'll automatically include all the stylesheets
- * available in this directory and any sub-directories. You're free to add
- * application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style 
- * scope.
- *= require_self
- *= require_tree . 
-*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -20,156 +11,261 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		font-size: 100%;
-		font: inherit;
-		vertical-align: baseline;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
 body {
-		line-height: 1;
+	line-height: 1;
 }
 ol, ul {
-		list-style: none;
+	list-style: none;
 }
 blockquote, q {
-		quotes: none;
+	quotes: none;
 }
 blockquote:before, blockquote:after,q:before, q:after {
-		content: '';
-		content: none;
+	content: '';
+	content: none;
 }
 table {
-		border-collapse: collapse;
-		border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 a {
-		text-decoration: none;
+	text-decoration: none;
 }
 b, strong {
-		font-weight: bold;
+	font-weight: bold;
 }
 i, em {
-		font-style: italic;
+	font-style: italic;
+}
+.both {
+	clear: both;
+}
+.r {
+	float: right;
 }
 html, body {
-		height: 100%;
+	height: 100%;
 }
 body {
-		background: #2B2B2B url('../assets/top.png') repeat-x left top;
+	background-color: #3D3D3D;
+}
+body#basic {
+	background-image: url('../assets/top.png');
+	background-repeat: repeat-x;
+	background-position: left top;
 }
 body, input, select, textarea {
-		font-family: Tahoma,Arial,Helvetica,sans-serif;
-		font-size: 12px;
-		color: #141414;
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	color: #141414;
 }
-div#main {
-		margin: 0 auto;
-		width: 1000px;
-		min-height: 100%;
-		margin-bottom: -38px;
-		position: relative;
+body#basic div#main {
+	margin: 0 auto;
+	width: 1000px;
+	min-height: 100%;
+	margin-bottom: -38px;
+	position: relative;
 }
-div#top {
-		position: relative;
-		height: 318px;
+body#company div#main {
+	margin: 0 20px;
+	min-height: 100%;
+	margin-bottom: -64px;
+	position: relative;
 }
-div#logo {
-		position: absolute;
-		background: url('../assets/logo.png') no-repeat;
-		width: 631px;
-		height: 315px;
-		left: 50px;
+body#basic div#top {
+	position: relative;
+	height: 318px;
 }
-div#logo a {
-		display: block;
-		width: 235px;
-		height: 45px;
-		margin: 135px 0 0 143px;
+body#basic div#logo {
+	position: absolute;
+	background: url('../assets/logo.png') no-repeat;
+	width: 631px;
+	height: 315px;
+	left: 50px;
+}
+body#company div#logo {
+	float: right;
+	background: url('../assets/simpleLogo.png') no-repeat;
+	width: 230px;
+	height: 41px;
+}
+body#company div#top {
+	margin: 25px;
+}
+body#basic div#logo a {
+	display: block;
+	width: 235px;
+	height: 45px;
+	margin: 135px 0 0 143px;
+}
+body#company div#logo a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+div#branding {
+	font-size: 30px;
+	color: #fff;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+div#branding span {
+	font-size: 15px;
+}
+div#branding a {
+	font-size: 45px;
+	color: #30748E;
+	text-shadow: #000 1px 1px 1px;
+}
+div#projectsList {
+	width: 360px;
+	border: 1px solid #999;
+	padding: 20px;
+	float: right;
+	background: #ccc;
+	margin-right: 20px;
+}
+div#projectsList h4 {
+	font-weight: bold;
+	font-size: 17px;
+}
+div#projectsList ul {
+	margin: 30px 10px 10px 30px;
+}
+div#projectsList ul li {
+	color: #fff;
+	list-style-type: disc;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+div#projectsList ul li a {
+	color: #30748E;
+}
+div#nav, div#subnav {
+	margin-top: 15px;
+}
+div#nav ul li, div#subnav ul li {
+	border: 1px solid #222;
+	background: #164B5F;
+	display: inline-block;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+div#nav.r ul li {
+	background: #0D3342;
+}
+div#nav ul li.divider, div#subnav ul li.divider {
+	background: none;
+	border: 0;
+	width: 50px;
+}
+div#nav ul li a, div#subnav ul li a {
+	display: block;
+	color: #ddd;
+	padding: 5px 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
 }
 ul#nav {
-		text-transform: lowercase;
-		position: absolute;
-		right: 0px;
-		top: 159px;
+	text-transform: lowercase;
+	position: absolute;
+	right: 0px;
+	top: 159px;
 }
 ul#nav li {
-		display: inline-block;
-		margin-left: 25px;
+	display: inline-block;
+	margin-left: 25px;
 }
 ul#nav li a {
-		color: #396f84;
-		font-family: Verdana, Arial, Helvetica, sans-serif;
-		font-size: 14px;
+	color: #396f84;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
 }
 div#content {
-		margin: 25px 0;
-		background: #fff url('../assets/main.png') repeat-x left top;
-		border: 1px solid #fff;
-		padding: 25px;
-		-webkit-border-radius: 6px;
-		-moz-border-radius: 6px;
-		border-radius: 6px;
+	margin: 25px 0;
+	background: #fff url('../assets/main.png') repeat-x left top;
+	border: 1px solid #fff;
+	padding: 25px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 }
 div#clearFooter {
-		height: 38px;
-		clear: both;
+	height: 38px;
+	clear: both;
 }
 div#footer {
-		background: #0f0f0f;
-		position: relative;
+	background: #0f0f0f;
+	position: relative;
 }
 div#footerIn {
-		height: 26px;
-		margin: 0 auto;
-		width: 1000px;
-		background: url('../assets/footer.png') no-repeat 340px 0;
-		text-align: center;
-		padding-top: 12px;
-		color: #3e3e3e;
+	height: 26px;
+	margin: 0 auto;
+	width: 1000px;
+	background: url('../assets/footer.png') no-repeat 340px 0;
+	text-align: center;
+	padding-top: 12px;
+	color: #3e3e3e;
 }
 div#main h1 {
-		font-family: Georgia, "Times New Roman", Times, serif;
-		font-size: 26px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 26px;
 }
 div#main p {
-		margin: 10px 0;
-		line-height: 1.5;
+	margin: 10px 0;
+	line-height: 1.5;
 }
 .codewatchForm form {
-		margin-top: 15px;
+	margin-top: 15px;
 }
 .codewatchForm form label {
-		display: block;
-		font-weight: bold;
-		float: left;
-		width: 150px;
-		text-align: right;
-		margin-top: 5px;
+	display: block;
+	font-weight: bold;
+	float: left;
+	width: 150px;
+	text-align: right;
+	margin-top: 5px;
 }
 .codewatchForm form div.e {
-		clear: right;
-		margin: 0 0 10px 160px;
-		padding-bottom: 10px;
-		border-bottom: 1px dotted #ccc;
+	clear: right;
+	margin: 0 0 10px 160px;
+	padding-bottom: 10px;
+	border-bottom: 1px dotted #ccc;
 }
 .codewatchForm form div.e ul.errors {
-		font-size: 11px;
-		color: red;
-		margin: 5px;
+	font-size: 11px;
+	color: red;
+	margin: 5px;
 }
 .codewatchForm form input {
-		border: 1px solid #164B5F;
-		padding: 2px;
+	border: 1px solid #164B5F;
+	padding: 2px;
 }
 .codewatchForm form .send {
-		margin-left: 162px;
-		padding: 4px;
-		font-weight: bold;
-		background: red;
-		color: #fff;
-		border: 1px solid #141414;
+	margin-left: 162px;
+	padding: 4px;
+	font-weight: bold;
+	background: red;
+	color: #fff;
+	border: 1px solid #141414;
+}
+a.button {
+	border: 1px solid #000;
+	background: #30748E;
+	color: #fff;
+	font-weight: bold;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	padding: 3px 6px;
+	display: inline-block;
 }
 div.jGrowl {
 	z-index: 9999;
