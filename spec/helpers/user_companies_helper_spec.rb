@@ -18,15 +18,15 @@ describe UserCompanyHelper do
 
 	describe "user has_role? role method" do
 		before {
-			@result = has_role? UserCompany::ROLE_USER 
+			@result = has_role? UserCompany::ROLE_USER, false
 		}
 		it{ should be_true }
   end
 
 	
-	describe "ROLE_SPECTATOR" do
+	describe "USER should have SPECTATOR rights and more" do
 		before {@result = company_spectator? }
-		it { should be_false }
+		it { should be_true }
 	end
 
 
