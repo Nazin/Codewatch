@@ -24,7 +24,8 @@ Www::Application.routes.draw do
 	match '/about', to: 'page#about'
 	match '/contact', to: 'page#contact'
 	
-	match '/signup(/:key)', to: 'users#signup'
+	match '/signup', to: 'users#signup'
+	match '/signup/:key', to: 'users#signup'
 	match '/signin', to: 'users#signin'
 	match '/signout', to: 'users#signout', via: :delete
 	match '/activate/:key', to: 'users#activate'
