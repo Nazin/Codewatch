@@ -18,7 +18,9 @@
 # require 'digest/sha1'
 
 class User < ActiveRecord::Base
+	
 	attr_accessible :name, :mail , :password, :password_confirmation, :user_companies_attributes
+	
 	before_save :create_remember_token
 	has_secure_password	
 
@@ -35,7 +37,7 @@ class User < ActiveRecord::Base
 	validates :password, presence: true, length: {minimum: 6}, if: :should_validate_password?
 	validates :password_confirmation, presence: true, if: :should_validate_password?
 
- attr_accessor :updating_password
+	attr_accessor :updating_password
 private
 
 	def create_remember_token

@@ -13,7 +13,6 @@ class UserAction < ActiveRecord::Base
 	
 	TYPE_ACTIVATION = 1
 	TYPE_REMINDER = 2
-	TYPE_INVITATION = 3
 	
 	belongs_to :user, :autosave => true
 	

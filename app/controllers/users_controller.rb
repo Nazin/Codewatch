@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
 	
-	before_filter :can_access_company, only: [:index, :show]
-	before_filter :is_guest, only: [:signup, :signin, :activate]
+	before_filter :can_access_company, only: [:index, :show, :invite]
+	before_filter :is_guest, only: [:signin, :activate]
 	before_filter :is_signed_in, only: [:signout]
+	before_filter :company_owner?, only: [:invite]
 
 	def index
 		@users = @company.users.paginate page: params[:page]
@@ -10,17 +11,56 @@ class UsersController < ApplicationController
 	
 	def signup
 		
+		if not params[:key].nil?
+			
+			@invitation = Invitation.find_by_key_and_isActive params[:key], true
+			
+			if @invitation.nil?
+				redirect_to signup_path
+			else
+				
+				user = User.find_by_mail @invitation.mail
+				
+				if not user.nil?
+				
+					company = user.user_companies.build
+					company.role = @invitation.role
+					company.company = @invitation.company
+					company.save
+					
+					@invitation.isActive = false
+					@invitation.save
+					
+					flash[:success] = "You have accepted invitation"
+					
+					domain_parts = request.host.split('.')
+					
+					redirect_to request.protocol + @invitation.company.slug + '.' + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80?":#{request.port}":'')
+				end
+			end
+		end
+		
 		@user = User.new params[:user]
 
 		if request.post?
 
-			@user.user_companies[0].role = UserCompany::ROLE_OWNER
+			if @invitation.nil?
+				@user.user_companies[0].role = UserCompany::ROLE_OWNER
+			else
+				company = @user.user_companies.build
+				company.role = @invitation.role
+				company.company = @invitation.company
+			end
 			
-			@user.user_actions.build
-			@user.user_actions[0].atype = UserAction::TYPE_ACTIVATION
-			key = @user.user_actions[0].generate_key
+			action = @user.user_actions.build [atype: UserAction::TYPE_ACTIVATION]
+			key = action[0].generate_key
 			
 			if @user.save
+				
+				if not @invitation.nil?
+					@invitation.isActive = false
+					@invitation.save
+				end
 				
 				flash[:success] = "Before you can login, you must active your account with the code sent to your email address."
 				UserMailer.activate_email(@user, key).deliver
@@ -64,7 +104,7 @@ class UsersController < ApplicationController
 	
 	def signout
 		sign_out
-		redirect_to root_path
+		redirect_home
 	end
 	
 	def activate 
@@ -110,5 +150,35 @@ class UsersController < ApplicationController
 				flash[:warning] = "#{@user.errors}a Invalid #{params[:user]} informations #{@user.inspect}"
 			end
 		end
+	end
+	
+	def invite
+		
+		@invitation = @company.invitations.build params[:invitation]
+		
+		if request.post? and @invitation.valid?
+		
+			user = User.find_by_mail params[:invitation][:mail]
+			invitation = Invitation.find_by_mail params[:invitation][:mail]
+			
+			if user.companies.include? @company
+				flash.now[:warning] = "User already belongs to this company"
+			else
+				if not invitation.nil?
+					flash.now[:warning] = "User has already been invited"
+				else
+
+					key = @invitation.generate_key
+					@invitation.save
+
+					UserMailer.invite_email(params[:invitation][:mail], @company, key).deliver
+					
+					flash[:success] = "User invited"
+					redirect_to users_path
+				end			
+			end
+		end
+		
+		@roles = {'Select' => 0, 'Owner' => UserCompany::ROLE_OWNER, 'Admin' => UserCompany::ROLE_ADMIN, 'User' => UserCompany::ROLE_USER, 'Spectactor' => UserCompany::ROLE_SPECTATOR}
 	end
 end

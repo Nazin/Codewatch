@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120527154849) do
+ActiveRecord::Schema.define(:version => 20120528220158) do
 
   create_table "code_snippets", :force => true do |t|
     t.string   "title",      :limit => 32, :null => false
@@ -28,6 +28,16 @@ ActiveRecord::Schema.define(:version => 20120527154849) do
     t.string "name", :limit => 32, :null => false
     t.string "slug",               :null => false
   end
+
+  create_table "invitations", :force => true do |t|
+    t.string  "mail",       :limit => 64,                   :null => false
+    t.string  "key",        :limit => 32,                   :null => false
+    t.boolean "isActive",                 :default => true
+    t.integer "company_id",                                 :null => false
+    t.integer "role",       :limit => 2,                    :null => false
+  end
+
+  add_index "invitations", ["company_id"], :name => "index_invitations_on_company_id"
 
   create_table "projects", :force => true do |t|
     t.string   "name",       :limit => 32,  :null => false
@@ -51,7 +61,6 @@ ActiveRecord::Schema.define(:version => 20120527154849) do
     t.datetime "posted",                            :null => false
     t.datetime "updated"
     t.integer  "state",               :limit => 2,  :null => false
-    t.integer  "priority",            :limit => 2,  :null => false
     t.date     "deadline",                          :null => false
     t.integer  "project_id",                        :null => false
     t.integer  "user_id",                           :null => false
