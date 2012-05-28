@@ -14,13 +14,17 @@ class ProjectsController < ApplicationController
 	end
 
 	def new 
+		
 		@project = @company.projects.build params[:project]
+		
 		if request.post? && @project.save
 			flash[:succes] = "New project created"
 			redirect_to projects_path
 		elsif request.post?
 			flash[:warning] = "Invalid information"
 		end
+		
+		@types = {'Select' => 0, 'SVN' => Project::TYPE_SVN, 'GIT' => Project::TYPE_GIT}
 	end
 
 	def edit
