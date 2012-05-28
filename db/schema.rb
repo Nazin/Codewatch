@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(:version => 20120528204515) do
   create_table "tasks_histories", :force => true do |t|
     t.integer  "state",               :limit => 2, :null => false
     t.integer  "priority",            :limit => 2, :null => false
+    t.datetime "posted",                           :null => false
     t.integer  "task_id",                          :null => false
-    t.integer  "project_id",                       :null => false
     t.integer  "user_id",                          :null => false
     t.integer  "responsible_user_id",              :null => false
     t.datetime "created_at",                       :null => false

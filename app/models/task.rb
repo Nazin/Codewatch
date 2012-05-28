@@ -20,8 +20,9 @@ class Task < ActiveRecord::Base
 
 
 	belongs_to :project
-	belongs_to :user
+	belongs_to :user #TODO renamoe to owner then fix test and others
 	belongs_to :responsible_user, class_name: 'User', foreign_key: :responsible_user_id
+	has_many :tasks_histories
 
 	attr_accessible :title, :description, :state, :deadline, :responsible_user, :user_id, :priority, :responsible_user_id
 

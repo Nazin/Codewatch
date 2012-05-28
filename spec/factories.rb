@@ -10,6 +10,13 @@ FactoryGirl.define do
 		end
 	end
 
+	factory :responsible_user do
+		name "responsible"
+		mail "person_rres@example.com"	 
+		password "foobar"
+		password_confirmation "foobar"
+	end
+
 	
 	factory :company do
 		name "Google"
@@ -34,9 +41,11 @@ FactoryGirl.define do
 		state Task::State::ACTIVE
 		priority Task::Priority::IMPORTANT
 		deadline 2.days.from_now
-		responsible_user user
+		user
 		project
-		user user
+		after_build do |t|
+			t.responsible_user = FactoryGirl.create(:user)
+		end
 	end
 		
 end
