@@ -1,3 +1,11 @@
+<%= link_to "Back to project", @project %> <br />
+<%= link_to "Create new task", new_project_task_path(@project) %> <br />
+
+Company name: <%= @company.name %> <br/>
+Project name: <%= @project.name %> <br/>
+ <br/>
+<% if @tasks.empty? %>
+No tasks defined
+<% else %>
 <%= render @tasks %>
-<%= @company.inspect %> <br/>
-<%= @project.inspect %>
+<% end %>

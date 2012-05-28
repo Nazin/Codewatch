@@ -1,6 +1,6 @@
 <h1>Edit project</h1>
 
-<%=link_to "View projects", projects_path, :class => 'button r' %>
+<%=link_to "View project", @project, :class => 'button r' %>
 
 <%= cw_form_for @project, url: edit_project_path do |f| %>
 	<%= f.text_field :name %>

@@ -1,9 +1,14 @@
+<h1>Project details</h1>
+<%= link_to "Projects", projects_path %> <br />
+
 <%= link_to "Delete project", @project, method: :delete, confirm: "You sure?" %><br />
-<%= link_to "Edit project", edit_project_path(@project)  %><br />
+<%= link_to "Edit project details", edit_project_path(@project)  %><br />
 
 Project name:	<%= @project.name %><br />
 Repository type: <%= @project.ptype %> <br />
-
+<%= link_to "Tasks", project_tasks_path(@project) %> <br />
+<br />
+<br />
 Assigned people: <br />
 <% @users.each do |user| %>
 <%= render  template: 'projects/_project_user.html.erb', locals:  { user: user }  %>

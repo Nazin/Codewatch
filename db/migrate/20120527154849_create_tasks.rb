@@ -6,6 +6,7 @@ class CreateTasks < ActiveRecord::Migration
 			t.timestamp :posted, null: false
 			t.timestamp :updated
 			t.integer :state, limit: 1, null: false
+			t.integer :priority, limit: 1, null: false
 			t.date :deadline, null: false
 			t.references :project, null: false
 		#	t.references :milestone, null: false

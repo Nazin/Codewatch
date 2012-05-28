@@ -21,7 +21,7 @@ module UserCompanyHelper
   def company_spectator?
 		has_role? UserCompany::ROLE_SPECTATOR
 	end
-
+  
 private	
 	def has_role? role
 		#TODO @company ?? where does it come from?
