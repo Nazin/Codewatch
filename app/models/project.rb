@@ -13,6 +13,8 @@
 
 class Project < ActiveRecord::Base
 	
+	attr_accessible :name, :ptype, :location, :user_ids
+	
 	TYPE_SVN = 1
 	TYPE_GIT = 2
 	
@@ -20,7 +22,7 @@ class Project < ActiveRecord::Base
 	has_and_belongs_to_many :users
 	has_many :tasks
 	
-	attr_accessible :name, :ptype, :location, :user_ids
+	validates :user_ids, presence: true
 	validates :company_id, presence: true
 	validates :location, presence: true, length: {maximum: 128 }
 	validates :name, presence: true, length: {maximum: 32 }

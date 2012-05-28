@@ -2,8 +2,9 @@ class ProjectsController < ApplicationController
 	#TODO pbatko
 	# before_filter correct_project? hmm @project.nil?
 
-	before_filter :can_access_company, only: [:dashboard]
-	before_filter :company_owner?, only: [:new, :edit, :destroy]
+	before_filter :can_access_company
+	before_filter :company_admin?, only: [:new, :edit, :destroy]
+	
 	def index
 		@projects = current_user.projects
 	end
@@ -14,13 +15,17 @@ class ProjectsController < ApplicationController
 	end
 
 	def new 
+		
 		@project = @company.projects.build params[:project]
+		
 		if request.post? && @project.save
 			flash[:succes] = "New project created"
 			redirect_to projects_path
 		elsif request.post?
 			flash[:warning] = "Invalid information"
 		end
+		
+		@types = {'Select' => 0, 'SVN' => Project::TYPE_SVN, 'GIT' => Project::TYPE_GIT}
 	end
 
 	def edit
