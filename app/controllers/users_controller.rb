@@ -161,7 +161,7 @@ class UsersController < ApplicationController
 			user = User.find_by_mail params[:invitation][:mail]
 			invitation = Invitation.find_by_mail params[:invitation][:mail]
 			
-			if user.companies.include? @company
+			if not user.nil? and user.companies.include? @company
 				flash.now[:warning] = "User already belongs to this company"
 			else
 				if not invitation.nil?
