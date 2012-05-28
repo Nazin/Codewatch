@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120527154849) do
+ActiveRecord::Schema.define(:version => 20120528204515) do
 
   create_table "code_snippets", :force => true do |t|
     t.string   "title",      :limit => 32, :null => false
@@ -58,6 +58,17 @@ ActiveRecord::Schema.define(:version => 20120527154849) do
     t.integer  "responsible_user_id",               :null => false
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
+  end
+
+  create_table "tasks_histories", :force => true do |t|
+    t.integer  "state",               :limit => 2, :null => false
+    t.integer  "priority",            :limit => 2, :null => false
+    t.integer  "task_id",                          :null => false
+    t.integer  "project_id",                       :null => false
+    t.integer  "user_id",                          :null => false
+    t.integer  "responsible_user_id",              :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   create_table "user_actions", :force => true do |t|

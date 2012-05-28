@@ -1,6 +1,7 @@
 <%= link_to "Back to project", @project %> <br />
 <%= link_to "Create new task", new_project_task_path(@project) %> <br />
 
+<%= Task::State.to_list.inspect %> <br />
 Company name: <%= @company.name %> <br/>
 Project name: <%= @project.name %> <br/>
  <br/>
