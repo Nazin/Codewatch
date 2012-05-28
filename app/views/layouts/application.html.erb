@@ -18,9 +18,13 @@
 		</script>
 		<% end%>
 	</head>
-	<body>
+	<body id="<%=@company.nil? ? 'basic':'company'%>">
 		<div id="main">
-			<%= render "layouts/header" %>
+			<% if @company.nil? %>
+				<%= render "layouts/header" %>
+			<% else %>
+				<%= render "layouts/company_header" %>
+			<% end %>
 			<div id="content">
 				<%= yield %>
 			</div>

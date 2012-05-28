@@ -1,2 +1,23 @@
+<div id="projectsList">
+	
+	<% if has_role? UserCompany::ROLE_ADMIN, false %>
+		<%=link_to "Add new project", new_project_path, :class => 'button r' %>
+	<% end %>
+	
+	<h4>My projects</h4>
+	
+	<% if @projects.any? %>
+		<ul>
+			<% for project in @projects %>
+				<li><%= link_to project.name, project %></li>
+			<% end %>
+		</ul>
+	<% else %>
+		You don't have any projects.
+	<% end %>
+</div>
+
 <h1>Project#dashboard</h1>
 <p>Find me in app/views/project/dashboard.html.erb</p>
+
+<div class="both"></div>

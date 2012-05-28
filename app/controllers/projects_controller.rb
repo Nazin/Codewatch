@@ -47,6 +47,7 @@ class ProjectsController < ApplicationController
 	end
 
 	def dashboard
+		@projects = current_user.projects
 		#TODO pbatko
 		#introduce DashboardsController ?
 	end

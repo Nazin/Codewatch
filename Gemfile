@@ -1,16 +1,15 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '3.2.2'
 gem 'pg'
 gem 'pygments.rb', '~> 0.2.7' #highlight syntax:
 gem 'bcrypt-ruby', '3.0.1' #password_digest
 gem 'stringex', '~> 1.3.2' #string exstenions
 gem 'email_validator'
-gem 'bootstrap-sass', '2.0.0' #twitter css
+#gem 'bootstrap-sass', '2.0.0' #twitter css
 gem 'faker', '1.0.1' #creating sample users
 gem 'will_paginate', '3.0.3'
-gem 'bootstrap-will_paginate', '0.0.5'
+#gem 'bootstrap-will_paginate', '0.0.5'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

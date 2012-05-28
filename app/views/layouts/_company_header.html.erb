@@ -1,0 +1,25 @@
+<div id="top">
+	<div id="logo">
+		<%= link_to "", root_path %>
+	</div>
+	<div id="branding">
+		<% if not @project.nil? %>
+			<%=@project.name%> <span>by</span>
+		<% end %>
+		<%= link_to @company.name, dashboard_path %>
+	</div>
+	<div class="both"></div>
+	<div id="nav">
+		<ul>
+			<li><%= link_to "Projects", projects_path %></li>
+			<li><%= link_to "Users", users_path %></li>
+			<li><%= link_to "Settings", user_edit_path %></li>
+			<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
+		</ul>
+	</div>
+	<% if not @project.nil? %>
+		<div id="subnav">
+		
+		</div>
+	<% end %>
+</div>
