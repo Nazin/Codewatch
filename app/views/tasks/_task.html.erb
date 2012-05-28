@@ -1,13 +1,12 @@
 <li>
 Task title:	<%= task.title %><br />
-Responsible user: <%= task.responsible_user %> <br />
-User (me): <%= task.user %> <br />
-Description: <%= task.description %> <br />
+Responsible user: <%=link_to task.responsible_user.name, task.responsible_user%> <br />
+User (me): <%= task.user.name %> <br />
 Deadline: <%= task.deadline %> <br />
 Posted: <%= task.posted %> <br />
 Updated: <%= task.updated %> <br />
 State: <%= task.state %> <br />
-	<%= link_to "delete", task, method: :delete, confirm: "You sure?" %>
-	<%= link_to "edit", edit_task_path(task)  %>
-	<%= link_to "view", task  %>
+	<%= link_to "Delete", project_task_path(@project, task), method: :delete, confirm: "You sure?" %>
+	<%= link_to "Edit", edit_project_task_path(@project,task)  %>
+	<%= link_to "View", project_task_path(@project,task)  %>
 </li></br>

@@ -1,0 +1,18 @@
+<h1>Task details</h1>
+<%= link_to "Tasks", project_tasks_path(@project) %><br /><br />
+Task title:	<%= @task.title %><br />
+
+Description: <%= @task.description %> <br />
+
+Responsible user: <%=link_to @task.responsible_user.name, @task.responsible_user%> <br />
+Owner: <%= link_to @task.user.name, @task.user %> <br />
+Deadline: <%= @task.deadline %> <br />
+Posted: <%= @task.posted %> <br />
+Updated: <%= @task.updated %> <br />
+State: <%= @task.state %> <br /><br />
+
+	<%= link_to "delete", project_task_path(@project, @task), method: :delete, confirm: "You sure?" %>
+	<%= link_to "edit", edit_project_task_path(@project,@task)  %>
+
+</br>
+

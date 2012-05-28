@@ -22,8 +22,9 @@ class Task < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :responsible_user, class_name: 'User', foreign_key: :responsible_user_id
 
-	attr_accessible :title, :description, :state, :deadline, :responsible_user
+	attr_accessible :title, :description, :state, :deadline, :responsible_user, :user_id, :priority, :responsible_user_id
 
+	validates :priority, presence: true
 	validates :title, presence: true, length: {maximum: 64}
 	validates :user, presence: true
 	validates :responsible_user, presence: true

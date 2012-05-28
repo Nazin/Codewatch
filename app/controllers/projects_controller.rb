@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
 	#TODO pbatko
-	# before_filter correct_project? hmm
+	# before_filter correct_project? hmm @project.nil?
 
 	before_filter :can_access_company
 	before_filter :company_admin?, only: [:new, :edit, :destroy]

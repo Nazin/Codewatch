@@ -19,6 +19,7 @@ module UserCompanyHelper
 	def company_spectator?
 		has_role? UserCompany::ROLE_SPECTATOR, true
 	end
+
 private	
 
 	def has_role? role, redirect

@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20120527154849) do
     t.datetime "posted",                            :null => false
     t.datetime "updated"
     t.integer  "state",               :limit => 2,  :null => false
+    t.integer  "priority",            :limit => 2,  :null => false
     t.date     "deadline",                          :null => false
     t.integer  "project_id",                        :null => false
     t.integer  "user_id",                           :null => false

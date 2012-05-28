@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 	before_filter :check_company # provides @company field
 	
 	protect_from_forgery
+
 	include SessionsHelper
 	include UserCompanyHelper
 	
