@@ -147,18 +147,26 @@ div#projectsList ul li {
 div#projectsList ul li a {
 	color: #30748E;
 }
-div#nav {
+div#nav, div#subnav {
 	margin-top: 15px;
 }
-div#nav ul li {
+div#nav ul li, div#subnav ul li {
 	border: 1px solid #222;
-	background: #0D3342;
+	background: #164B5F;
 	display: inline-block;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 }
-div#nav ul li a {
+div#nav.r ul li {
+	background: #0D3342;
+}
+div#nav ul li.divider, div#subnav ul li.divider {
+	background: none;
+	border: 0;
+	width: 50px;
+}
+div#nav ul li a, div#subnav ul li a {
 	display: block;
 	color: #ddd;
 	padding: 5px 10px;
