@@ -21,7 +21,9 @@ FactoryGirl.define do
 		ptype 1
 		location "my_location"
 		company
-		user
+		after_build do |p|
+			p.users << FactoryGirl.create(:user)
+		end
 	end
 
 	factory :task do
@@ -34,7 +36,7 @@ FactoryGirl.define do
 		deadline 2.days.from_now
 		responsible_user user
 		project
-		users [user]
+		user user
 	end
 		
 end

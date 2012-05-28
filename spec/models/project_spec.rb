@@ -16,8 +16,12 @@ require 'spec_helper'
 describe Project do
 
 	let(:company) {FactoryGirl.create :company }	
+	let(:user) {FactoryGirl.create :user}
 
-	before { @project = company.projects.build name: "project_alpha", ptype: Project::TYPE_GIT, location: "localhost" }
+	before do
+		@project = company.projects.build name: "project_alpha", ptype: Project::TYPE_GIT, location: "localhost"
+		@project.users << user
+	end
 	
 	subject { @project }
 

@@ -20,11 +20,11 @@ require 'spec_helper'
 
 describe Task do
 	
-	let(:project) { FactoryGirl.create :project }
+	let!(:project) { FactoryGirl.create :project }
 	let(:user) {FactoryGirl.create :user }
 	let(:responsible_user) {FactoryGirl.create :user}
 
-	before { @task = Task.new(title: "Task1", state: 1, deadline: 1.year.from_now)
+	before { @task = Task.new(title: "Task1", state: 1, deadline: 1.year.from_now, priority: 1)
 		@task.posted = 0.days.from_now
 		@task.project = project
 		@task.user = user

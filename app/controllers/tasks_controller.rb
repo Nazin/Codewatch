@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
 	#TODO some/more filters ?
 
-	before_filter :owner_or_admin?, only: [:new, :edit, :destroy]
+	before_filter :company_admin?, only: [:new, :edit, :destroy]
 
 	def index
 
@@ -76,11 +76,6 @@ class TasksController < ApplicationController
 
 
 private
-
-	def owner_or_admin?
-	  company_owner? || company_admin?
-	end
-
 
 	#TODO pbatko scopes?
 	def tasks_of user, company, project
