@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120529143820) do
+ActiveRecord::Schema.define(:version => 20120529195251) do
 
   create_table "code_snippets", :force => true do |t|
     t.string   "title",      :limit => 32, :null => false
@@ -54,6 +54,22 @@ ActiveRecord::Schema.define(:version => 20120529143820) do
     t.integer "project_id"
     t.integer "user_id"
   end
+
+  create_table "servers", :force => true do |t|
+    t.string  "name",          :limit => 64,                    :null => false
+    t.text    "localRepoPath",                                  :null => false
+    t.text    "remotePath",                                     :null => false
+    t.integer "stype",         :limit => 2,                     :null => false
+    t.string  "host",          :limit => 64,                    :null => false
+    t.integer "port",                                           :null => false
+    t.string  "password",      :limit => 64,                    :null => false
+    t.integer "project_id",                                     :null => false
+    t.string  "revision",      :limit => 64
+    t.boolean "autoUpdate",                  :default => false
+    t.string  "username",      :limit => 64,                    :null => false
+  end
+
+  add_index "servers", ["project_id"], :name => "index_servers_on_project_id"
 
   create_table "tasks", :force => true do |t|
     t.string   "title",               :limit => 64, :null => false
