@@ -18,18 +18,17 @@
 
 class Task < ActiveRecord::Base
 
-
 	belongs_to :project
-	belongs_to :user #TODO renamoe to owner then fix test and others
-	belongs_to :responsible_user, class_name: 'User', foreign_key: :responsible_user_id
+	belongs_to :owner, class_name: 'User', foreign_key: :user_id
+	belongs_to :assigned_user, class_name: 'User', foreign_key: :responsible_user_id
 	has_many :tasks_histories
 
-	attr_accessible :title, :description, :state, :deadline, :responsible_user, :user_id, :priority, :responsible_user_id
+	attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner
 
 	validates :priority, presence: true
 	validates :title, presence: true, length: {maximum: 64}
-	validates :user, presence: true
-	validates :responsible_user, presence: true
+	validates :owner, presence: true
+	validates :assigned_user, presence: true
 	validates :project, presence: true
 	validates :deadline, presence: true
 	validates :posted, presence: true

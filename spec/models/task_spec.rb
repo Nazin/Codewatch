@@ -27,8 +27,8 @@ describe Task do
 	before { @task = Task.new(title: "Task1", state: 1, deadline: 1.year.from_now, priority: 1)
 		@task.posted = 0.days.from_now
 		@task.project = project
-		@task.user = user
-		@task.responsible_user = responsible_user
+		@task.owner = user
+		@task.assigned_user = responsible_user
 		@task.save
 		
  }
@@ -36,25 +36,21 @@ describe Task do
 	subject { @task }
 	
 	it { should respond_to :project }
-	it { should respond_to :user }
-	it { should respond_to :responsible_user }
+	it { should respond_to :owner }
+	it { should respond_to :assigned_user }
+	it { should respond_to :tasks_histories }
 	it { should be_valid }
 	
-	its(:user) {should == user}
-	its(:user) {should_not == responsible_user}
+	its(:owner) {should == user}
+	its(:owner) {should_not == responsible_user}
 
-	its(:responsible_user) {should_not == user}
-	its(:responsible_user) {should == responsible_user}
+	its(:assigned_user) {should_not == user}
+	its(:assigned_user) {should == responsible_user}
 
 	describe "accessible attributes" do
 		it "should not allow access to posted" do
 			expect do
 				Task.new posted: 1.year.from_now
-			end.should raise_error ActiveModel::MassAssignmentSecurity::Error
-		end
-			it "should not allow access to user" do
-			expect do
-				Task.new user: user
 			end.should raise_error ActiveModel::MassAssignmentSecurity::Error
 		end
 		it "should not allow access to updated" do
@@ -87,12 +83,12 @@ describe Task do
 			before { @task.project = nil }
 			it { should_not be_valid }
 		end
-		describe "user" do
-			before { @task.user = nil }
+		describe "owner" do
+			before { @task.owner = nil }
 			it { should_not be_valid }
 		end	
-		describe "responsible_user" do
-			before { @task.responsible_user = nil}
+		describe "assigned_user" do
+			before { @task.assigned_user = nil}
 			it { should_not be_valid }
 		end
 	end

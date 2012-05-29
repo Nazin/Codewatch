@@ -41,10 +41,10 @@ FactoryGirl.define do
 		state Task::State::ACTIVE
 		priority Task::Priority::IMPORTANT
 		deadline 2.days.from_now
-		user
 		project
 		after_build do |t|
-			t.responsible_user = FactoryGirl.create(:user)
+			t.owner =  FactoryGirl.create(:user)
+			t.assigned_user = FactoryGirl.create(:user)
 		end
 	end
 		

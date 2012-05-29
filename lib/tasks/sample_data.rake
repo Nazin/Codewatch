@@ -22,8 +22,8 @@ def make_tasks_for_admin
 		deadline  = 1.day.from_now
 		task = Task.new priority: 1, title: title, description: description, state: state, deadline: deadline
 		task.posted= 0.days.from_now
-		task.user = admin
-		task.responsible_user = admin
+		task.owner = admin
+		task.assigned_user = admin
 		task.project = project
 		task.save
 	end

@@ -34,8 +34,10 @@ describe User do
 	it { should respond_to :remember_token }
 	it { should respond_to :admin }
 	it { should respond_to :projects }
-	it { should respond_to :tasks } #TODO test if returns correct values
-	it { should respond_to :responsible_tasks } #TODO test if returns correct values
+	it { should respond_to :owned_tasks } #TODO test if returns correct values
+	it { should respond_to :assigned_tasks } #TODO test if returns correct values
+	it { should respond_to :owned_tasks_histories }
+	it { should respond_to :assigned_tasks_histories }
 
 	it { should be_valid }
 	it { should_not be_admin }
