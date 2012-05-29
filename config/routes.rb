@@ -1,13 +1,25 @@
 Www::Application.routes.draw do
 
+
+	match '/projects/new', to: 'projects#new', via: [:get, :post]
+	match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put]
+	
 	resources :projects, except: [:create, :update] do
 		resources :tasks, except: [:create, :update]
 	end
-	
+
 	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: [:get,:post], as: :new_project_task
 	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get,:put],  as: :edit_project_task
 	match '/projects/new', to: 'projects#new', via: [:get, :post]
 	match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put]
+
+	match '/tasks/:task_id/tasks_histories', to: 'tasks_histories#index', via: :get, as: :task_tasks_histories
+	match '/tasks/:task_id/tasks_histories/:id', to: 'tasks_histories#show', via: :get,  as: :task_tasks_history
+
+
+
+	match 'projects/:project_id/tasks/new', to: 'tasks#new', via: [:get,:post], as: :new_project_task
+	match 'projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get,:put],  as: :edit_project_task
 
 	match '/users/edit', to: 'users#edit', as: :user_edit
 	match '/users/:id/edit', to: 'users#update', as: :users_edit
@@ -26,6 +38,9 @@ Www::Application.routes.draw do
 	match '/about', to: 'page#about'
 	match '/contact', to: 'page#contact'
 	
+
+#	match '/signup(/:key)', to: 'users#signup', as: :signup #a moze tak zadziala?
+
 	match '/signup', to: 'users#signup'
 	match '/signup/:key', to: 'users#signup'
 	match '/signin', to: 'users#signin'
