@@ -1,6 +1,6 @@
 <% provide :title, 'Servers' %>
 
-<% if has_role? UserCompany::ROLE_ADMIN, false %>
+<% if admin? %>
 	<%=link_to "Add new server", new_server_path, :class => 'button r' %>
 <% end %>
 
@@ -12,10 +12,10 @@
 		<div class="server">
 			<h4><%=server.name%></h4>
 			<span><%=server.revision == ''?'No revisions deployed':'Revision on server: '+server.revision%></span>
-			<% if has_role? UserCompany::ROLE_USER, false %>
+			<% if user? %>
 				<span>
 					<a href="">Deploy</a>
-					<% if has_role? UserCompany::ROLE_ADMIN, false %>
+					<% if admin? %>
 						<%=link_to 'Edit', edit_server_path(@project, server)%>
 						<%=link_to 'Delete', project_server_path(@project, server), method: :delete, confirm: 'Are you sure?'%>
 					<% end %>

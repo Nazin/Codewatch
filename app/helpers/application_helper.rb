@@ -32,4 +32,13 @@ module ApplicationHelper
 		role.admin? false
 	end
 
+	def owner?
+		role = UserCompany::Role.new @company, current_user
+		role.owner? false
+	end
+	
+	def user?
+		role = UserCompany::Role.new @company, current_user
+		role.user? false
+	end
 end

@@ -19,21 +19,23 @@ class UserCompany < ActiveRecord::Base
 	validates :role, presence: true, inclusion: { in: 1..4 }
 
 	class Role
+		
 		OWNER = 1
 		ADMIN = 2
 		USER = 3
 		SPECTATOR = 4
-		
 
 		def self.to_hash
-			{OWNER => 'OWNER',
-				ADMIN => 'ADMIN',
-				USER =>  'USER',
-				SPECTATOR => 'SPECTATOR'}
+			{
+				'Owner' => OWNER,
+				'Admin' => ADMIN,
+				'User' => USER,
+				'Spectactor' => SPECTATOR
+			}
 		end
 		
 		def self.to_list
-			to_hash.keys
+			to_hash
 		end
 
 		def initialize company, user
@@ -59,6 +61,7 @@ class UserCompany < ActiveRecord::Base
 		private	
 		
 		def has_role? role, redirect=true
+			
 			uc1 = UserCompany.where("company_id = ? and user_id = ?", @company.id, @user.id).pluck(:role)
 			
 			if uc1.first > role and redirect
@@ -68,10 +71,5 @@ class UserCompany < ActiveRecord::Base
 			
 			uc1.first <= role
 		end
-		
-		
-		
 	end
-
-
 end

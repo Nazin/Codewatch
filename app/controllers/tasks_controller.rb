@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
 	#TODO some/more filters ?
 
-	before_filter :can_access_company
+	before_filter :company_member?
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
 
 	def index

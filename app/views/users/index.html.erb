@@ -1,6 +1,6 @@
 <% provide :title, 'Users' %>
 
-<% if has_role? UserCompany::ROLE_OWNER, false %>
+<% if owner? %>
 	<%=link_to "Invite new user", users_invite_path, :class => 'button r' %>
 <% end %>
 
