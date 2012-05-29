@@ -26,6 +26,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'rmagick' #requires on ubuntu: apt-get install libmagick9-dev
 
 
 group :development do

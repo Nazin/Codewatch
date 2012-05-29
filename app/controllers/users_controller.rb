@@ -2,8 +2,9 @@ class UsersController < ApplicationController
 	
 	before_filter :can_access_company, only: [:index, :show, :invite]
 	before_filter :is_guest, only: [:signin, :activate]
-	before_filter :is_signed_in, only: [:signout]
-	before_filter :company_owner?, only: [:invite]
+	before_filter :is_signed_in, only: [:signout, :edit, :remove_avatar]
+	before_filter :company_owner?, only: [:invite, :destroy, :update]
+	before_filter :get_roles, only: [:show, :invite, :update]
 
 	def index
 		@users = @company.users.paginate page: params[:page]
@@ -139,17 +140,30 @@ class UsersController < ApplicationController
 	def edit
 		
 		@user = current_user
+		@avatar = @user.avatar
 	
 		if request.put?
 
-			if @user.update_attributes params[:user] #todo nie sprawdzanie hasel - osobny formularz do hasel, uploader obrazkow
+			if @user.update_attributes params[:user]
 				flash[:success] = "Profile updated"
 				sign_in @user
 				redirect_to dashboard_path
 			else
-				flash[:warning] = "#{@user.errors}a Invalid #{params[:user]} informations #{@user.inspect}"
+				flash.now[:warning] = "Invalid informations"
 			end
 		end
+	end
+	
+	def remove_avatar
+		
+		FileUtils.remove_file File.join('public', 'upload', 'avatars', current_user.avatar), true
+		
+		current_user.avatar = nil
+		current_user.save!
+		
+		flash[:success] = "Avatar removed"
+		sign_in current_user
+		redirect_to user_edit_path
 	end
 	
 	def invite
@@ -178,7 +192,29 @@ class UsersController < ApplicationController
 				end			
 			end
 		end
+	end
+	
+	def update
 		
+		@user = User.find params[:id]
+		@user_company = UserCompany.find_by_user_id_and_company_id params[:id], @company.id
+		
+		if request.put? and @user_company.update_attributes params[:user_company]
+			flash[:succes] = "User updated"
+			redirect_to users_path
+		elsif request.put?
+			flash[:warning] = "Invalid information"
+		end
+	end
+	
+	def destroy
+		user_company = UserCompany.find_by_user_id_and_company_id params[:id], @company.id
+		user_company.destroy
+		flash[:success] = "User removed from company"
+		redirect_to users_path
+	end
+	
+	def get_roles
 		@roles = {'Select' => 0, 'Owner' => UserCompany::ROLE_OWNER, 'Admin' => UserCompany::ROLE_ADMIN, 'User' => UserCompany::ROLE_USER, 'Spectactor' => UserCompany::ROLE_SPECTATOR}
 	end
 end

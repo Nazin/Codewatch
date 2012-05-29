@@ -23,3 +23,5 @@
 
 
 bundler_stubs/
+
+/public/upload/avatars/*

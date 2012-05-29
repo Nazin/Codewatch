@@ -17,7 +17,7 @@ class Invitation < ActiveRecord::Base
 	belongs_to :company, :autosave => true
 	
 	validates :mail, presence: true, length: {maximum: 64}, email: {strict_mode: true}
-	validates :role, presence: true
+	validates :role, presence: true, inclusion: { in: 1..4 }
 	
 	def generate_key
 		

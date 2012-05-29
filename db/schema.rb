@@ -11,6 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+
 ActiveRecord::Schema.define(:version => 20120529183648) do
 
   create_table "code_snippets", :force => true do |t|
@@ -69,8 +70,12 @@ ActiveRecord::Schema.define(:version => 20120529183648) do
     t.datetime "posted",                            :null => false
     t.datetime "updated"
     t.integer  "state",               :limit => 2,  :null => false
+<<<<<<< HEAD
     t.integer  "priority",            :limit => 2,  :null => false
     t.date     "deadline"
+=======
+    t.date     "deadline",                          :null => false
+>>>>>>> 597fec1dcbc184edb5eca230736406905ed4f8d0
     t.integer  "project_id",                        :null => false
     t.integer  "milestone_id",                      :null => false
     t.integer  "user_id",                           :null => false
@@ -112,13 +117,13 @@ ActiveRecord::Schema.define(:version => 20120529183648) do
     t.string   "mail",            :limit => 64,                    :null => false
     t.string   "name",            :limit => 32,                    :null => false
     t.string   "fullName",        :limit => 64
-    t.boolean  "havePicture",                   :default => false
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
     t.string   "password_digest"
     t.string   "remember_token"
     t.boolean  "admin",                         :default => false
     t.boolean  "isActive",                      :default => false
+    t.string   "avatar",          :limit => 16
   end
 
   add_index "users", ["mail"], :name => "index_users_on_mail"

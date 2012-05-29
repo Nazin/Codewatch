@@ -6,6 +6,13 @@
 
 <h1>All users</h1>
 
-<ul class="users">
-	<%= render @users %>
-</ul>
+<% for user in @users %>
+	<div class="user">
+		<a href="<%=url_for user_path(user)%>"><img src="<%=(not user.avatar.nil?) ? '/upload/avatars/'+user.avatar : '/assets/default_avatar.jpg'%>" alt="<%=user.name%>" /></a>
+		<%=link_to user.name, user_path(user)%> 
+		<% if not user.fullName.nil? and user.fullName != '' %>
+			(<%=user.fullName%>)
+		<% end %>
+		<span><%=user.mail%></span>
+	</div>
+<% end %>

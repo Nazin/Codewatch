@@ -10,6 +10,8 @@
 
 class UserCompany < ActiveRecord::Base
 	
+	attr_accessible :role, :company_attributes
+	
 	ROLE_OWNER = 1
 	ROLE_ADMIN = 2
 	ROLE_USER = 3
@@ -18,5 +20,6 @@ class UserCompany < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :company
 	accepts_nested_attributes_for :company
-	attr_accessible :role, :company_attributes
+	
+	validates :role, presence: true, inclusion: { in: 1..4 }
 end
