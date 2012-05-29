@@ -6,6 +6,6 @@
 	<%= f.text_field :name %>
 	<%= f.text_field :ptype %>
 	<%= f.text_field :location %>
-	<%= f.collection_select :user_ids, User.find(:all, :order => 'name'), :id, :name, {}, multiple: true%>
+	<%= f.collection_select :user_ids, @company.users.find(:all, :order => 'name'), :id, :name, {}, multiple: true, label: 'Users'%>
 	<%= f.submit "Save message" %>
 <% end %>
