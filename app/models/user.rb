@@ -19,7 +19,8 @@
 
 class User < ActiveRecord::Base
 	
-	attr_accessible :name, :mail , :password, :password_confirmation, :user_companies_attributes
+	attr_accessible :name, :mail , :password, :password_confirmation, :user_companies_attributes, :fullName, :avatar
+	attr_accessor :updating_password
 	
 	before_save :create_remember_token
 	has_secure_password	
@@ -37,8 +38,9 @@ class User < ActiveRecord::Base
 	validates :name, presence: true, length: {maximum: 32, minimum: 3}
 	validates :password, presence: true, length: {minimum: 6}, if: :should_validate_password?
 	validates :password_confirmation, presence: true, if: :should_validate_password?
-
-	attr_accessor :updating_password
+	validate :avatar_validation, if: "avatar?"
+			
+	before_update :avatar_upload
 private
 
 	def create_remember_token
@@ -47,5 +49,33 @@ private
 
 	def should_validate_password?
 		updating_password || new_record?
+	end
+	
+	def avatar_upload
+
+		if not avatar.nil? and not avatar.is_a?(String)
+			
+			if not avatar_was.nil?
+				FileUtils.remove_file File.join('public', 'upload', 'avatars', avatar_was), true
+			end
+			
+			name_parts = avatar.original_filename.split '.'
+
+			file = File.join 'public', 'upload', 'avatars', id.to_s + '.' + name_parts[name_parts.length-1]
+			FileUtils.cp_r avatar.tempfile.path, file
+
+			require 'rmagick'
+
+			image = Magick::Image::read(file).first
+			image.resize_to_fill! 50
+			image.write file
+			image.destroy!
+
+			self.avatar = id.to_s + '.' + name_parts[name_parts.length-1]
+		end
+	end
+	
+	def avatar_validation
+		errors[:avatar] << "should be image" if not avatar.nil? and not avatar.is_a?(String) and not ['image/jpeg', 'image/png', 'image/gif'].include? avatar.content_type
 	end
 end

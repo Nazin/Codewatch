@@ -1,14 +1,28 @@
 <% provide(:title, @user.name) %>
-<h1><%= @user.name %></h1>
 
-<div class="row">
+<% if has_role? UserCompany::ROLE_OWNER, false and @user != current_user %>
+	<%=link_to "Remove from company", @user, method: :delete, confirm: "Are you sure?", :class => 'button r'%>
+	<%=link_to "Edit", users_edit_path(@user), :class => 'button r' %>
+<% end %>
 
-<ul>
-	<li>Name: <%= @user.name %> </li>
-	<li>Email: <%= @user.mail %>	</li>
-	<% @user.user_companies.each do |link| %>
-	<li>Company::Role: <%= link.company.name %> :: <%= link.role %>	 </li>
+<h1><%=@user.name%></h1>
+
+<img src="<%=(not @user.avatar.nil?) ? '/upload/avatars/'+@user.avatar : '/assets/default_avatar.jpg'%>" alt="<%=@user.name%>" />
+
+<div class="box">
+	
+	<b>Name</b>: <%=@user.name%><br />
+	
+	<% if not @user.fullName.nil? and @user.fullName != '' %>
+		<b>Full name</b>: <%=@user.fullName%><br />
 	<% end %>
-</ul>
-
+		
+	<b>Email</b>: <%=@user.mail%><br />
+	
+	<% @user.user_companies.each do |link| 
+		if link.company != @company 
+			next 
+		end%>
+		<b>Company role</b>: <%=@roles.keys[link.role]%></li>
+	<% end %>
 </div>

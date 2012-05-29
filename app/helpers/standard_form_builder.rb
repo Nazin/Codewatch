@@ -20,13 +20,20 @@ class StandardFormBuilder < ActionView::Helpers::FormBuilder
 			if @object && label.present? && @object.errors.keys.include?(label) && @object.errors[label].any?
 
 				@object.errors[label].each do |item|
-					errors += @template.content_tag("li", custom_label + " " + item) 
+					errors += @template.content_tag "li", custom_label + " " + item
 				end
-				errors = @template.content_tag("ul", errors.html_safe, :class => 'errors')
+				
+				errors = @template.content_tag "ul", errors.html_safe, :class => 'errors'
+			end
+			
+			description = ''
+			
+			if not options[:description].nil?
+				  description = @template.content_tag "p", options[:description]
 			end
 			
 			@template.content_tag("label", custom_label, :for => "#{@object_name}_#{label}") + 
-			@template.content_tag("div", super(label, *(args << options)) + errors, :class => 'e')
+				@template.content_tag("div", super(label, *(args << options)) + errors + description, :class => 'e')
 		end
 	end
 	

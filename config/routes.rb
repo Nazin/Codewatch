@@ -1,18 +1,20 @@
 Www::Application.routes.draw do
 
 	resources :projects, except: [:create, :update] do
-			resources :tasks, except: [:create, :update]
+		resources :tasks, except: [:create, :update]
 	end
 	
-	match 'projects/:project_id/tasks/new', to: 'tasks#new', via: [:get,:post], as: :new_project_task
-	match 'projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get,:put],  as: :edit_project_task
+	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: [:get,:post], as: :new_project_task
+	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get,:put],  as: :edit_project_task
 	match '/projects/new', to: 'projects#new', via: [:get, :post]
 	match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put]
 
 	match '/users/edit', to: 'users#edit', as: :user_edit
+	match '/users/:id/edit', to: 'users#update', as: :users_edit
 	match '/users/invite', to: 'users#invite'
+	match '/users/remove_avatar', to: 'users#remove_avatar', via: :delete
 	
-	resources :users, only: [:index,:show]
+	resources :users, only: [:index, :show, :destroy]
 	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
 	resources :cw_diffs, only: [:new, :create, :show]
 	resources :sessions, only: [:new, :create, :destroy]

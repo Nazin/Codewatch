@@ -26,7 +26,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-
+gem 'rmagick'
 
 group :development do
   gem 'annotate', '~> 2.4.1.beta' #annotate models with schema info

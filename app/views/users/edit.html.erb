@@ -1,8 +1,16 @@
-<% provide(:title, 'Edit user') %>
+<% provide(:title, 'Edit my profile') %>
 <h1>Update your profile</h1>
 
-<%= cw_form_for @user, url: user_edit_path do |f| %>
-	<%= f.text_field :mail, label: 'Email' %>
-	<%= f.text_field :name, label: 'Name' %>
+<%= cw_form_for @user, html: { multipart:  true }, url: user_edit_path do |f| %>
+	<%= f.text_field :name %>
+	<%= f.text_field :fullName, label: 'Full name' %>
+	<%= f.file_field :avatar, description: 'Image will be resized to 50x50' %>
+	<% if not @avatar.nil? %>
+		<label>Current avatar</label>
+		<div class="e">
+			<img src="/upload/avatars/<%=@avatar%>" alt="My avatar" /><br />
+			<%= link_to "Remove avatar", users_remove_avatar_path, method: :delete, confirm: "Are you sure?" %>
+		</div>
+	<% end %>
 	<%= f.submit "Save changes" %>
 <% end %>
