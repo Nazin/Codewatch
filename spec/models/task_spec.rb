@@ -29,7 +29,6 @@ describe Task do
 
 
 	before { @task = Task.new(title: "Task1", state: 1, deadline: 1.year.from_now, priority: 1)
-		@task.posted = 0.days.from_now
 		@task.project = project
 		@task.owner = user
 		@task.assigned_user = assigned_user
@@ -50,8 +49,8 @@ describe Task do
 
 	it { should respond_to :title }
 	it { should respond_to :description }
-	it { should respond_to :posted }
-	it { should respond_to :updated }
+	it { should respond_to :created_at}
+	it { should respond_to :updated_at }
 	it { should respond_to :priority }
 	it { should respond_to :deadline }
 
@@ -69,11 +68,6 @@ describe Task do
 				Task.new posted: 1.year.from_now
 			end.should raise_error ActiveModel::MassAssignmentSecurity::Error
 		end
-		it "should not allow access to updated" do
-			expect do
-				Task.new updated: 1.year.from_now
-			end.should raise_error ActiveModel::MassAssignmentSecurity::Error
-		end
 		it "should not allow access to project" do
 			expect do
 				Task.new project: project
@@ -82,10 +76,6 @@ describe Task do
 	end
 
 
-	describe "posted exists" do
-		before { @task.posted = nil }
-		it { should_not be_valid }
-	end
 
 
 	describe "references exists" do

@@ -28,12 +28,10 @@ def make_tasks_for_admin
 	10.times do |n|
 		title = "task #{n}"
 		description = "descr"
-		posted = 1.day.ago
 		state = 1
 		priority = 1
 		deadline  = 1.day.from_now
 		task = Task.new priority: 1, title: title, description: description, state: state, deadline: deadline
-		task.posted= 0.days.from_now
 		task.owner = admin
 		task.assigned_user = admin
 		task.project = project

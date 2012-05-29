@@ -33,7 +33,7 @@ class Task < ActiveRecord::Base
 	validates :owner, presence: true
 	validates :assigned_user, presence: true
 	validates :project, presence: true
-	validates :posted, presence: true
+
 
 
 	around_update :create_history_entry
@@ -80,7 +80,7 @@ class Task < ActiveRecord::Base
 
 	def create_history_entry
 		posted = 0.days.from_now
-		history = tasks_histories.build state: state, priority: priority, posted: posted
+		history = tasks_histories.build state: state, priority: priority
 		history.owner = owner
 		history.assigned_user = assigned_user
 		yield

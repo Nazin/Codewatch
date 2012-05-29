@@ -36,8 +36,6 @@ FactoryGirl.define do
 	factory :task do
 		sequence(:title)	 { |n| "maj task#{n}" }
 		description "to jest bardzo trudny task"
-		posted 1.day.ago
-		updated 1.hour.ago
 		state Task::State::ACTIVE
 		priority Task::Priority::IMPORTANT
 		deadline 2.days.from_now
