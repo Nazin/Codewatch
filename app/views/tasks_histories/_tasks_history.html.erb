@@ -1,5 +1,5 @@
 <li>
-Task title:	<%= link_to @task.title, @task %><br />
+Task title:	<%= link_to @task.title, project_task_path(@task.project,@task) %><br />
 Changed: <%= tasks_history.posted %> <br />
 <%= link_to "Details", task_tasks_history_path(@task, tasks_history)  %>
 </li></br>
