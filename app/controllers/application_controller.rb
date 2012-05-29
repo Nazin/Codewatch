@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 	
-	before_filter :check_company # provides @company field
+	before_filter :inspect_url_for_company # provides @company field
 	
 	protect_from_forgery
 
@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 	
 private
 	
-	def check_company
+	def inspect_url_for_company
 		
 		domain_parts = request.host.split('.')
 		
@@ -32,7 +32,7 @@ private
 		@home = request.protocol + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80? ":#{request.port}":'')
 	end
 	
-	def is_signed_in
+	def is_signed_in?
 		unless signed_in?
 			store_location
 			redirect_to signin_path, notice: "Please sign in"
@@ -40,22 +40,40 @@ private
 		signed_in?
 	end
 	
-	# pbatko: ?
-	def is_guest
-		redirect_to root_path, notice: "You already have an account" if signed_in?
+	def not_signed_in?
+		redirect_to root_path, notice: "You have already singed in" if not signed_in?
 	end
 	
-	def can_access_company
-		if is_signed_in and not @company.users.include?(@current_user)
+	def have_account?
+		redirect_to root_path, notice: "You already have an account" if signed_in?
+	end
+		
+	def company_member?
+		unless @company.users.include?(current_user)
+			flash[:warning] = "You don't have access to that company"
+			redirect_home
+		end
+	end
+
+	def company_owner?
+		role = UserCompany::Role.new @company, current_user
+		unless role.owner?
+			flash[:warning] = "You don't have access to that company"
+			redirect_home
+		end
+	end
+	
+	
+	def company_admin?
+		role = UserCompany::Role.new @company, current_user
+		unless role.admin?
 			flash[:warning] = "You don't have access to that company"
 			redirect_home
 		end
 	end
 
 	def redirect_home
-
 		domain_parts = request.host.split('.')
-		
 		if domain_parts.length > 2
 			redirect_to @home
 		else

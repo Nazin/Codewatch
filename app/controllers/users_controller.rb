@@ -1,9 +1,19 @@
 class UsersController < ApplicationController
-	
-	before_filter :can_access_company, only: [:index, :show, :invite, :destroy, :update]
-	before_filter :is_guest, only: [:signin, :activate]
-	before_filter :is_signed_in, only: [:signout, :edit, :remove_avatar]
+
+	# Semantics of access control filters
+	# e.g1:
+	# to access all actions only: [:signin, :activate]
+	# you must be :not_singed_in
+	# e.g2:
+	# to access only: [:invite, :destroy, :update]
+	# you must be :company_owner?
+	before_filter :is_signed_in?, except: [:signin, :activate]
+	before_filter :not_singed_in?, only: [:signin, :activate]
+	before_filter :have_account?, only: :signup
+	before_filter :company_member?, only: [:index, :show, :invite, :destroy, :update]
 	before_filter :company_owner?, only: [:invite, :destroy, :update]
+
+
 	before_filter :get_roles, only: [:show, :invite, :update]
 
 	def index
