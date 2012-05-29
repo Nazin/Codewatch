@@ -5,26 +5,37 @@ namespace :db do
 		make_companies
 		make_roles
 		make_projects
+		make_milestones
 		make_tasks_for_admin
   end
 end
 
 
+def make_milestones
+	admin = User.find_by_mail "admin@codewatch.pl"
+	projects = admin.companies.find_by_id(2).projects
+	
+	projects.each_with_index do |p,i|
+		milestone = p.milestones.build name: "milestone-#{i+10}", deadline: 1.year.from_now
+		milestone.save
+	end
+end
+
 def make_tasks_for_admin
 	admin = User.find_by_mail "admin@codewatch.pl"
 	project = admin.companies.find_by_id(2).projects.find_by_id 6
+	milestone = project.milestones[0]
 	10.times do |n|
 		title = "task #{n}"
 		description = "descr"
-		posted = 1.day.ago
 		state = 1
 		priority = 1
 		deadline  = 1.day.from_now
 		task = Task.new priority: 1, title: title, description: description, state: state, deadline: deadline
-		task.posted= 0.days.from_now
 		task.owner = admin
 		task.assigned_user = admin
 		task.project = project
+		task.milestone = milestone
 		task.save
 	end
 end
@@ -61,35 +72,36 @@ def make_users
                    password: password,
                    password_confirmation: password)
 	end
-
-	def make_companies
-		10.times do |n|
-			slug = "fake-slug-#{n}"
-			name = "fake-name-#{n}"
-			Company.create slug: slug, name: name
-		end
-	end
-
-	def make_projects 
-		users = User.all limit: 3
-		users.each do |u|
-			c = u.companies[0]
-			6.times do |n|
-				name = "fake-project-#{n}"
-				ptype = n%2+1
-				location = "fake-location-#{n}"
-				project_params = { name: name, ptype: ptype, location: location }
-				associate_user_company_project u, c, project_params
-			end
-		end 
-	end
-
-private
-	
-	def associate_user_company_project u, c, project_params
-		p = c.projects.build project_params
-		p.users << u
-		p.save!
-	end
-	
 end
+
+def make_companies
+	10.times do |n|
+		slug = "fake-slug-#{n}"
+		name = "fake-name-#{n}"
+		Company.create slug: slug, name: name
+	end
+end
+
+def make_projects 
+	users = User.all limit: 3
+	users.each do |u|
+		c = u.companies[0]
+		6.times do |n|
+			name = "fake-project-#{n}"
+			ptype = n%2+1
+			location = "fake-location-#{n}"
+			project_params = { name: name, ptype: ptype, location: location }
+			associate_user_company_project u, c, project_params
+		end
+	end 
+end
+
+
+
+def associate_user_company_project u, c, project_params
+	p = c.projects.build project_params
+	p.users << u
+	p.save!
+end
+
+

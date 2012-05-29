@@ -24,8 +24,7 @@ describe TasksHistory do
 	before do
 		state = Task::State::CLOSED
 		priority = Task::Priority::NEGLIGIBLE
-		posted = 1.minute.ago #task.updated
-			@task_history = task.tasks_histories.build state: state, priority: priority, posted: posted
+				@task_history = task.tasks_histories.build state: state, priority: priority
 		@task_history.owner = user
 		@task_history.assigned_user = responsible
 		@task_history.task = task
@@ -43,7 +42,7 @@ describe TasksHistory do
 	end
 
 	it {should respond_to :priority }
-	it {should respond_to :posted }
+	it {should respond_to :created_at }
 	it {should respond_to :state }
 
 
@@ -71,10 +70,6 @@ describe TasksHistory do
 			before { @task_history.priority = nil }
 			it { should_not be_valid }
 		end	
-		describe "posted" do
-			before { @task_history.posted = nil}
-			it { should_not be_valid }
-		end
 	end
 
 	describe "priority with not allowed value" do

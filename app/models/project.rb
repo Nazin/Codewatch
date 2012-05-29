@@ -22,7 +22,8 @@ class Project < ActiveRecord::Base
 	has_and_belongs_to_many :users
 	has_many :tasks
 	has_many :servers
-	
+	has_many :milestones
+
 	validates :user_ids, presence: true
 	validates :company_id, presence: true
 	validates :location, presence: true, length: {maximum: 128 }

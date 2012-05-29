@@ -10,21 +10,15 @@ FactoryGirl.define do
 		end
 	end
 
-	factory :responsible_user do
-		name "responsible"
-		mail "person_rres@example.com"	 
-		password "foobar"
-		password_confirmation "foobar"
-	end
 
 	
 	factory :company do
-		name "Google"
+		sequence(:name)	 { |n| "Google#{n}" }		
 		slug "goo"
 	end
 
 	factory :project do
-		name "my_project"
+		sequence(:name)	 { |n| "my_project#{n}" }
 		ptype 1
 		location "my_location"
 		company
@@ -33,19 +27,25 @@ FactoryGirl.define do
 		end
 	end
 
+	factory :milestone do
+		sequence(:name)	 { |n| "majlstoln#{n}" }
+		deadline 1.month.from_now
+		project
+	end
+
 	factory :task do
-		title "moj task"
+		sequence(:title)	 { |n| "maj task#{n}" }
 		description "to jest bardzo trudny task"
-		posted 1.day.ago
-		updated 1.hour.ago
 		state Task::State::ACTIVE
 		priority Task::Priority::IMPORTANT
 		deadline 2.days.from_now
 		project
+	
 		after_build do |t|
 			t.owner =  FactoryGirl.create(:user)
 			t.assigned_user = FactoryGirl.create(:user)
-		end
+			t.milestone = FactoryGirl.create(:milestone)
+	end
 	end
 		
 end

@@ -18,7 +18,7 @@ class TasksHistory < ActiveRecord::Base
 	belongs_to :owner, class_name: 'User', foreign_key: :user_id
 	belongs_to :assigned_user, class_name: 'User', foreign_key: :responsible_user_id
 
-	attr_accessible :state, :priority, :posted, :owner, :assigned_user
+	attr_accessible :state, :priority, :owner, :assigned_user
 
 	validates :task, presence: true
 	validates :owner, presence: true
@@ -26,7 +26,6 @@ class TasksHistory < ActiveRecord::Base
 	
 	validates :state, presence: true
 	validates :priority, presence: true
-	validates :posted, presence: true
 
 	validate :priority_allowed_values
 	validate :state_allowed_values

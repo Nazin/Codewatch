@@ -55,7 +55,7 @@ class TasksController < ApplicationController
 			@task = @project.tasks.find_by_id params[:id]
 			if @task.update_attributes params[:task]
 				flash[:succes] = "Task updated"
-				redirect_to project_tasks_path(@project)
+				redirect_to project_task_path(@project,@task)
 			else 
 				flash[:warning] = "Invalid information"
 			end
