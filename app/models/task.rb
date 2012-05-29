@@ -9,8 +9,9 @@
 #  updated             :datetime
 #  state               :integer(2)      not null
 #  priority            :integer(2)      not null
-#  deadline            :date            not null
+#  deadline            :date
 #  project_id          :integer         not null
+#  milestone_id        :integer         not null
 #  user_id             :integer         not null
 #  responsible_user_id :integer         not null
 #  created_at          :datetime        not null
@@ -23,6 +24,7 @@ class Task < ActiveRecord::Base
 	belongs_to :owner, class_name: 'User', foreign_key: :user_id
 	belongs_to :assigned_user, class_name: 'User', foreign_key: :responsible_user_id
 	has_many :tasks_histories
+	belongs_to :milestone
 
 	attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner
 
@@ -31,7 +33,6 @@ class Task < ActiveRecord::Base
 	validates :owner, presence: true
 	validates :assigned_user, presence: true
 	validates :project, presence: true
-	validates :deadline, presence: true
 	validates :posted, presence: true
 
 

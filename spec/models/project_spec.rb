@@ -33,6 +33,7 @@ describe Project do
 	it { should respond_to :company_id }
 	it { should respond_to :users }
 	it { should respond_to :tasks } #TODO test if returns correct values
+	it { should respond_to :milestones }
 	its(:company) {should == company }
 	it { should be_valid }
 

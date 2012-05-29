@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120528220158) do
+ActiveRecord::Schema.define(:version => 20120529183648) do
 
   create_table "code_snippets", :force => true do |t|
     t.string   "title",      :limit => 32, :null => false
@@ -39,6 +39,14 @@ ActiveRecord::Schema.define(:version => 20120528220158) do
 
   add_index "invitations", ["company_id"], :name => "index_invitations_on_company_id"
 
+  create_table "milestones", :force => true do |t|
+    t.string   "name",       :limit => 32, :null => false
+    t.datetime "deadline"
+    t.integer  "project_id",               :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
   create_table "projects", :force => true do |t|
     t.string   "name",       :limit => 32,  :null => false
     t.integer  "ptype",      :limit => 2,   :null => false
@@ -62,8 +70,9 @@ ActiveRecord::Schema.define(:version => 20120528220158) do
     t.datetime "updated"
     t.integer  "state",               :limit => 2,  :null => false
     t.integer  "priority",            :limit => 2,  :null => false
-    t.date     "deadline",                          :null => false
+    t.date     "deadline"
     t.integer  "project_id",                        :null => false
+    t.integer  "milestone_id",                      :null => false
     t.integer  "user_id",                           :null => false
     t.integer  "responsible_user_id",               :null => false
     t.datetime "created_at",                        :null => false

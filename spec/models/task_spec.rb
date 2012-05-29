@@ -9,8 +9,9 @@
 #  updated             :datetime
 #  state               :integer(2)      not null
 #  priority            :integer(2)      not null
-#  deadline            :date            not null
+#  deadline            :date
 #  project_id          :integer         not null
+#  milestone_id        :integer         not null
 #  user_id             :integer         not null
 #  responsible_user_id :integer         not null
 #  created_at          :datetime        not null
@@ -20,33 +21,47 @@
 require 'spec_helper'
 
 describe Task do
-	
+
+	let(:milestone) {FactoryGirl.create :milestone}
 	let!(:project) { FactoryGirl.create :project }
 	let(:user) {FactoryGirl.create :user }
-	let(:responsible_user) {FactoryGirl.create :user}
+	let(:assigned_user) {FactoryGirl.create :user}
+
 
 	before { @task = Task.new(title: "Task1", state: 1, deadline: 1.year.from_now, priority: 1)
 		@task.posted = 0.days.from_now
 		@task.project = project
 		@task.owner = user
-		@task.assigned_user = responsible_user
+		@task.assigned_user = assigned_user
+		@task.milestone = milestone
 		@task.save
 		
  }
 	
 	subject { @task }
 	
-	it { should respond_to :project }
-	it { should respond_to :owner }
-	it { should respond_to :assigned_user }
-	it { should respond_to :tasks_histories }
+	describe "assocations" do
+		it { should respond_to :project }
+		it { should respond_to :owner }
+		it { should respond_to :assigned_user }
+		it { should respond_to :tasks_histories }
+		it { should respond_to :milestone }
+	end
+
+	it { should respond_to :title }
+	it { should respond_to :description }
+	it { should respond_to :posted }
+	it { should respond_to :updated }
+	it { should respond_to :priority }
+	it { should respond_to :deadline }
+
 	it { should be_valid }
 	
 	its(:owner) {should == user}
-	its(:owner) {should_not == responsible_user}
+	its(:owner) {should_not == assigned_user}
 
 	its(:assigned_user) {should_not == user}
-	its(:assigned_user) {should == responsible_user}
+	its(:assigned_user) {should == assigned_user}
 
 	describe "accessible attributes" do
 		it "should not allow access to posted" do
@@ -66,12 +81,6 @@ describe Task do
 		end
 	end
 
-
-
-	describe "deadline exists" do
-		before { @task.deadline = nil }
-		it { should_not be_valid }
-	end
 
 	describe "posted exists" do
 		before { @task.posted = nil }
