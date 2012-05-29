@@ -11,9 +11,6 @@
 
 class UserAction < ActiveRecord::Base
 	
-	TYPE_ACTIVATION = 1
-	TYPE_REMINDER = 2
-	
 	belongs_to :user, :autosave => true
 	
 	def generate_key
@@ -22,5 +19,22 @@ class UserAction < ActiveRecord::Base
 		self.key = (0..31).map{o[rand(o.length)]}.join;
 		
 		self.key
+	end
+	
+	class Type
+		
+		ACTIVATION = 1 
+		REMINDER = 2
+		
+		def self.to_hash
+			{
+				'Activation' => ACTIVATION,
+				'Reminder' => REMINDER,
+			}
+		end
+		
+		def self.to_list
+			to_hash
+		end
 	end
 end

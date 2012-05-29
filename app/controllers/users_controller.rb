@@ -53,7 +53,7 @@ class UsersController < ApplicationController
 				company.company = @invitation.company
 			end
 			
-			action = @user.user_actions.build [atype: UserAction::TYPE_ACTIVATION]
+			action = @user.user_actions.build [atype: UserAction::Type::ACTIVATION]
 			key = action[0].generate_key
 			
 			if @user.save
@@ -110,7 +110,7 @@ class UsersController < ApplicationController
 	
 	def activate 
 		
-		user_action = UserAction.find_by_key_and_isActive_and_atype params[:key], true, UserAction::TYPE_ACTIVATION
+		user_action = UserAction.find_by_key_and_isActive_and_atype params[:key], true, UserAction::Type::ACTIVATION
 		
 		if user_action
 			

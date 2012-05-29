@@ -1,5 +1,6 @@
-<% provide(:title, 'Edit my profile') %>
-<h1>Update your profile</h1>
+<% provide(:title, 'Update my profile') %>
+
+<h1>Update my profile</h1>
 
 <%= cw_form_for @user, html: { multipart:  true }, url: user_edit_path do |f| %>
 	<%= f.text_field :name %>

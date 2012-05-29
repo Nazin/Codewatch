@@ -56,11 +56,14 @@ html, body {
 }
 body {
 	background-color: #3D3D3D;
-}
-body#basic {
 	background-image: url('../assets/top.png');
 	background-repeat: repeat-x;
+}
+body#basic {
 	background-position: left top;
+}
+body#company {
+	background-position: left -69px;
 }
 body, input, select, textarea {
 	font-family: Tahoma,Arial,Helvetica,sans-serif;
@@ -158,9 +161,14 @@ div#nav ul li, div#subnav ul li {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+	opacity: 0.6;
+}
+div#nav ul li:hover, div#subnav ul li:hover {
+	opacity: 1;
 }
 div#nav.r ul li {
 	background: #0D3342;
+	border: 1px solid #30748E;
 }
 div#nav ul li.divider, div#subnav ul li.divider {
 	background: none;
@@ -270,7 +278,7 @@ a.button {
 	display: inline-block;
 	margin-left: 15px;
 }
-div.user {
+div.user, div.server {
 	display: inline-block;
 	margin: 10px;
 	width: 250px;
@@ -285,14 +293,22 @@ div.user img {
 div.user a {
 	font-size: 16px;
 }
-div.user span {
+div.user span, div.server span {
 	display: block;
 	margin: 5px 0;
+}
+div.server span a {
+	display: inline-block;
+	margin-right: 15px;
 }
 div.box {
 	margin: 20px;
 	line-height: 1.3;
 	font-size: 14px;
+}
+div.server h4 {
+	color: #164B5F;
+	font-size: 16px;
 }
 div.jGrowl {
 	z-index: 9999;

@@ -5,14 +5,17 @@ Www::Application.routes.draw do
 	
 	resources :projects, except: [:create, :update] do
 		resources :tasks, except: [:create, :update]
-		resources :servers, except: [:create, :update]
+		resources :servers, except: [:create, :update, :show]
 	end
 
+	match '/projects/:project_id/servers/new', to: 'servers#new', via: [:get, :post], as: :new_server
+	match '/projects/:project_id/servers/:id/edit', to: 'servers#edit', via: [:get, :put], as: :edit_server
+	
 	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: [:get, :post], as: :new_project_task
-	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get, :put],  as: :edit_project_task
+	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get, :put], as: :edit_project_task
 
 	match '/tasks/:task_id/tasks_histories', to: 'tasks_histories#index', via: :get, as: :task_tasks_histories
-	match '/tasks/:task_id/tasks_histories/:id', to: 'tasks_histories#show', via: :get,  as: :task_tasks_history
+	match '/tasks/:task_id/tasks_histories/:id', to: 'tasks_histories#show', via: :get, as: :task_tasks_history
 
 	match '/users/edit', to: 'users#edit', as: :user_edit
 	match '/users/:id/edit', to: 'users#update', as: :users_edit

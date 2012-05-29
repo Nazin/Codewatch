@@ -1,0 +1,28 @@
+<%= cw_form_for @server, url: @url do |f| %>
+	<%= f.text_field :name %>
+	<%= f.text_field :localRepoPath, label: 'Source path' %>
+	<%= f.select :stype, Server::Type.to_list, label: 'Type', include_blank: true %>
+	<%= f.text_field :host %>
+	<%= f.text_field :port %>
+	<%= f.text_field :remotePath, label: 'Path' %>
+	<%= f.text_field :username %>
+	<%= f.text_field :password %>
+	<%= f.text_field :revision %>
+	<%= f.check_box :autoUpdate %>
+	<%= f.submit "Save server" %>
+<% end %>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+	$(document).ready(function() {
+		
+		$('#server_stype').change(function() {
+			
+			if ($(this).val() == <%=Server::Type::SFTP_PASSWORD%>)
+				$('#server_port').val(22);
+			else
+				$('#server_port').val(21);
+		});
+	});
+/* ]]> */
+</script>

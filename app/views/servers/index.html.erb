@@ -1,0 +1,28 @@
+<% provide :title, 'Servers' %>
+
+<% if has_role? UserCompany::ROLE_ADMIN, false %>
+	<%=link_to "Add new server", new_server_path, :class => 'button r' %>
+<% end %>
+
+<h1>Servers</h1>
+
+<% if @servers.any? %>
+	
+	<% for server in @servers %>
+		<div class="server">
+			<h4><%=server.name%></h4>
+			<span><%=server.revision == ''?'No revisions deployed':'Revision on server: '+server.revision%></span>
+			<% if has_role? UserCompany::ROLE_USER, false %>
+				<span>
+					<a href="">Deploy</a>
+					<% if has_role? UserCompany::ROLE_ADMIN, false %>
+						<%=link_to 'Edit', edit_server_path(@project, server)%>
+						<%=link_to 'Delete', project_server_path(@project, server), method: :delete, confirm: 'Are you sure?'%>
+					<% end %>
+				</span>
+			<% end %>
+		</div>
+	<% end %>
+<% else %>
+	<p>You don't have any deployment servers!</p>
+<% end %>
