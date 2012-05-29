@@ -15,7 +15,7 @@
 				<li><%= link_to "Projects", projects_path %></li>
 				<li><%= link_to "Users", users_path %></li>
 				<li><%= link_to "Settings", user_edit_path %></li>
-				<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
+				<li><%= link_to "Sign out", signout_path, method: :delete, confirm: "Are you sure?" %></li>
 			</ul>
 		</div>
 	<% end %>
