@@ -5,9 +5,10 @@
 #  id                  :integer         not null, primary key
 #  title               :string(64)      not null
 #  description         :text
-#  posted              :datetime
+#  posted              :datetime        not null
 #  updated             :datetime
 #  state               :integer(2)      not null
+#  priority            :integer(2)      not null
 #  deadline            :date            not null
 #  project_id          :integer         not null
 #  user_id             :integer         not null

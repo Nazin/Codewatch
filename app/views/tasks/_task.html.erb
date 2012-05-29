@@ -1,7 +1,7 @@
 <li>
 Task title:	<%= task.title %><br />
-Responsible user: <%=link_to task.responsible_user.name, task.responsible_user%> <br />
-User (me): <%= task.user.name %> <br />
+Assigned user: <%=link_to task.assigned_user.name, task.assigned_user%> <br />
+Owner: <%= task.owner.name %> <br />
 Deadline: <%= task.deadline %> <br />
 Posted: <%= task.posted %> <br />
 Updated: <%= task.updated %> <br />

@@ -77,6 +77,7 @@ class TasksController < ApplicationController
 
 private
 
+
 	#TODO pbatko scopes?
 	def tasks_of user, company, project
 		""" builds sql query to select of given user, company, project"""

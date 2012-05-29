@@ -4,15 +4,17 @@ Task title:	<%= @task.title %><br />
 
 Description: <%= @task.description %> <br />
 
-Responsible user: <%=link_to @task.responsible_user.name, @task.responsible_user%> <br />
-Owner: <%= link_to @task.user.name, @task.user %> <br />
+Assigned user: <%=link_to @task.assigned_user.name, @task.assigned_user%> <br />
+Owner: <%= link_to @task.owner.name, @task.owner %> <br />
 Deadline: <%= @task.deadline %> <br />
 Posted: <%= @task.posted %> <br />
 Updated: <%= @task.updated %> <br />
 State: <%= @task.state %> <br /><br />
 
-	<%= link_to "delete", project_task_path(@project, @task), method: :delete, confirm: "You sure?" %>
-	<%= link_to "edit", edit_project_task_path(@project,@task)  %>
+
+	<%= link_to "History", task_tasks_histories_path(@task) %>
+	<%= link_to "Delete", project_task_path(@project, @task), method: :delete, confirm: "You sure?" %>
+	<%= link_to "Edit", edit_project_task_path(@project,@task)  %>
 
 </br>
 

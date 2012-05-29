@@ -1,0 +1,15 @@
+<h1>Task history entry details</h1>
+
+Task title:	<%= link_to @task.title, @task %><br />
+Changed: <%= @tasks_history.posted %> <br />
+
+State: <%= @tasks_history.state %> <br />
+Priority: <%= @tasks_history.priority %> <br />
+
+Assigned user: <%=link_to @tasks_history.assigned_user.name, @tasks_history.assigned_user%> <br />
+Owner: <%= link_to @tasks_history.owner.name, @tasks_history.owner %> <br />
+
+
+
+
+<%= link_to "Back to History", task_tasks_histories_path(@task)  %>

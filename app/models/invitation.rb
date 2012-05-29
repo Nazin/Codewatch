@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: invitations
+#
+#  id         :integer         not null, primary key
+#  mail       :string(64)      not null
+#  key        :string(32)      not null
+#  isActive   :boolean         default(TRUE)
+#  company_id :integer         not null
+#  role       :integer(2)      not null
+#
+
 class Invitation < ActiveRecord::Base
 	
 	attr_accessible :mail, :role

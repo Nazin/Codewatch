@@ -1,0 +1,9 @@
+<%= link_to "Back to task current state", @task %> <br />
+
+
+
+<% if @tasks_histories.empty? %>
+No history
+<% else %>
+<%= render @tasks_histories %>
+<% end %>

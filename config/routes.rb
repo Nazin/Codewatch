@@ -5,8 +5,14 @@ Www::Application.routes.draw do
 	match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put]
 	
 	resources :projects, except: [:create, :update] do
-			resources :tasks, except: [:create, :update]
+		resources :tasks, except: [:create, :update]
 	end
+
+	#task histories
+	match '/tasks/:task_id/tasks_histories', to: 'tasks_histories#index', via: :get, as: :task_tasks_histories
+	match '/tasks/:task_id/tasks_histories/:id', to: 'tasks_histories#show', via: :get,  as: :task_tasks_history
+
+
 
 	match 'projects/:project_id/tasks/new', to: 'tasks#new', via: [:get,:post], as: :new_project_task
 	match 'projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get,:put],  as: :edit_project_task
