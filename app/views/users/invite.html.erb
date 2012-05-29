@@ -4,6 +4,6 @@
 
 <%= cw_form_for @invitation, url: users_invite_path do |f| %>
 	<%= f.text_field :mail, label: 'Email' %>
-	<%= f.select :role, @roles %>
+	<%= f.select :role, UserCompany::Role.to_list, include_blank: true %>
 	<%= f.submit 'Invite' %>
 <% end %>

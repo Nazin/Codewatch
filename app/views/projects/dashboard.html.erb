@@ -1,6 +1,6 @@
 <div id="projectsList">
 	
-	<% if has_role? UserCompany::ROLE_ADMIN, false %>
+	<% if admin? %>
 		<%=link_to "Add new project", new_project_path, :class => 'button r' %>
 	<% end %>
 	

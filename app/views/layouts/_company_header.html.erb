@@ -25,7 +25,7 @@
 				<li><a href="">Source</a></li>
 				<li><%=link_to "Tasks", project_tasks_path(@project)%></li>
 				<li><%=link_to "Deployment", project_servers_path(@project)%></li>
-				<% if has_role? UserCompany::ROLE_ADMIN, false %>
+				<% if admin? %>
 					<li class="divider"></li>
 					<li><%= link_to "Edit", edit_project_path(@project)  %></li>
 					<li><%= link_to "Delete", @project, method: :delete, confirm: "Are you sure?" %></li>

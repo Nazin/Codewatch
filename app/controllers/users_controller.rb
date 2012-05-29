@@ -4,7 +4,6 @@ class UsersController < ApplicationController
 	before_filter :is_guest, only: [:signin, :activate]
 	before_filter :is_signed_in, only: [:signout, :edit, :remove_avatar]
 	before_filter :company_owner?, only: [:invite, :destroy, :update]
-	before_filter :get_roles, only: [:show, :invite, :update]
 
 	def index
 		@users = @company.users.paginate page: params[:page]
@@ -46,7 +45,7 @@ class UsersController < ApplicationController
 		if request.post?
 
 			if @invitation.nil?
-				@user.user_companies[0].role = UserCompany::ROLE_OWNER
+				@user.user_companies[0].role = UserCompany::Role::OWNER
 			else
 				company = @user.user_companies.build
 				company.role = @invitation.role
@@ -212,9 +211,5 @@ class UsersController < ApplicationController
 		user_company.destroy
 		flash[:success] = "User removed from company"
 		redirect_to users_path
-	end
-	
-	def get_roles
-		@roles = {'Select' => 0, 'Owner' => UserCompany::ROLE_OWNER, 'Admin' => UserCompany::ROLE_ADMIN, 'User' => UserCompany::ROLE_USER, 'Spectactor' => UserCompany::ROLE_SPECTATOR}
 	end
 end

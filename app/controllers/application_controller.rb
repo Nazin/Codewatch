@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
 	include SessionsHelper
 
-	
 private
 	
 	def check_company
@@ -52,6 +51,16 @@ private
 		end
 	end
 
+	def company_owner?
+		r = UserCompany::Role.new @company, current_user 
+		r.owner?
+	end
+	
+	def company_admin?
+		r = UserCompany::Role.new @company, current_user 
+		r.admin?
+	end
+	
 	def redirect_home
 
 		domain_parts = request.host.split('.')
