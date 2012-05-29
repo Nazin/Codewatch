@@ -52,5 +52,11 @@ class ProjectsController < ApplicationController
 		#introduce DashboardsController ?
 	end
 	
+	private
+
+	def company_admin?
+		role = UserCompany::Role.new @company, current_user
+		role.admin?
+	end
 
 end

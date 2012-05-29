@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 	protect_from_forgery
 
 	include SessionsHelper
-	include UserCompanyHelper
+
 	
 private
 	
@@ -29,7 +29,7 @@ private
 			@company = nil
 		end
 		
-		@home = request.protocol + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80?":#{request.port}":'')
+		@home = request.protocol + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80? ":#{request.port}":'')
 	end
 	
 	def is_signed_in

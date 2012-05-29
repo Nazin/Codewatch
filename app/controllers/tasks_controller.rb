@@ -78,6 +78,12 @@ class TasksController < ApplicationController
 
 private
 
+	def company_admin?
+		role = UserCompany::Role.new @company, current_user
+		role.admin?
+	end
+
+
 
 	#TODO pbatko scopes?
 	def tasks_of user, company, project

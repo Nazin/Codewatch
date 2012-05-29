@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 					
 					domain_parts = request.host.split('.')
 					
-					redirect_to request.protocol + @invitation.company.slug + '.' + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80?":#{request.port}":'')
+					redirect_to request.protocol + @invitation.company.slug + '.' + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80? ":#{request.port}":'')
 				end
 			end
 		end
