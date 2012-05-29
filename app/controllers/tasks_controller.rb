@@ -1,12 +1,13 @@
 class TasksController < ApplicationController
 	#TODO some/more filters ?
 
+	before_filter :can_access_company
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
 
 	def index
 
 		#TODO before filter which inits @projects and redirects if @projects == nil 
-		@project = Project.find_by_id params[:project_id]
+		
 		if @project.nil?
 			flash[:warning]= "Project not found"
 			redirect_to root_path
@@ -18,7 +19,7 @@ class TasksController < ApplicationController
 
 	
 	def new 
-		@project = Project.find_by_id params[:project_id]
+		
 		if request.post?
 			@task = @project.tasks.build params[:task]
 			@task.posted = 0.days.ago
@@ -39,7 +40,7 @@ class TasksController < ApplicationController
 
 
 	def show
-		@project = Project.find_by_id params[:project_id]
+		
 		@task = @project.tasks.find_by_id params[:id]
 		if @project.nil?
 			flash[:warning]= "Project not found"
@@ -50,7 +51,7 @@ class TasksController < ApplicationController
 	def edit
 		if request.put? 
 
-			@project = Project.find_by_id params[:project_id]
+			
 			@task = @project.tasks.find_by_id params[:id]
 			if @task.update_attributes params[:task]
 				flash[:succes] = "Task updated"
@@ -59,14 +60,14 @@ class TasksController < ApplicationController
 				flash[:warning] = "Invalid information"
 			end
 		else #get
-			@project = Project.find_by_id params[:project_id]
+
 			@task = @project.tasks.find_by_id params[:id]
 			@users = @project.users.all
 		end
 	end
 
 	def destroy
-		@project = Project.find_by_id params[:project_id]
+
 		@task = Task.find_by_id params[:id]
 		@task.destroy
 		flash[:success] = "Task removed"

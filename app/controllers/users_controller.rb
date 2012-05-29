@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 	
-	before_filter :can_access_company, only: [:index, :show, :invite]
+	before_filter :can_access_company, only: [:index, :show, :invite, :destroy, :update]
 	before_filter :is_guest, only: [:signin, :activate]
 	before_filter :is_signed_in, only: [:signout, :edit, :remove_avatar]
 	before_filter :company_owner?, only: [:invite, :destroy, :update]

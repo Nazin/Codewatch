@@ -21,6 +21,10 @@ private
 				flash[:warning] = "Given url is not correct"
 				redirect_home
 			end
+			
+			if not params[:project_id].nil?
+				@project = Project.find_by_id params[:project_id]
+			end
 		else
 			@company = nil
 		end
