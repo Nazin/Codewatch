@@ -65,6 +65,7 @@ private
 
 			file = File.join 'public', 'upload', 'avatars', id.to_s + '.' + name_parts[name_parts.length-1]
 			FileUtils.cp_r avatar.tempfile.path, file
+			FileUtils.chmod 0666, file
 
 			require 'RMagick'
 
