@@ -32,9 +32,6 @@ class User < ActiveRecord::Base
 	has_many :assigned_tasks, class_name: 'Task', foreign_key: :responsible_user_id
 	has_many :owned_tasks_histories, class_name: 'TasksHistory', foreign_key: :user_id
 	has_many :assigned_tasks_histories, class_name: 'TasksHistory', foreign_key: :responsible_user_id
-
-
-
 	has_and_belongs_to_many  :projects
 
 	accepts_nested_attributes_for :user_companies, :user_actions
@@ -69,7 +66,7 @@ private
 			file = File.join 'public', 'upload', 'avatars', id.to_s + '.' + name_parts[name_parts.length-1]
 			FileUtils.cp_r avatar.tempfile.path, file
 
-			require 'rmagick'
+			require 'RMagick'
 
 			image = Magick::Image::read(file).first
 			image.resize_to_fill! 50
