@@ -40,10 +40,10 @@ private
 	end
 	
 	def not_signed_in?
-		redirect_to root_path, notice: "You have already singed in" if not signed_in?
+		redirect_to root_path, notice: "You have already singed in" if signed_in?
 	end
 	
-	def have_account?
+	def not_have_account?
 		redirect_to root_path, notice: "You already have an account" if signed_in?
 	end
 		
@@ -71,16 +71,6 @@ private
 		end
 	end
 
-	def company_owner?
-		r = UserCompany::Role.new @company, current_user 
-		r.owner?
-	end
-	
-	def company_admin?
-		r = UserCompany::Role.new @company, current_user 
-		r.admin?
-	end
-	
 	def redirect_home
 		domain_parts = request.host.split('.')
 		if domain_parts.length > 2

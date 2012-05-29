@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 	# you must be company_owner
 	before_filter :is_signed_in?, except: [:signin, :activate]
 	before_filter :not_singed_in?, only: [:signin, :activate]
-	before_filter :have_account?, only: :signup
+	before_filter :not_have_account?, only: :signup
 	before_filter :company_member?, only: [:index, :show, :invite, :destroy, :update]
 	before_filter :company_owner?, only: [:invite, :destroy, :update]
 
