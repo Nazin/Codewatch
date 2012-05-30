@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
 			conf = cw_git.conf
 			#get stuff
 			repo = cw_git.new_repo @project.name
-			key = cw_git.new_key string_key current_user.name
+			key = cw_git.new_key string_key, current_user.name
 			#configure
 			repo.add_permission "RW+","","#{current_user.name}"
 			ga_repo.add_key key
