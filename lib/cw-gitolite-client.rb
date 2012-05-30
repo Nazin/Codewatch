@@ -3,7 +3,7 @@ module Codewatch
 		require 'gitolite'
 
 #		@pbatko = "/home/pbatko/gitolite-repo/gitolite-admin"
-		@cw ="/home/git/repositories/gitolite-admin.git"
+
 		
 		attr_reader :conf
 
@@ -12,8 +12,13 @@ module Codewatch
 			@conf = ga_repo.config
 		end
 		
+		def new_repo name
+			Gitolite::Config::Repo.new name
+		end
 
-		
+		def new_key key_string, user_name
+			Gitolite::SSHKey.from_string key_string, user_name
+		end
 
 	end
 end

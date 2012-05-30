@@ -22,6 +22,7 @@ class ProjectsController < ApplicationController
 		if request.post? && @project.save
 		#MOVETO: model create_hook or RepositoriesController
 			conf = Codewatch::Repositories.new.conf
+			repo = 
 			conf.add_repo @project.name 
 			##
 			flash[:succes] = "New project created"
