@@ -27,14 +27,14 @@ class ProjectsController < ApplicationController
 			conf = cw_git.conf
 			#get stuff
 			repo = cw_git.new_repo @project.name
-			key = cw_git.new_key string_key, current_user.name
+			key = cw_git.new_key string_key, "pbatko" #current_user.name
 			#configure
 			repo.add_permission "RW+","","#{current_user.name}"
 			ga_repo.add_key key
 			conf.add_repo repo
 			ga_repo.save # stage
 			ga_repo.apply # commit and (not work -> )push to origin master 
-#			ga_repo.update #
+			ga_repo.update #
 			
 			##
 			flash[:succes] = "New project created"
