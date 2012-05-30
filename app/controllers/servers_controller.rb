@@ -31,6 +31,13 @@ class ServersController < ApplicationController
 		end
 	end
 
+	def deploy #TODO route i odpowiednie umieszczenie w widoku (sprawdzanie czy nie trwa juz jakis deployment)
+		@server = Server.find params[:id]
+		@server.deploy
+		flash[:succes] = "Server deployed"
+		redirect_to project_servers_path
+	end
+	
 	def destroy
 		server = Server.find params[:id]
 		server.destroy

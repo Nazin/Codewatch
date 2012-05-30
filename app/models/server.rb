@@ -1,5 +1,4 @@
-require 'net/ftp'
-require 'net/sftp'
+require 'server_connection'
 
 class Server < ActiveRecord::Base
 	
@@ -34,6 +33,20 @@ class Server < ActiveRecord::Base
 			to_hash
 		end
 	end
+	
+	def deploy
+		
+		spawn_block :method => (RUBY_PLATFORM =~ /(mingw32)/ ? :thread : :fork) do
+			
+			#TODO oznaczenie w serwerze ze sie wykonuje deploy
+			#TODO stworzenie jakiegos modelu Deployment - w razie niepowodzenia zapisywanie w nim informacji o failu, mozna go tez co jakis czas aktualizowac aby pokazac jaki progres wgrywania
+			#TODO jesli pusta rewizja wgranie wszystkich plikow, jesli nie odpowiednie zmiany sciagniete z commita
+			
+			logger.info "I feel sleepy..."
+			sleep 11 
+			logger.info "Time to wake up!"
+		end
+	end
 private
 	
 	def test_connection
@@ -41,86 +54,36 @@ private
 		begin
 		
 			if [Type::FTP_PASSIVE, Type::FTP_ACTIVE].include? stype
-				test_ftp_connection
+				connection = Codewatch::FTPServerConnection.new host, port, username, password, stype
 			elsif stype == Type::SFTP_PASSWORD
-				test_sftp_connection
+				connection = Codewatch::SFTPServerConnection.new host, port, username, password, stype
 			end
-		rescue SocketError
-			errors[:host] << " could not be reached"
-		rescue Errno::ECONNREFUSED
-			errors[:port] << " could not be reached"
-		rescue Exception => e
-			errors[:host] << " could not be connected"
-		end
-	end
-	
-	def test_sftp_connection
-		
-		begin
 			
-			Net::SFTP.start host, username, :password => password, :port => port do |sftp|
-				
-				test_dir = '___test___'
-				
-				if remotePath != ''
-					sftp.opendir! remotePath					
-					test_dir = File.join remotePath, '___test___'
-				end
-				
-				sftp.mkdir! test_dir
-				sftp.upload! "test.txt", (File.join test_dir, "test.txt")
-				sftp.remove! (File.join test_dir, "test.txt")
-				sftp.rmdir! test_dir
-			end
-		rescue Net::SSH::AuthenticationFailed
-			errors[:username] << " is wrong"
-			errors[:password] << " is wrong"
-		rescue Net::SFTP::StatusException => e
-			
-			if e.message =~ /permission denied/
-				errors[:remotePath] << " is not writable"
-			else
-				errors[:remotePath] << e.message
-			end
-		end
-	end
-	
-	def test_ftp_connection
-		
-		begin
-			
-			ftp = Net::FTP.new
-			
-			ftp.passive = stype == Type::FTP_PASSIVE
-			ftp.binary = true
-			
-			ftp.connect host, port
-			ftp.login username, password
+			connection.open
 			
 			if remotePath != ''
-				ftp.chdir remotePath
+				connection.chdir remotePath
 			end 
 			
-			ftp.mkdir '___test___'
-			ftp.chdir '___test___'
-			ftp.put "test.txt"
-			ftp.delete "test.txt"
-			ftp.chdir '..'
-			ftp.rmdir '___test___'
+			connection.mkdir '___test___'
+			connection.chdir '___test___'
+			connection.put 'test.txt'
+			connection.delete 'test.txt'
+			connection.chdir '..'
+			connection.rmdir '___test___'
 			
-			ftp.quit()
-		rescue Net::FTPPermError => e
-			
-			if e.message =~ /530/
-				errors[:username] << " is wrong"
-				errors[:password] << " is wrong"
-			elsif e.message =~ /550 Failed to change directory/
-				errors[:remotePath] << " is unreachable"
-			elsif e.message =~ /550 Create directory operation failed/
-				errors[:remotePath] << " is not writable"
-			else
-				errors[:remotePath] << e.message
-			end
+			connection.close
+		rescue Codewatch::HostUnreachable
+			errors[:host] << " could not be reached"
+		rescue Codewatch::PortUnreachable
+			errors[:port] << " could not be reached"
+		rescue Codewatch::WrongCredentials
+			errors[:username] << " is wrong"
+			errors[:password] << " is wrong"
+		rescue Codewatch::PathNotAccessible
+			errors[:remotePath] << " is not accessible"
+		rescue Codewatch::PathNotWritable
+			errors[:remotePath] << " is not writable"
 		end
 	end
 end

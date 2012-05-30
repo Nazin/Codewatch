@@ -19,6 +19,7 @@ development:
   pool: 5
   username: postgres
   password:
+  reconnect: true
 
 test:
   adapter: postgresql
