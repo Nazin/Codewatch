@@ -36,10 +36,10 @@ class Server < ActiveRecord::Base
 	
 	def deploy
 		
-		spawn do
-			 logger.info "I feel sleepy..."
-			 sleep 11 
-			 logger.info "Time to wake up!"
+		spawn_block :method => (RUBY_PLATFORM =~ /(mingw32)/ ? :thread : :fork) do
+			logger.info "I feel sleepy..."
+			sleep 11 
+			logger.info "Time to wake up!"
 		end
 	end
 private

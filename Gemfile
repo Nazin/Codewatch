@@ -14,7 +14,7 @@ gem 'will_paginate', '3.0.3'
 gem 'gitolite', :git => 'https://github.com/gitlabhq/gitolite-client.git' #ruby interface to gitolite
 gem 'rmagick' #requires on unix: apt-get install libmagick9-dev
 gem 'net-sftp'
-gem 'spawn', :git => 'git://github.com/tra/spawn', :branch => 'edge'
+gem 'spawn', :git => 'git://github.com/rfc2822/spawn'
 
 group :assets do
 	gem 'sass-rails',   '~> 3.2.3'
