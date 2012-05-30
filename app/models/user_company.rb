@@ -42,33 +42,26 @@ class UserCompany < ActiveRecord::Base
 			@company, @user = company, user
 		end
 
-		def owner? redirect=true
-			has_role? OWNER, redirect
+		def owner?
+			has_role? OWNER
 		end
 		
-		def admin? redirect=true
-			has_role? ADMIN, redirect
+		def admin?
+			has_role? ADMIN
 		end
 		
-		def user? redirect=true
-			has_role? USER, redirect
+		def user?
+			has_role? USER
 		end
 		
-		def spectator? redirect=true
-			has_role? SPECTATOR, redirect
+		def spectator?
+			has_role? SPECTATOR
 		end
 		
 		private	
 		
-		def has_role? role, redirect=true
-			
+		def has_role? role
 			uc1 = UserCompany.where("company_id = ? and user_id = ?", @company.id, @user.id).pluck(:role)
-			
-			if uc1.first > role and redirect
-				flash[:warning] = "You don't have access there"
-				redirect_to dashboard_path
-			end
-			
 			uc1.first <= role
 		end
 	end

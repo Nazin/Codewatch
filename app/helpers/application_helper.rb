@@ -29,16 +29,16 @@ module ApplicationHelper
 
 	def admin?
 		role = UserCompany::Role.new @company, current_user
-		role.admin? false
+		role.admin?
 	end
 
 	def owner?
 		role = UserCompany::Role.new @company, current_user
-		role.owner? false
+		role.owner?
 	end
 	
 	def user?
 		role = UserCompany::Role.new @company, current_user
-		role.user? false
+		role.user?
 	end
 end

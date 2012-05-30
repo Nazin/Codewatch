@@ -42,10 +42,6 @@ private
 	def not_signed_in?
 		redirect_to root_path, notice: "You have already singed in" if signed_in?
 	end
-	
-	def not_have_account?
-		redirect_to root_path, notice: "You already have an account" if signed_in?
-	end
 		
 	def company_member?
 		unless @company.users.include?(current_user)
@@ -57,17 +53,16 @@ private
 	def company_owner?
 		role = UserCompany::Role.new @company, current_user
 		unless role.owner?
-			flash[:warning] = "You don't have access to that company"
-			redirect_home
+			flash[:warning] = "You don't have access there"
+			redirect_to dashboard_path
 		end
 	end
-	
 	
 	def company_admin?
 		role = UserCompany::Role.new @company, current_user
 		unless role.admin?
-			flash[:warning] = "You don't have access to that company"
-			redirect_home
+			flash[:warning] = "You don't have access there"
+			redirect_to dashboard_path
 		end
 	end
 

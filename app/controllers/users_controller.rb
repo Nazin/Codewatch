@@ -1,18 +1,9 @@
 class UsersController < ApplicationController
 
-	# Semantics of access control filters
-	# e.g1:
-	# to access only: [:signin, :activate]
-	# you must be not_singed_in
-	# e.g2:
-	# to access only: [:invite, :destroy, :update]
-	# you must be company_owner
-	before_filter :is_signed_in?, except: [:signin, :activate]
-	before_filter :not_singed_in?, only: [:signin, :activate]
-	before_filter :not_have_account?, only: :signup
+	before_filter :is_signed_in?, except: [:signin, :activate, :signup]
+	before_filter :not_signed_in?, only: [:signin, :activate]
 	before_filter :company_member?, only: [:index, :show, :invite, :destroy, :update]
 	before_filter :company_owner?, only: [:invite, :destroy, :update]
-
 
 	def index
 		@users = @company.users.paginate page: params[:page]
