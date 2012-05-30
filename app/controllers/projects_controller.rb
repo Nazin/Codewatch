@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
 		@project = @company.projects.build params[:project]
 		
 		if request.post? && @project.save
-			#MOVETO: model create_hook or RepositoriesController
+		#MOVETO: model create_hook or RepositoriesController
 			conf = Codewatch::Repositories.new.conf
 			conf.add_repo @project.name 
 			##

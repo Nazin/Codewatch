@@ -8,7 +8,7 @@ module Codewatch
 		attr_reader :conf
 
 		def initialize
-			ga_repo = Gitolite::GitoliteAdmin.new @cw
+			ga_repo = Gitolite::GitoliteAdmin.new "/home/git/gitolite-admin"
 			@conf = ga_repo.config
 		end
 		
