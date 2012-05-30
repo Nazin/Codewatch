@@ -5,11 +5,12 @@ module Codewatch
 #		@pbatko = "/home/pbatko/gitolite-repo/gitolite-admin"
 
 		
-		attr_reader :conf
+		attr_reader :conf, :ga_repo
 
 		def initialize
-			ga_repo = Gitolite::GitoliteAdmin.new "/home/git/gitolite-admin"
+			@ga_repo = Gitolite::GitoliteAdmin.new "/home/git/gitolite-admin"
 			@conf = ga_repo.config
+			nil
 		end
 		
 		def new_repo name
