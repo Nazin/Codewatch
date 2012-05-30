@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 	before_filter :company_owner?, only: [:invite, :destroy, :update]
 
 	def index
-		@users = @company.users.paginate page: params[:page]
+		@users = @company.users
 	end
 	
 	def signup

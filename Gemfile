@@ -26,13 +26,13 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'rmagick' #requires on ubuntu: apt-get install libmagick9-dev
-
+gem 'rmagick' #requires on unix: apt-get install libmagick9-dev
+gem 'net-sftp'
 
 group :development do
-  gem 'annotate', '~> 2.4.1.beta' #annotate models with schema info
-  gem 'rspec-rails', '2.9.0 ' #rspec generators
-  gem 'guard-rspec', '0.5.5' #automate tests
+	gem 'annotate', '~> 2.4.1.beta' #annotate models with schema info
+	gem 'rspec-rails', '2.9.0 ' #rspec generators
+	gem 'guard-rspec', '0.5.5' #automate tests
 end
 
 group :test do
