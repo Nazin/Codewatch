@@ -21,9 +21,18 @@ class ProjectsController < ApplicationController
 		
 		if request.post? && @project.save
 		#MOVETO: model create_hook or RepositoriesController
-			conf = Codewatch::Repositories.new.conf
-			repo = 
-			conf.add_repo @project.name 
+			string_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCswGFC8OeaYOhXbqua4IQBprhSqm/9/ZkJQ3vzmdAyaWx6ycA7sW8ExX+rZdnUVSHvJ6poNM5rA/h8pJnRs/ZkwheeiipZA36oWgksu9GJxf1VbmbfoMZ9zlEwPrM0kbzKWFrkvqTigywdLFFZX3a/fSCcvyZ7jeK+imKywZtRG6OvZbO+/Lhjs530JmOphxclKIemsMmjeoR1X+cEX5nRD+7ouQDetELIprJd4udWHy29tLqsars6P4yy3PUV9vidc+3f0bQa0b5SFs88q9CnlakgvxbJRCvte7EOcyeAZMAGuFa60Z1s5DPP2A5iTIRJoSB/nYYa1A9azftcTisf pbatko@pbatko-PC'
+			cw_git = Codewatch::Repositories.new
+			#get stuff
+			conf = cw_git.conf
+			repo = cw_git.new_repo @project.name
+			key = cw_git.new_key string_key current_user.name
+			#configure
+			repo.add_permission "RW+","","#{current_user.name}"
+			repo.add_key key
+			conf.add_repo repo
+			repo.save_and_apply
+			
 			##
 			flash[:succes] = "New project created"
 			redirect_to projects_path
