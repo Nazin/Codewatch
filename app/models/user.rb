@@ -22,7 +22,6 @@ class User < ActiveRecord::Base
 	attr_accessible :name, :mail , :password, :password_confirmation, :user_companies_attributes, :fullName, :avatar
 	attr_accessor :updating_password
 	
-	before_save :create_remember_token
 	has_secure_password	
 
 	has_many :user_companies
@@ -43,6 +42,7 @@ class User < ActiveRecord::Base
 	validate :avatar_validation, if: "avatar?"
 			
 	before_update :avatar_upload
+	before_save :create_remember_token
 private
 
 	def create_remember_token
