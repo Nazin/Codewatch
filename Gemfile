@@ -10,6 +10,8 @@ gem 'email_validator'
 gem 'faker', '1.0.1' #creating sample users
 gem 'will_paginate', '3.0.3'
 #gem 'bootstrap-will_paginate', '0.0.5'
+gem "gitolite", :git => "https://github.com/gitlabhq/gitolite-client.git" #ruby interface to gitolite
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/gitlabhq/gitolite-client.git
+  revision: 9b715ca8bab6529f6c92204a25f84d12f25a6eb0
+  specs:
+    gitolite (0.0.4.alpha)
+      grit (>= 2.4.1)
+      hashery (~> 1.4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -64,6 +72,10 @@ GEM
     faker (1.0.1)
       i18n (~> 0.4)
     ffi (1.0.11)
+    grit (2.5.0)
+      diff-lcs (~> 1.1)
+      mime-types (~> 1.15)
+      posix-spawn (~> 0.3.6)
     guard (1.0.1)
       ffi (>= 0.5.0)
       thor (~> 0.14.6)
@@ -72,6 +84,7 @@ GEM
     guard-spork (0.3.2)
       guard (>= 0.8.4)
       spork (>= 0.8.4)
+    hashery (1.4.0)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.3)
@@ -92,6 +105,7 @@ GEM
     pg (0.13.2)
     pg (0.13.2-x86-mingw32)
     polyglot (0.3.3)
+    posix-spawn (0.3.6)
     pygments.rb (0.2.7)
       rubypython (~> 0.5.3)
     rack (1.4.1)
@@ -197,6 +211,7 @@ DEPENDENCIES
   execjs
   factory_girl_rails (= 1.4.0)
   faker (= 1.0.1)
+  gitolite!
   guard-rspec (= 0.5.5)
   guard-spork (= 0.3.2)
   jquery-rails

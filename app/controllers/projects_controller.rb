@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+	require 'cw-gitolite-client'
 	#TODO pbatko
 	# before_filter correct_project? hmm @project.nil?
 
@@ -19,6 +20,10 @@ class ProjectsController < ApplicationController
 		@project = @company.projects.build params[:project]
 		
 		if request.post? && @project.save
+			#MOVETO: model create_hook or RepositoriesController
+			conf = Codewatch::Repositories.new.conf
+			conf.add_repo @project.name 
+			##
 			flash[:succes] = "New project created"
 			redirect_to projects_path
 		elsif request.post?
