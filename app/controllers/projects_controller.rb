@@ -32,8 +32,9 @@ class ProjectsController < ApplicationController
 			repo.add_permission "RW+","","#{current_user.name}"
 			ga_repo.add_key key
 			conf.add_repo repo
-			ga_repo.save_and_apply #stage and commit
-			ga_repo.update #push, will perfom reset! to avoid coflicts
+			ga_repo.save # stage
+			ga_repo.apply # commit and (not work -> )push to origin master 
+#			ga_repo.update #
 			
 			##
 			flash[:succes] = "New project created"
