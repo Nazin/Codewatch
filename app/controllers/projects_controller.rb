@@ -32,8 +32,8 @@ class ProjectsController < ApplicationController
 			repo.add_permission "RW+","","#{current_user.name}"
 			ga_repo.add_key key
 			conf.add_repo repo
-			ga_repo.save # stage
-			ga_repo.apply # commit and (not work -> )push to origin master 
+			ga_repo.save_and_apply # stage
+#			ga_repo.apply # commit and (not work -> )push to origin master 
 #			ga_repo.update #
 			
 			##
