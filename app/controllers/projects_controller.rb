@@ -29,9 +29,9 @@ class ProjectsController < ApplicationController
 			key = cw_git.new_key string_key, current_user.name
 			#configure
 			repo.add_permission "RW+","","#{current_user.name}"
-			repo.add_key key
+			conf.add_key key
 			conf.add_repo repo
-			repo.save_and_apply
+			conf.save_and_apply
 			
 			##
 			flash[:succes] = "New project created"
