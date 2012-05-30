@@ -22,6 +22,7 @@ class ServersController < ApplicationController
 	def edit
 		
 		@server = Server.find params[:id]
+		@server.deploy
 		
 		if request.put? and @server.update_attributes params[:server]
 			flash[:succes] = "Server updated"

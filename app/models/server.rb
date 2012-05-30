@@ -33,6 +33,15 @@ class Server < ActiveRecord::Base
 			to_hash
 		end
 	end
+	
+	def deploy
+		
+		spawn do
+			 logger.info "I feel sleepy..."
+			 sleep 11 
+			 logger.info "Time to wake up!"
+		end
+	end
 private
 	
 	def test_connection
