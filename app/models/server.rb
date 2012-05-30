@@ -37,6 +37,11 @@ class Server < ActiveRecord::Base
 	def deploy
 		
 		spawn_block :method => (RUBY_PLATFORM =~ /(mingw32)/ ? :thread : :fork) do
+			
+			#TODO oznaczenie w serwerze ze sie wykonuje deploy
+			#TODO stworzenie jakiegos modelu Deployment - w razie niepowodzenia zapisywanie w nim informacji o failu, mozna go tez co jakis czas aktualizowac aby pokazac jaki progres wgrywania
+			#TODO jesli pusta rewizja wgranie wszystkich plikow, jesli nie odpowiednie zmiany sciagniete z commita
+			
 			logger.info "I feel sleepy..."
 			sleep 11 
 			logger.info "Time to wake up!"
