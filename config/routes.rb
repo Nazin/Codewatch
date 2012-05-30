@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 Www::Application.routes.draw do
 
-	match '/projects/new', to: 'projects#new', via: [:get, :post]
-	match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put]
+	match '/projects/new', to: 'projects#new', via: [:get, :post], as: :new_project
+	match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put], as: :edit_project
 	
 	resources :projects, except: [:create, :update] do
 		resources :tasks, except: [:create, :update]
@@ -11,8 +12,8 @@ Www::Application.routes.draw do
 	match '/projects/:project_id/servers/new', to: 'servers#new', via: [:get, :post], as: :new_server
 	match '/projects/:project_id/servers/:id/edit', to: 'servers#edit', via: [:get, :put], as: :edit_server
 	
-	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: [:get, :post], as: :new_project_task
-	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get, :put], as: :edit_project_task
+#	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: [:get, :post], as: :new_project_task
+#	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get, :put], as: :edit_project_task
 
 	match '/tasks/:task_id/tasks_histories', to: 'tasks_histories#index', via: :get, as: :task_tasks_histories
 	match '/tasks/:task_id/tasks_histories/:id', to: 'tasks_histories#show', via: :get, as: :task_tasks_history
