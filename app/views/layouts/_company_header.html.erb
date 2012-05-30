@@ -3,7 +3,7 @@
 		<%= link_to "", @home %>
 	</div>
 	<div id="branding">
-		<% if not @project.nil? %>
+		<% if @project && !@project.new_record? %>
 			<%=@project.name%> <span>by</span>
 		<% end %>
 		<%= link_to @company.name, dashboard_path %>
@@ -19,14 +19,14 @@
 			</ul>
 		</div>
 	<% end %>
-	<% if not @project.nil? %>
+		<% if @project && !@project.new_record? %>
 		<div id="subnav">
 			<ul>
 				<li><a href="">Source</a></li>
 				<li><%=link_to "Tasks", project_tasks_path(@project)%></li>
 				<li><%=link_to "Deployment", project_servers_path(@project)%></li>
 				<% if admin? %>
-					<li class="divider"></li>
+				  <li class="divider"></li>
 					<li><%= link_to "Edit", edit_project_path(@project)  %></li>
 					<li><%= link_to "Delete", @project, method: :delete, confirm: "Are you sure?" %></li>
 				<% end %>
