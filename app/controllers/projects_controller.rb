@@ -22,7 +22,7 @@ class ProjectsController < ApplicationController
 		
 		if request.post? && @project.save
 			if create_git_repo!
-				[:succes] = "New project created"
+				flash[:succes] = "New project created"
 				redirect_to projects_path
 			end
 		elsif request.post?
