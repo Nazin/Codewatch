@@ -89,17 +89,18 @@ def make_projects
 		6.times do |n|
 			name = "fake-project-#{n}"
 			ptype = n%2+1
-			location = "fake-location-#{n}"
-			project_params = { name: name, ptype: ptype, location: location }
-			associate_user_company_project u, c, project_params
+			location = "fake-repo#{n}.git"
+			project_params = { name: name, ptype: ptype }
+			associate_user_company_project u, c, project_params, location
 		end
 	end 
 end
 
 
 
-def associate_user_company_project u, c, project_params
+def associate_user_company_project u, c, project_params, location
 	p = c.projects.build project_params
+	p.location = location
 	p.users << u
 	p.save!
 end

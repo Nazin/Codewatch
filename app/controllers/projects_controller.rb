@@ -19,13 +19,11 @@ class ProjectsController < ApplicationController
 	def new 
 		
 		@project = @company.projects.build params[:project]
-		
+		@repo_location = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
+		@project.location = "#{@repo_location}.git"
+		#TODO what if create_git_repo! fails?
 		if request.post? && @project.save
-			@repo_location = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
 			if create_git_repo!
-				#TODO whot if save fails?
-				@project.location = @repo_location
-				@project.save
 				flash[:succes] = "New project created"
 				redirect_to project_path @project
 			end
