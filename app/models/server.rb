@@ -64,7 +64,7 @@ class Server < ActiveRecord::Base
 			server.state = Server::State::DEPLOYING
 			server.save!
 
-			spawn_block :method => :thread do
+			spawn_block :method => (RUBY_PLATFORM =~ /(mingw32)/ ? :thread : :fork) do
 
 				#TODO ladna konfigurowalna sciezka
 				repo = Grit::Repo.new '/home/git/repositories/' + server.project.location + '.git'
