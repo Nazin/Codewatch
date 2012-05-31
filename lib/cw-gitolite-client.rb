@@ -1,13 +1,14 @@
 module Codewatch
+	
 	class GitException < Exception
 	end
-
-
+	
+	
 	class Repositories
 		require 'gitolite'
 		require 'timeout'
 		require 'fileutils'
-
+		
 		@@lock_file_created = false
 		
 		def self.create_lock_file
@@ -47,7 +48,7 @@ module Codewatch
 			conf.add_repo repo
 			ga_repo.save
 		end
-
+		
 
 		
 		def new_repo name
@@ -74,11 +75,11 @@ module Codewatch
     end
 
     def configure
-      status = Timeout::timeout(20) do
-        File.open(File.join(TMP_DIR,LOCK_FILE), "w+") do |f|
-          begin 
+	    status = Timeout::timeout(20) do
+		    File.open(File.join(TMP_DIR,LOCK_FILE), "w+") do |f|
+			    begin 
             f.flock(File::LOCK_EX)
-            pull
+				    pull
             yield(self)
             push
           ensure
@@ -86,14 +87,13 @@ module Codewatch
           end
 		    end
 	    end
-   
-   
+    end
+  end
+end   
 #    rescue Exception => ex
 # TODO logging
 #      Gitlab::Logger.error(ex.message)
 #	    raise Codewatch::GitException.new("Git: access denied - gitolite timeout")
-    end
+ 
 
-
-end
 
