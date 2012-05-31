@@ -19,7 +19,7 @@
 
 class User < ActiveRecord::Base
 	
-	attr_accessible :name, :mail , :password, :password_confirmation, :user_companies_attributes, :fullName, :avatar
+	attr_accessible :name, :mail , :password, :password_confirmation, :user_companies_attributes, :fullName, :avatar, :public_key
 	attr_accessor :updating_password
 	
 	has_secure_password	
