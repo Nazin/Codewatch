@@ -33,10 +33,10 @@ class ProjectsController < ApplicationController
 				repo.add_permission "RW+","","#{current_user.name}"
 				ga_repo.add_key key
 				conf.add_repo repo
-				ga_repo.save_and_apply
+				ga_repo.save #_and_apply
 			end
 
->>>>>>> a0f87aa582ef9a541ee0f79e8bc5ef6860125946
+
 			flash[:succes] = "New project created"
 			redirect_to projects_path
 		elsif request.post?
