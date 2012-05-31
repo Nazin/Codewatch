@@ -46,7 +46,16 @@ module Codewatch
 			ga_repo.save
 		end
 		
-
+		
+		def set_permission repo_name, user_name, perm_string
+			repo = conf.get_repo repo_name
+#			repo = Gitolite::Config::Repo.new repo_name
+			repo.add_permission(perm_string, "", user_name)
+			conf.add_repo repo, true
+			ga_repo.save
+		end
+		
+		
 		
 		def new_repo name
 			Gitolite::Config::Repo.new name
