@@ -30,6 +30,9 @@ describe Project do
 	it { should respond_to :ptype }
 	it { should respond_to :location }
 	it { should respond_to :ptype }
+	it { should respond_to :repository_created }
+
+
 	it { should respond_to :company_id }
 	it { should respond_to :users }
 	it { should respond_to :tasks } #TODO test if returns correct values

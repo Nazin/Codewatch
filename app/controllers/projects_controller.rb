@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-	require 'cw-gitolite-client'
+
 	#TODO pbatko
 	# before_filter correct_project? hmm @project.nil?
 
@@ -20,13 +20,10 @@ class ProjectsController < ApplicationController
 		
 		@project = @company.projects.build params[:project]
 		@repo_location = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
-		@project.location = "#{@repo_location}"
-		#TODO what if create_git_repo! fails?
+		@project.location = @repo_location
 		if request.post? && @project.save
-			if create_git_repo!
-				flash[:succes] = "New project created"
-				redirect_to project_path @project
-			end
+			flash[:success] = "New project created"
+			redirect_to project_path @project
 		elsif request.post?
 			flash[:warning] = "Invalid information"
 		end
@@ -37,7 +34,7 @@ class ProjectsController < ApplicationController
 	def edit
 		@project = @company.projects.find_by_id params[:id]
 		if request.put? and @project.update_attributes params[:project]
-			flash[:succes] = "Project updated"
+			flash[:success] = "Project updated"
 			redirect_to projects_path
 		elsif request.put?
 			flash[:warning] = "Invalid information"
@@ -60,25 +57,6 @@ class ProjectsController < ApplicationController
 	
 	private
 
-	def create_git_repo!
-	
-#		repo_name = "#{@project.company.name}-#{@project.name}"
-		string_key = current_user.public_key
-		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
-			#TODO exception handling ->timeout throws one
-			ga_repo = git.ga_repo
-			conf = git.conf
-			
-			repo = git.new_repo @repo_location
-			key = git.new_key string_key, current_user.name
-			
-			repo.add_permission "RW+","","#{current_user.name}"
-			ga_repo.add_key key
-			conf.add_repo repo
-			ga_repo.save
-		end
-
-	end
 
 
 	def company_admin?

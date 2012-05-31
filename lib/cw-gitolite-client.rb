@@ -10,12 +10,6 @@ module Codewatch
 
 		@@lock_file_created = false
 		
-		attr_reader :conf, :ga_repo
-
-		TMP_DIR = "/tmp"
-		GITOLITE_REPO_DIR = "/home/nobody/gitolite-admin"
-		LOCK_FILE = "codewatch-gitolite.lock"
-
 		def self.create_lock_file
 			#TODO ensure that creates new only if none exist"
 			if !@@lock_file_created
@@ -26,12 +20,35 @@ module Codewatch
 			end
 		end
 
+		attr_reader :conf, :ga_repo
+
+		TMP_DIR = "/tmp"
+		GITOLITE_REPO_DIR = "/home/nobody/gitolite-admin"
+		LOCK_FILE = "codewatch-gitolite.lock"
+
 		def initialize
 			Repositories.create_lock_file
 			@ga_repo = Gitolite::GitoliteAdmin.new GITOLITE_REPO_DIR
 			@conf = ga_repo.config
 			nil
 		end
+
+		
+		def create repo_name, string_key, user_name
+			"""creates and push config to central gitolite repo"""
+			ga_repo = git.ga_repo
+			conf = git.conf
+			
+			repo = git.new_repo repo_name
+			key = git.new_key string_key, user_name
+			
+			repo.add_permission "RW+","","#{user_name}"
+			ga_repo.add_key key
+			conf.add_repo repo
+			ga_repo.save
+		end
+
+
 		
 		def new_repo name
 			Gitolite::Config::Repo.new name
@@ -74,7 +91,11 @@ module Codewatch
 #      Gitlab::Logger.error(ex.message)
 	    raise Codewatch::GitException.new("Git: access denied - gitolite timeout")
     end
-
 	end
+
+
+
+
+
 end
 
