@@ -37,11 +37,8 @@ module Codewatch
 		
 		def create repo_name, string_key, user_name
 			"""creates and push config to central gitolite repo"""
-			ga_repo = git.ga_repo
-			conf = git.conf
-			
-			repo = git.new_repo repo_name
-			key = git.new_key string_key, user_name
+			repo = new_repo repo_name
+			key = new_key string_key, user_name
 			
 			repo.add_permission "RW+","","#{user_name}"
 			ga_repo.add_key key
@@ -80,7 +77,7 @@ module Codewatch
 			    begin 
             f.flock(File::LOCK_EX)
 				    pull
-            yield(self)
+				    yield(self)
             push
           ensure
             f.flock(File::LOCK_UN)
