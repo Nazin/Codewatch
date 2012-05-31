@@ -5,6 +5,7 @@ class ProjectsController < ApplicationController
 
 	before_filter :company_member?
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
+	before_filter :have_public_key?, only: :new
 	
 	def index
 		@projects = current_user.projects
@@ -20,25 +21,10 @@ class ProjectsController < ApplicationController
 		@project = @company.projects.build params[:project]
 		
 		if request.post? && @project.save
-		#MOVETO: model create_hook or RepositoriesController
-			string_key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCswGFC8OeaYOhXbqua4IQBprhSqm/9/ZkJQ3vzmdAyaWx6ycA7sW8ExX+rZdnUVSHvJ6poNM5rA/h8pJnRs/ZkwheeiipZA36oWgksu9GJxf1VbmbfoMZ9zlEwPrM0kbzKWFrkvqTigywdLFFZX3a/fSCcvyZ7jeK+imKywZtRG6OvZbO+/Lhjs530JmOphxclKIemsMmjeoR1X+cEX5nRD+7ouQDetELIprJd4udWHy29tLqsars6P4yy3PUV9vidc+3f0bQa0b5SFs88q9CnlakgvxbJRCvte7EOcyeAZMAGuFa60Z1s5DPP2A5iTIRJoSB/nYYa1A9azftcTisf pbatko@pbatko-PC'
-			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
-				#TODO exception handling on timeout
-				ga_repo = git.ga_repo
-				conf = git.conf
-				
-				repo = git.new_repo @project.name
-				key = git.new_key string_key, current_user.name
-		
-				repo.add_permission "RW+","","#{current_user.name}"
-				ga_repo.add_key key
-				conf.add_repo repo
-				ga_repo.save #_and_apply
+			if create_git_repo!
+				[:succes] = "New project created"
+				redirect_to projects_path
 			end
-
-
-			flash[:succes] = "New project created"
-			redirect_to projects_path
 		elsif request.post?
 			flash[:warning] = "Invalid information"
 		end
@@ -72,9 +58,40 @@ class ProjectsController < ApplicationController
 	
 	private
 
+	def create_git_repo!
+		repo_name = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
+#		repo_name = "#{@project.company.name}-#{@project.name}"
+		string_key = current_user.public_key
+		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
+			#TODO exception handling ->timeout throws one
+			ga_repo = git.ga_repo
+			conf = git.conf
+			
+			repo = git.new_repo repo_name
+			key = git.new_key string_key, current_user.name
+			
+			repo.add_permission "RW+","","#{current_user.name}"
+			ga_repo.add_key key
+			conf.add_repo repo
+			ga_repo.save
+		end
+
+	end
+
+
 	def company_admin?
 		role = UserCompany::Role.new @company, current_user
 		role.admin?
 	end
 
+	def have_public_key?
+		if current_user.public_key.blank?
+			flash[:warning] = "Cannot create project - no public key for git repository"
+			redirect_to user_edit_path
+			false
+		else
+			true
+		end
+	end
+	
 end
