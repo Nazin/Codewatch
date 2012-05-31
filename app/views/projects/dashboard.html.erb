@@ -6,7 +6,7 @@
 	
 	<h4>My projects</h4>
 	
-	<% if @projects.any? %>
+	<% if @projects && @projects.any? %>
 		<ul>
 			<% for project in @projects %>
 				<li><%= link_to project.name, project %></li>
