@@ -1,6 +1,6 @@
 module ProjectHelper
 	def repo_info project
-		"Your repo address: git@codewatch:#{project.location}"
+		"Your repository address: git@codewatch.pl:#{project.location}.git"
 	end
 
 end

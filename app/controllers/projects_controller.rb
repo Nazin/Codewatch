@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
 		
 		@project = @company.projects.build params[:project]
 		@repo_location = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
-		@project.location = "#{@repo_location}.git"
+		@project.location = "#{@repo_location}"
 		#TODO what if create_git_repo! fails?
 		if request.post? && @project.save
 			if create_git_repo!
