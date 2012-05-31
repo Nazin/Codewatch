@@ -66,7 +66,8 @@ class Server < ActiveRecord::Base
 
 			spawn_block :method => (RUBY_PLATFORM =~ /(mingw32)/ ? :thread : :fork) do
 
-				repo = Grit::Repo.new server.project.location
+				#TODO ladna konfigurowalna sciezka
+				repo = Grit::Repo.new '/home/git/repositories/' + server.project.location + '.git'
 
 				head = repo.commits.first
 
