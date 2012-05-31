@@ -3,7 +3,6 @@
 <%= cw_form_for @project, url: new_project_path do |f| %>
 	<%= f.text_field :name %>
 	<%= f.select :ptype, @types, label: "Type" %>
-	<%= f.text_field :location %>
 	<%= f.collection_select :user_ids, @company.users.find(:all, :order => 'name'), :id, :name, {}, multiple: true, label: "Users"%>
 	<%= f.submit "Save project" %>
 <% end %>

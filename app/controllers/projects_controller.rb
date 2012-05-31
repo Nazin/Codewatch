@@ -21,9 +21,13 @@ class ProjectsController < ApplicationController
 		@project = @company.projects.build params[:project]
 		
 		if request.post? && @project.save
+			@repo_location = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
 			if create_git_repo!
-				[:succes] = "New project created"
-				redirect_to projects_path
+				#TODO whot if save fails?
+				@project.location = @repo_location
+				@project.save
+				flash[:succes] = "New project created"
+				redirect_to project_path @project
 			end
 		elsif request.post?
 			flash[:warning] = "Invalid information"
@@ -59,7 +63,7 @@ class ProjectsController < ApplicationController
 	private
 
 	def create_git_repo!
-		repo_name = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
+	
 #		repo_name = "#{@project.company.name}-#{@project.name}"
 		string_key = current_user.public_key
 		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
@@ -67,7 +71,7 @@ class ProjectsController < ApplicationController
 			ga_repo = git.ga_repo
 			conf = git.conf
 			
-			repo = git.new_repo repo_name
+			repo = git.new_repo @repo_location
 			key = git.new_key string_key, current_user.name
 			
 			repo.add_permission "RW+","","#{current_user.name}"
