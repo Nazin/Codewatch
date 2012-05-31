@@ -84,17 +84,15 @@ module Codewatch
           ensure
             f.flock(File::LOCK_UN)
           end
-        end
-      end
-    rescue Exception => ex
+		    end
+	    end
+   
+   
+#    rescue Exception => ex
 # TODO logging
 #      Gitlab::Logger.error(ex.message)
-	    raise Codewatch::GitException.new("Git: access denied - gitolite timeout")
+#	    raise Codewatch::GitException.new("Git: access denied - gitolite timeout")
     end
-	end
-
-
-
 
 
 end
