@@ -4,7 +4,10 @@ class ServersController < ApplicationController
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
 	
 	def index
+		
 		@servers = @project.servers
+		
+		@deployments = Deployment.order("created_at desc").limit(10).joins(:server).find_all_by_server_id @servers
 	end
 
 	def new
@@ -31,10 +34,17 @@ class ServersController < ApplicationController
 		end
 	end
 
-	def deploy #TODO route i odpowiednie umieszczenie w widoku (sprawdzanie czy nie trwa juz jakis deployment)
+	def deploy
+		
 		@server = Server.find params[:id]
-		@server.deploy
-		flash[:succes] = "Server deployed"
+		
+		if @server.state == Server::State::DEPLOYING
+			flash[:succes] = "Server is deploying at the moment"
+		else
+			flash[:succes] = "Server deployed"
+			@server.deploy
+		end
+		
 		redirect_to project_servers_path
 	end
 	

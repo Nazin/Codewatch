@@ -68,6 +68,10 @@ module Codewatch
 			raise ImplementMeException
 		end
 		
+		def put_binary
+			raise ImplementMeException
+		end
+		
 		def delete 
 			raise ImplementMeException
 		end
@@ -106,7 +110,7 @@ module Codewatch
 				super dir
 				@ftp.chdir dir
 			rescue Net::FTPPermError
-				raise PathNotAccessible
+				raise PathNotAccessible.new (File.join @current_dir, dir)
 			end
 		end
 		
@@ -114,7 +118,7 @@ module Codewatch
 			begin
 				@ftp.mkdir dir
 			rescue Net::FTPPermError
-				raise PathNotWritable
+				raise PathNotWritable.new (File.join @current_dir, dir)
 			end
 		end
 		
@@ -122,7 +126,7 @@ module Codewatch
 			begin
 				@ftp.rmdir dir
 			rescue Net::FTPPermError
-				raise PathNotWritable
+				raise PathNotWritable.new (File.join @current_dir, dir)
 			end
 		end
 		
@@ -130,7 +134,15 @@ module Codewatch
 			begin
 				@ftp.put file
 			rescue Net::FTPPermError
-				raise PathNotWritable
+				raise PathNotWritable.new (File.join @current_dir, file)
+			end
+		end
+		
+		def put_binary file_name, data
+			begin
+				@ftp.storbinary "STOR " + file_name, StringIO.new(data), Net::FTP::DEFAULT_BLOCKSIZE
+			rescue Net::FTPPermError
+				raise PathNotWritable.new (File.join @current_dir, file_name)
 			end
 		end
 		
@@ -138,7 +150,7 @@ module Codewatch
 			begin
 				@ftp.delete file
 			rescue Net::FTPPermError
-				raise PathNotWritable
+				raise PathNotWritable.new (File.join @current_dir, file)
 			end
 		end
 	end
@@ -172,7 +184,7 @@ module Codewatch
 					@sftp.close handle
 				end
 			rescue Net::SFTP::StatusException
-				raise PathNotAccessible
+				raise PathNotAccessible.new (File.join @current_dir, dir)
 			end
 		end
 		
@@ -184,7 +196,7 @@ module Codewatch
 					@sftp.mkdir! File.join @current_dir, dir
 				end
 			rescue Net::SFTP::StatusException
-				raise PathNotWritable
+				raise PathNotWritable.new (File.join @current_dir, dir)
 			end
 		end
 		
@@ -196,7 +208,7 @@ module Codewatch
 					@sftp.rmdir! File.join @current_dir, dir
 				end
 			rescue Net::SFTP::StatusException
-				raise PathNotWritable
+				raise PathNotWritable.new (File.join @current_dir, dir)
 			end
 		end
 		
@@ -208,7 +220,24 @@ module Codewatch
 					@sftp.upload! file, (File.join @current_dir, file)
 				end
 			rescue Net::SFTP::StatusException
-				raise PathNotWritable
+				raise PathNotWritable.new (File.join @current_dir, file)
+			end
+		end
+		
+		def put_binary file_name, data
+			
+			begin
+				
+				if @current_dir == ''
+					handle = @sftp.open! file_name, 'w'
+				else
+					handle = @sftp.open! (File.join @current_dir, file_name), 'w'
+				end
+				
+				@sftp.write! handle, 0, data
+				@sftp.close! handle
+			rescue Net::SFTP::StatusException
+				raise PathNotWritable.new (File.join @current_dir, file_name)
 			end
 		end
 		
@@ -220,7 +249,7 @@ module Codewatch
 					@sftp.remove! (File.join @current_dir, file)
 				end
 			rescue Net::SFTP::StatusException
-				raise PathNotWritable
+				raise PathNotWritable.new (File.join @current_dir, file)
 			end
 		end
 	end
