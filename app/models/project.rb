@@ -13,7 +13,7 @@
 
 class Project < ActiveRecord::Base
 	
-	attr_accessible :name, :ptype, :user_ids
+	attr_accessible :name, :ptype, :user_ids, :slug
 	
 	TYPE_SVN = 1
 	TYPE_GIT = 2
@@ -33,4 +33,10 @@ class Project < ActiveRecord::Base
 	#TODO test this validator
 	validates :name, presence: true, uniqueness: { scope: :company_id }
 	
+	acts_as_url :name, :url_attribute => :slug
+	
+	def repo
+		#TODO ladna konfigurowalna sciezka
+		Grit::Repo.new '/home/git/repositories/' + location + '.git'
+	end
 end

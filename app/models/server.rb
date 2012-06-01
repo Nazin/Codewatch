@@ -66,8 +66,7 @@ class Server < ActiveRecord::Base
 
 			spawn_block :method => :thread do
 
-				#TODO ladna konfigurowalna sciezka
-				repo = Grit::Repo.new '/home/git/repositories/' + server.project.location + '.git'
+				repo = server.project.repo
 
 				head = repo.commits.first
 

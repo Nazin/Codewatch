@@ -4,9 +4,7 @@ class ServersController < ApplicationController
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
 	
 	def index
-		
 		@servers = @project.servers
-		
 		@deployments = Deployment.order("created_at desc").limit(10).joins(:server).find_all_by_server_id @servers
 	end
 

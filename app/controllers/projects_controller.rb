@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
 	def new 
 		
 		@project = @company.projects.build params[:project]
-		@repo_location = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
+		@repo_location = "#{@project.company.slug}/#{@project.slug}"
 		@project.location = @repo_location
 		if request.post? && @project.save
 			flash[:success] = "New project created"
