@@ -8,6 +8,7 @@ class ProjectsController < ApplicationController
 	before_filter :have_public_key?, only: :new
 	
 	def index
+		#TODO brac projekty tylko z aktualnej firmy!!
 		@projects = current_user.projects
 	end
 

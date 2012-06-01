@@ -39,4 +39,8 @@ class Project < ActiveRecord::Base
 		#TODO ladna konfigurowalna sciezka
 		Grit::Repo.new '/home/git/repositories/' + location + '.git'
 	end
+	
+	def self.commit_received
+		
+	end
 end
