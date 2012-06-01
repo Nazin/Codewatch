@@ -19,9 +19,10 @@ class ProjectsController < ApplicationController
 	def new 
 		
 		@project = @company.projects.build params[:project]
-		@repo_location = "#{@project.company.slug}/#{@project.slug}"
-		@project.location = @repo_location
+		@project.location = '.'
 		if request.post? && @project.save
+			@project.location = "#{@project.company.slug}/#{@project.slug}"
+			@project.save
 			flash[:success] = "New project created"
 			redirect_to project_path @project
 		elsif request.post?
