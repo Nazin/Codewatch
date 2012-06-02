@@ -17,7 +17,7 @@ class RepositoriesController < ApplicationController
 		
 		hook_template = File.open 'post-receive.hook.sample', 'r'
 		hook_template.each do |line|
-			new_hook.puts (line.gsub 'PROJECT_ID', @project.id)
+			new_hook.puts (line.gsub 'PROJECT_ID', @project.id.to_s)
 		end
 		
 		new_hook.close
