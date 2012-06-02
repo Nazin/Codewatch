@@ -1,6 +1,7 @@
 class Deployment < ActiveRecord::Base
 	
 	belongs_to :server
+	belongs_to :user
 	
 	class State
 		

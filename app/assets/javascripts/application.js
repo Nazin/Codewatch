@@ -13,3 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$(document).ready(function() {
+	
+	if ($('#projectsList .deployment').length)
+		$('#projectsList .deployment .failInfo a').click(function(e) {
+			e.preventDefault();
+			$(this).next().toggle(100);
+		});
+});

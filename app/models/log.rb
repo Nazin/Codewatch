@@ -10,6 +10,18 @@ class Log < ActiveRecord::Base
 		NEW_COMMIT = 1 
 		TASK_ASSIGNMENT = 2
 		DEPLOYMENT_FAILED = 3
+		
+		def self.to_hash
+			{
+				'Commits' => NEW_COMMIT,
+				'Tasks' => TASK_ASSIGNMENT,
+				'Deployments' => DEPLOYMENT_FAILED,
+			}
+		end
+		
+		def self.to_list
+			to_hash
+		end
 	end
 	
 	def self.it type, project, author, options = {}

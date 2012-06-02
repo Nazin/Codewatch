@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
 	has_many :assigned_tasks_histories, class_name: 'TasksHistory', foreign_key: :responsible_user_id
 	has_many :created_logs, class_name: 'Log', foreign_key: :author_id
 	has_many :logs
+	has_many :deployments
 	  
 	has_and_belongs_to_many  :projects
 

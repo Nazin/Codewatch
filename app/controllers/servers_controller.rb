@@ -40,7 +40,7 @@ class ServersController < ApplicationController
 			flash[:succes] = "Server is deploying at the moment"
 		else
 			flash[:succes] = "Server deployed"
-			@server.deploy
+			@server.deploy current_user
 		end
 		
 		redirect_to project_servers_path

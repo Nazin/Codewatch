@@ -4,9 +4,9 @@
 	</div>
 	<div id="branding">
 		<% if @project && !@project.new_record? %>
-			<%=@project.name%> <span>by</span>
+			<%= link_to @project.name, @project, :class => 'project' %> <span>by</span>
 		<% end %>
-		<%= link_to @company.name, dashboard_path %>
+		<%= link_to @company.name, dashboard_path, :class => 'company' %>
 	</div>
 	<div class="both"></div>
 	<% if signed_in? %>

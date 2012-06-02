@@ -54,7 +54,7 @@ class Server < ActiveRecord::Base
 		end
 	end
 	
-	def deploy
+	def deploy user
 		
 		if state != State::DEPLOYING
 		
@@ -72,6 +72,7 @@ class Server < ActiveRecord::Base
 
 				@deployment = Deployment.new
 				@deployment.server = server
+				@deployment.user = user
 
 				if revision == ''
 					tree = head.tree
@@ -116,6 +117,10 @@ class Server < ActiveRecord::Base
 					server.state = State::FAILED
 				end
 
+				if server.state == State::FAILED
+					Log.it Log::Type::DEPLOYMENT_FAILED, server.project, user
+				end
+				
 				@deployment.finished = true
 				@deployment.save!
 				server.save

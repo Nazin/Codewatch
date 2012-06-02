@@ -45,7 +45,7 @@ class Project < ActiveRecord::Base
 		'/home/git/repositories/' + location + '.git'
 	end
 	
-	def self.commit_received id, revision, head
+	def self.commit_received id, revision
 		
 		project = self.find id
 		
@@ -53,8 +53,14 @@ class Project < ActiveRecord::Base
 		commits = repo.commits revision
 		newest_commit = commits.first
 		
-		branch = head.gsub "refs/heads/", ""
+		author = User.find_by_mail newest_commit.author.email
 		
-		Log.it Log::Type::NEW_COMMIT, project, (User.find_by_mail newest_commit.author.email), {:revision => revision, :branch => branch, :message => newest_commit.message}
+		Log.it Log::Type::NEW_COMMIT, project, author, {:revision => revision, :message => newest_commit.message}
+		
+		project.servers.each do |server|
+			if server.autoUpdate
+				server.deploy author
+			end
+		end
 	end
 end
