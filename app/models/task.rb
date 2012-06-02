@@ -23,8 +23,10 @@ class Task < ActiveRecord::Base
 	belongs_to :project
 	belongs_to :owner, class_name: 'User', foreign_key: :user_id
 	belongs_to :assigned_user, class_name: 'User', foreign_key: :responsible_user_id
-	has_many :tasks_histories
 	belongs_to :milestone
+	
+	has_many :tasks_histories
+	has_many :logs
 
 	attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner
 
@@ -33,8 +35,6 @@ class Task < ActiveRecord::Base
 	validates :owner, presence: true
 	validates :assigned_user, presence: true
 	validates :project, presence: true
-
-
 
 	around_update :create_history_entry
 		

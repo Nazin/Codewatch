@@ -23,6 +23,7 @@ class Project < ActiveRecord::Base
 	has_many :tasks
 	has_many :servers
 	has_many :milestones
+	has_many :logs
 
 	validates :user_ids, presence: true
 	validates :company_id, presence: true
@@ -40,7 +41,16 @@ class Project < ActiveRecord::Base
 		Grit::Repo.new '/home/git/repositories/' + location + '.git'
 	end
 	
-	def self.commit_received
+	def self.commit_received id, revision, head
 		
+		project = self.find id
+		
+		repo = project.repo
+		commits = repo.commits revision
+		newest_commit = commits.first
+		
+		branch = head.gsub "refs/heads/", ""
+		
+		Log.it Log::Type::NEW_COMMIT, project, (User.find_by_mail newest_commit.author.email), {:revision => revision, :branch => branch, :message => newest_commit.message}
 	end
 end
