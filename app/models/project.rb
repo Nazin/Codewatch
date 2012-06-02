@@ -37,8 +37,12 @@ class Project < ActiveRecord::Base
 	acts_as_url :name, :url_attribute => :slug
 	
 	def repo
+		Grit::Repo.new repo_location
+	end
+	
+	def repo_location
 		#TODO ladna konfigurowalna sciezka
-		Grit::Repo.new '/home/git/repositories/' + location + '.git'
+		'/home/git/repositories/' + location + '.git'
 	end
 	
 	def self.commit_received id, revision, head
