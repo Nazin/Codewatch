@@ -15,6 +15,8 @@ class Server < ActiveRecord::Base
 	validates :password, presence: true, length: {maximum: 64}
 	
 	validate :test_connection
+	validate :revision_validate
+	validate :localpath_validate
 	
 	class Type
 		
@@ -75,10 +77,14 @@ class Server < ActiveRecord::Base
 				@deployment.user = user
 
 				if revision == ''
-					tree = head.tree
+					if localRepoPath != ''
+						tree = head.tree/localRepoPath
+					else
+						tree = head.tree
+					end
 					@deployment.filesTotal = tree_counter tree, 0
 				else
-					diff = Grit::Commit.diff repo, revision, head.id
+					diff = improve_diff_to_local_path (Grit::Commit.diff repo, revision, head.id)
 					@deployment.filesTotal = diff.length
 				end
 
@@ -115,6 +121,9 @@ class Server < ActiveRecord::Base
 					@deployment.state = Deployment::State::WRITE_PROBLEM
 					@deployment.info = e.message
 					server.state = State::FAILED
+				#rescue Exception
+				#	@deployment.state = Deployment::State::CONNECTION_PROBLEM
+				#	server.state = State::FAILED
 				end
 
 				if server.state == State::FAILED
@@ -128,6 +137,30 @@ class Server < ActiveRecord::Base
 		end
 	end
 private
+	
+	def revision_validate
+		
+		if revision != ''
+			
+			repo = server.project.repo 
+
+			begin
+				repo.commits revision
+			rescue Exception
+				errors[:revision] << " does not exist"
+			end
+		end
+	end
+	
+	def localpath_validate
+		
+		if localRepoPath != ''
+			
+			repo = server.project.repo 
+			
+			errors[:localRepoPath] << " does not exist" if (repo.tree/localRepoPath).nil?
+		end
+	end
 	
 	def test_connection
 		
@@ -182,9 +215,11 @@ private
 		for el in tree.contents
 
 			if el.is_a? Grit::Tree
-				elements += tree_counter el, elements
+				elements = tree_counter el, elements
 			else
-				elements += 1
+				if not el.is_a? Grit::Submodule
+					elements += 1
+				end
 			end
 		end
 	
@@ -201,9 +236,11 @@ private
 				tree_upload el, connection
 				connection.chdir '..'
 			else
-				connection.put_binary el.name, el.data
-				@deployment.filesProceeded += 1
-				@deployment.save!
+				if not el.is_a? Grit::Submodule
+					connection.put_binary el.name, el.data
+					@deployment.filesProceeded += 1
+					@deployment.save!
+				end
 			end
 		end
 	end
@@ -303,5 +340,36 @@ private
 				end
 			end
 		end
+	end
+	
+	def improve_diff_to_local_path diff
+		
+		if localRepoPath != ''
+		
+			new_diff = []
+
+			for el in diff
+
+				if el.a_path =~ /^#{Regexp.escape(localRepoPath)}/
+
+					temp = ServerDiff.new
+					temp.a_blob = el.a_blob if not el.a_blob.nil?
+					temp.b_blob = el.b_blob if not el.b_blob.nil?
+					temp.deleted_file = el.deleted_file
+					temp.a_path = el.a_path.gsub /^#{Regexp.escape(localRepoPath)}\/?\\?/, '' if not el.a_path.nil?
+					temp.b_path = el.b_path.gsub /^#{Regexp.escape(localRepoPath)}\/?\\?/, '' if not el.b_path.nil?
+					
+					new_diff.push temp
+				end
+			end
+			
+			new_diff
+		else
+			diff
+		end
+	end
+	
+	class ServerDiff
+		attr_accessor :b_blob, :a_blob, :a_path, :b_path, :deleted_file 
 	end
 end

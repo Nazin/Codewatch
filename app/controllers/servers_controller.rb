@@ -5,7 +5,7 @@ class ServersController < ApplicationController
 	
 	def index
 		@servers = @project.servers
-		@deployments = Deployment.order("created_at desc").limit(10).joins(:server).find_all_by_server_id @servers
+		@deployments = Deployment.order("created_at desc").limit(10).includes(:server).find_all_by_server_id @servers
 	end
 
 	def new
