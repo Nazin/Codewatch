@@ -3,7 +3,10 @@
 <div id="projectsList">
 	<h2><%= repo_info @project%></h2>
 	<% if @project.repository_created %>
+	<div>
+	If you are experiencing permission problems with your repo click:
 	<%= link_to 'Force update repository permissions', update_project_repo_users_path(@project), class: 'button r' %>
+	</div>
 	<% end %>
 	<br />
 <!--	<%= link_to "Projects", projects_path %> <br />
