@@ -35,7 +35,7 @@ class RepositoriesController < ApplicationController
 			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
 				#TODO exception handling ->timeout throws one
 				git.set_permission repo_name, string_key, user_name
-		end
+			end
 	
 		end
 		redirect_to project_path @project
