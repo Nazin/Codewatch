@@ -50,6 +50,7 @@ class UsersController < ApplicationController
 				company = @user.user_companies.build
 				company.role = @invitation.role
 				company.company = @invitation.company
+				update_repo_perms
 			end
 			
 			action = @user.user_actions.build [atype: UserAction::Type::ACTIVATION]
