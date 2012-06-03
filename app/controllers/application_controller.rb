@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+	require 'cw-gitolite-client'
 	
 	before_filter :inspect_url_for_company # provides @company field
 	
@@ -7,6 +8,19 @@ class ApplicationController < ActionController::Base
 	include SessionsHelper
 
 private
+
+	
+	def update_repo_perms
+		begin
+			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
+				git.create repo_name, string_key, user_name
+			end
+		rescue
+			flash[:error]="Set repository permissions error"
+		end
+		
+	end
+
 	
 	def inspect_url_for_company
 		

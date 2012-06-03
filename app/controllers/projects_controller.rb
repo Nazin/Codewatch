@@ -26,6 +26,7 @@ class ProjectsController < ApplicationController
 		if request.post? && @project.save
 			@project.location = "#{@project.company.slug}/#{@project.slug}"
 			@project.save
+			create_repo
 			flash[:success] = "New project created"
 			redirect_to project_path @project
 		elsif request.post?
@@ -54,7 +55,6 @@ class ProjectsController < ApplicationController
 		@project.destroy
 		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
 			#TODO exception handling ->timeout throws one
-#			flash[:notice] = " ::#{repo_name}::#{user_name}"
 			git.destroy_repo @project
 		end
 
@@ -74,6 +74,16 @@ class ProjectsController < ApplicationController
 	
 	private
 	
+	def create_repo
+		begin
+			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
+				git.create repo_name, string_key, user_name
+			end
+		rescue
+			flash[:warning]="Repository not created"
+			@project.location = nil
+		end
+	end
 	
 
 	def have_public_key?
