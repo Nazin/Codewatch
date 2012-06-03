@@ -34,7 +34,11 @@ class RepositoriesController < ApplicationController
 			redirect_to project_path @project
 	end
 
-	def update_repo_perms
+	def update_users
+		@project = Project.find_by_id params[:project_id]
+		repo_name = @project.location
+		string_key = current_user.public_key
+		user_name = current_user.name
 		begin
 			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
 				git.create repo_name, string_key, user_name
