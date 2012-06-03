@@ -18,8 +18,8 @@ private
 			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
 				git.create repo_name, string_key, user_name
 			end
-		rescue
-			flash[:error]="Set repository permissions error"
+		rescue Exception => e
+			flash[:error]="Set repository permissions error #{e.inspect}"
 		end
 		
 	end
