@@ -47,6 +47,7 @@ class RepositoriesController < ApplicationController
 			return
 		end
 		flash[:notice]="Repository permissions updated "
+		redirect_to project_path @project
 	end
 
 	private
