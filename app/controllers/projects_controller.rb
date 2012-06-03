@@ -79,11 +79,19 @@ class ProjectsController < ApplicationController
 		repo_name = @project.location
 		string_key = current_user.public_key
 		user_name = current_user.name
-		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
-			#TODO exception handling ->timeout throws one
-			git.create repo_name, string_key, user_name
+		begin
+			Codewatch::Repositories.new.configure do |git| # provides 20s 
+				git.create repo_name, string_key, user_name
+			end
+		rescue
+			flash[:error] = "Repository creation error"
+			return
 		end
-		
+		when_repo_created_action
+	end
+
+
+	def when_repo_created_action
 		hook_location = @project.repo_location + '/hooks/post-receive'
 		new_hook = File.new hook_location, 'w+'
 		
@@ -99,13 +107,11 @@ class ProjectsController < ApplicationController
 		
 		@project.repository_created = true
 		if @project.save
-			flash[:success] = "New repository created"
+			flash[:notice] = "New repository created"
 		else
 			flash[:error] = "New repository created, but something unsuspected happened"
 		end
-			redirect_to project_path @project
 	end
-
 	
 
 	def have_public_key?
