@@ -34,15 +34,20 @@ class RepositoriesController < ApplicationController
 			redirect_to project_path @project
 	end
 
-	def update_users
-		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
-			#TODO exception handling ->timeout throws one
-			#			flash[:notice] = " ::#{repo_name}::#{user_name}"
-			git.set_project_permissions @project
+	def update_repo_perms
+		begin
+			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
+				git.create repo_name, string_key, user_name
+			end
+		rescue
+			flash[:error]="Set repository permissions error"
+			redirect_to project_path @project
+			return
 		end
-		
-		redirect_to project_path @project
+		flash[:notice]="Repository permissions updated "
 	end
+
+
 
 	private
 	

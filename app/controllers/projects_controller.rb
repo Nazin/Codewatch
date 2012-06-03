@@ -27,6 +27,7 @@ class ProjectsController < ApplicationController
 			@project.location = "#{@project.company.slug}/#{@project.slug}"
 			@project.save
 			create_repo
+			update_repo_perms
 			flash[:success] = "New project created"
 			redirect_to project_path @project
 		elsif request.post?
