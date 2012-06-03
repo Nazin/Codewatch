@@ -45,12 +45,17 @@ class RepositoriesController < ApplicationController
 			repo_name = @project.location
 			perm_string = get_perm_string uc.role
 			user_name = u.name
-			#TODO check if user need to be updated, mayge he is up to date
-			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
-				#TODO exception handling ->timeout throws one
-				git.set_permission repo_name, string_key, user_name
+			string_key = u.public_key
+			unless string_key.blank?
+				#TODO check if user need to be updated, mayge he is up to date
+				perm_string = "R"
+				Codewatch::Repositories.new.configure do |git| # provides 20s timeout
+					#TODO exception handling ->timeout throws one
+					flash[:notice] = " ::#{repo_name}::#{user_name}"
+					git.set_permission repo_name, user_name, perm_string
+				end
 			end
-	
+
 		end
 		redirect_to project_path @project
 	end

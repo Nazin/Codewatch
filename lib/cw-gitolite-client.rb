@@ -49,6 +49,7 @@ module Codewatch
 		
 		def set_permission repo_name, user_name, perm_string
 			repo = conf.get_repo repo_name
+			repo.clean_permissions
 #			repo = Gitolite::Config::Repo.new repo_name
 			repo.add_permission(perm_string, "", user_name)
 			conf.add_repo repo, true
