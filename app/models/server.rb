@@ -121,9 +121,10 @@ class Server < ActiveRecord::Base
 					@deployment.state = Deployment::State::WRITE_PROBLEM
 					@deployment.info = e.message
 					server.state = State::FAILED
-				#rescue Exception
-				#	@deployment.state = Deployment::State::CONNECTION_PROBLEM
-				#	server.state = State::FAILED
+				rescue Exception => e
+					@deployment.state = Deployment::State::CONNECTION_PROBLEM
+					server.state = State::FAILED
+					@deployment.info = e.message
 				end
 
 				if server.state == State::FAILED
