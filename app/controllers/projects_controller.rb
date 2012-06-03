@@ -31,8 +31,8 @@ class ProjectsController < ApplicationController
 		elsif request.post?
 			flash[:warning] = "Invalid information"
 		end
-		
-		@types = {'Select' => 0, 'SVN' => Project::TYPE_SVN, 'GIT' => Project::TYPE_GIT}
+		@employees = @company.users.find(:all, :order => 'name')
+		@types = {'Git' => Project::TYPE_GIT}
 	end
 
 	def edit

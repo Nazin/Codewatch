@@ -29,6 +29,7 @@ class TasksController < ApplicationController
 			#TODO temporary, Nazin zrobi ladny jsowy kalendarz :)
 			@task.deadline = 2.days.from_now
 			if @task.save
+				log_task_assignment
 				flash[:succes] = "New task created"
 				redirect_to project_tasks_path @project
 			else
@@ -54,7 +55,9 @@ class TasksController < ApplicationController
 
 			
 			@task = @project.tasks.find_by_id params[:id]
+			@previous_assigned_user = @task.assigned_user
 			if @task.update_attributes params[:task]
+				log_task_assignment @previous_assigned_user!=@task.assigned_user
 				flash[:succes] = "Task updated"
 				redirect_to project_task_path(@project,@task)
 			else 
@@ -64,9 +67,11 @@ class TasksController < ApplicationController
 
 			@task = @project.tasks.find_by_id params[:id]
 			@users = @project.users.all
+		
 			@states = Task::State.to_hash.invert
 			@priorities = Task::Priority.to_hash.invert
 			@milestones = @project.milestones
+			
 		end
 	end
 
@@ -86,7 +91,14 @@ private
 		role = UserCompany::Role.new @company, current_user
 		role.admin?
 	end
+	
 
+	def log_task_assignment do_it=true
+		if do_it
+			Log.it Log::Type::TASK_ASSIGNMENT, @project, current_user, {task: @task, user: @task.assigned_user }
+			flash[:notice]="Task assignment logged"
+		end
+	end
 
 
 	

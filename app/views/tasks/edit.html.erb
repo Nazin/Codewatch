@@ -6,8 +6,8 @@
 	<%= f.select :state, @states, include_blank: true %>
 	<%= f.select :priority, @priorities, include_blank: true %>
 	<%= f.text_field :deadline %>
-	<%= f.collection_select :user_id, @users, :id, :name, {} %>
-	<%= f.collection_select :responsible_user_id, @users, :id, :name, {} %>
+	<%= f.collection_select :user_id, @users, :id, :name, {}, label: 'Task owner' %>
+	<%= f.collection_select :responsible_user_id, @users, :id, :name,  label: 'Assigned user' %>
 	<%= f.collection_select :milestone_id, @milestones, :id, :name, {} %>
 	<%= f.submit "Update task" %>
 <% end %>

@@ -35,6 +35,7 @@ class Task < ActiveRecord::Base
 	validates :owner, presence: true
 	validates :assigned_user, presence: true
 	validates :project, presence: true
+	validates :milestone, presence: true
 
 	around_update :create_history_entry
 		

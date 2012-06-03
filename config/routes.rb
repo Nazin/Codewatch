@@ -11,6 +11,7 @@ Www::Application.routes.draw do
 	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: :put, as: :edit_project_task
 
 
+
 	match '/projects/:project_id/milestones/new', to: 'milestones#new', via: :post, as: :new_project_milestone
 		match '/projects/:project_id/milestones/:id/edit', to: 'milestones#edit', via: :put, as: :edit_project_milestone
 

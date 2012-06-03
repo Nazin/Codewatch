@@ -30,7 +30,7 @@ class Project < ActiveRecord::Base
 	validates :company_id, presence: true
 	validates :location, presence: true, length: {maximum: 128 }
 	validates :name, presence: true, length: {maximum: 32 }
-	validates :ptype, presence: true, inclusion: { in: 1..1 }
+	validates :ptype, presence: true, inclusion: { in: 2..2 }
 	
 	#TODO test this validator
 	validates :name, presence: true, uniqueness: { scope: :company_id }

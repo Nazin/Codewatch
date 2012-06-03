@@ -19,7 +19,7 @@ module ApplicationHelper
 			base = @company.name + " :: " + base
 		end
 		
-		if not @project.nil?
+		if not @project.nil? and !@project.new_record?
 			base = @project.name + " :: " + base
 		end
 		
