@@ -142,7 +142,6 @@ class UsersController < ApplicationController
 		@avatar = @user.avatar
 	
 		if request.put?
-
 			if @user.update_attributes params[:user]
 				flash[:success] = "Profile updated"
 				sign_in @user
@@ -197,8 +196,11 @@ class UsersController < ApplicationController
 		
 		@user = User.find params[:id]
 		@user_company = UserCompany.find_by_user_id_and_company_id params[:id], @company.id
-		
+		old_role = @ucer_company.role
 		if request.put? and @user_company.update_attributes params[:user_company]
+			if old_role != @user_company.role
+				update_repo_perms
+			end
 			flash[:succes] = "User updated"
 			redirect_to users_path
 		elsif request.put?

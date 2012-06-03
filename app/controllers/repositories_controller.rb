@@ -35,15 +35,12 @@ class RepositoriesController < ApplicationController
 	end
 
 	def update_users
-		#TODO https://github.com/gitlabhq/gitlabhq/blob/master/lib/gitlab/gitolite.rb -> def update_project_config(project, conf)
 		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
 			#TODO exception handling ->timeout throws one
-#			flash[:notice] = " ::#{repo_name}::#{user_name}"
+			#			flash[:notice] = " ::#{repo_name}::#{user_name}"
 			git.set_project_permissions @project
 		end
 		
-
-		end
 		redirect_to project_path @project
 	end
 
