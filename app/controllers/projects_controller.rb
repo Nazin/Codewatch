@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-
+	require 'cw-gitolite-client'
 	#TODO pbatko
 	# before_filter correct_project? hmm @project.nil?
 
@@ -48,8 +48,18 @@ class ProjectsController < ApplicationController
 	end
 
 	def destroy
+
+
 		@project = current_user.projects.find_by_id params[:id]
 		@project.destroy
+		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
+			#TODO exception handling ->timeout throws one
+#			flash[:notice] = " ::#{repo_name}::#{user_name}"
+			git.destroy_repo @project
+		end
+
+		
+
 		flash[:success] = "Project removed"
 		redirect_to projects_path
 
@@ -63,7 +73,8 @@ class ProjectsController < ApplicationController
 	end
 	
 	private
-
+	
+	
 
 	def have_public_key?
 		if current_user.public_key.blank?
