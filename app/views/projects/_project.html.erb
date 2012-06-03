@@ -1,7 +1,14 @@
 <li>
-Project name:	<%= project.name %></br>
-Repository type: <%= project.ptype %> </br>
-	<%= link_to "delete", project, method: :delete, confirm: "You sure?" %>
-	<%= link_to "edit", edit_project_path(project)  %>
-	<%= link_to "view", project  %>
+<div>
+  Project name:	<%= project.name %>
+</div>
+<div>
+  Repository type: <%= Project::TYPE_HASH[project.ptype] %> 
+</div>
+<div>
+	<%= link_to "Delete", project, method: :delete, confirm: "You sure?" %>
+	<%= link_to "Edit", edit_project_path(project)  %>
+	<%= link_to "View", project  %>
+</div>
+
 </li></br>

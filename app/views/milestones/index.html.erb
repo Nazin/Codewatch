@@ -1,0 +1,9 @@
+<% provide(:title, 'Milestones Overview') %>
+
+<h1>Milestones Ovierview</h1>
+
+<%=link_to "Create new milestone", new_project_milestone_path(@project), :class => 'button r' %>
+<br />
+<br />
+
+<%= render @milestones %>

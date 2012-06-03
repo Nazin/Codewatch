@@ -28,7 +28,7 @@ class Task < ActiveRecord::Base
 	has_many :tasks_histories
 	has_many :logs
 
-	attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner
+	attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner, :milestone_id
 
 	validates :priority, presence: true
 	validates :title, presence: true, length: {maximum: 64}

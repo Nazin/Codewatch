@@ -3,8 +3,8 @@
 <%=link_to "View project", @project, :class => 'button r' %>
 
 <%= cw_form_for @project, url: edit_project_path do |f| %>
-	<%= f.text_field :name %>
-	<%= f.text_field :ptype %>
-	<%= f.collection_select :user_ids, @company.users.find(:all, :order => 'name'), :id, :name, {}, multiple: true, label: 'Users'%>
-	<%= f.submit "Save message" %>
+	<%= f.text_field :name, label: 'Project name' %>
+<!--	<%= f.text_field :ptype %> -->
+	<%= f.collection_select :user_ids, @company_employees, :id, :name, {}, multiple: true, label: 'Company employees'%>
+	<%= f.submit "Save changes" %>
 <% end %>

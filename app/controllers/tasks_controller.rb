@@ -19,11 +19,13 @@ class TasksController < ApplicationController
 
 	
 	def new 
+		@users = @company.users.all
+		@priorities = Task::Priority.to_hash.invert
+		@milestones = @project.milestones
 		
 		if request.post?
 			@task = @project.tasks.build params[:task]
-			@task.posted = 0.days.ago
-			@task.updated = @task.posted
+			@task.state = Task::State::ACTIVE
 			#TODO temporary, Nazin zrobi ladny jsowy kalendarz :)
 			@task.deadline = 2.days.from_now
 			if @task.save
@@ -34,7 +36,6 @@ class TasksController < ApplicationController
 			end
 		else #get
 			@task = @project.tasks.build
-			@users = @project.users.all
 		end
 	end
 
@@ -63,6 +64,9 @@ class TasksController < ApplicationController
 
 			@task = @project.tasks.find_by_id params[:id]
 			@users = @project.users.all
+			@states = Task::State.to_hash.invert
+			@priorities = Task::Priority.to_hash.invert
+			@milestones = @project.milestones
 		end
 	end
 
@@ -85,7 +89,7 @@ private
 
 
 
-	#TODO pbatko scopes?
+	
 	def tasks_of user, company, project
 		""" builds sql query to select of given user, company, project"""
 		user_id = user.id

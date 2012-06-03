@@ -37,6 +37,8 @@ class ProjectsController < ApplicationController
 
 	def edit
 		@project = @company.projects.find_by_id params[:id]
+		@company_employees =  @company.users.find(:all, :order => 'name')
+		@project.ptype = Project::TYPE_GIT
 		if request.put? and @project.update_attributes params[:project]
 			flash[:success] = "Project updated"
 			redirect_to projects_path

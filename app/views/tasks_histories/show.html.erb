@@ -1,10 +1,10 @@
 <h1>Task history entry details</h1>
+<%= link_to "Task History Overview", task_tasks_histories_path(@task), class: 'button r'  %>
+Task title:	<%= link_to @task.title, project_task_path(@project,@task) %><br />
+Change date: <%= @tasks_history.created_at %> <br />
 
-Task title:	<%= link_to @task.title, @task %><br />
-Changed: <%= @tasks_history.posted %> <br />
-
-State: <%= @tasks_history.state %> <br />
-Priority: <%= @tasks_history.priority %> <br />
+State: <%= state @tasks_history %> <br />
+Priority: <%= priority @tasks_history %> <br />
 
 Assigned user: <%=link_to @tasks_history.assigned_user.name, @tasks_history.assigned_user%> <br />
 Owner: <%= link_to @tasks_history.owner.name, @tasks_history.owner %> <br />
@@ -12,4 +12,4 @@ Owner: <%= link_to @tasks_history.owner.name, @tasks_history.owner %> <br />
 
 
 
-<%= link_to "Back to History", task_tasks_histories_path(@task)  %>
+

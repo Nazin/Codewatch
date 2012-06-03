@@ -1,0 +1,16 @@
+<h1>Milestone details</h1>
+	<%= link_to "Delete", project_milestone_path(@project, @milestone), method: :delete, confirm: "You sure?",  :class => 'button r' %>
+	<%= link_to "Edit", edit_project_milestone_path(@project,@milestone),  :class => 'button r'  %>
+
+<div>
+
+Milestone name:	<%= @milestone.name %><br />
+Deadline: <%= deadline @milestone %> <br />
+<br />
+Milestone's tasks:<br /><br />
+<% if @tasks && !@tasks.empty? %>
+<%= render @tasks %>
+<% else %>
+No tasks defined
+<% end %>
+</div></br> 

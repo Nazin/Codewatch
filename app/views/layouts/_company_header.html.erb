@@ -23,12 +23,13 @@
 		<div id="subnav">
 			<ul>
 				<li><%=link_to "Source", project_source_index_path(@project)%></li>
-				<li><%=link_to "Tasks", project_tasks_path(@project)%></li>
+				<li><%=link_to "Tasks", project_tasks_path(@project)%></li> 
+				<li><%=link_to "Milestones", project_milestones_path(@project)%></li> 
 				<li><%=link_to "Deployment", project_servers_path(@project)%></li>
 				<% if admin? %>
 				  <li class="divider"></li>
-					<li><%= link_to "Edit", edit_project_path(@project)  %></li>
-					<li><%= link_to "Delete", @project, method: :delete, confirm: "Are you sure?" %></li>
+					<li><%= link_to "Edit project", edit_project_path(@project)  %></li>
+					<li><%= link_to "Delete project", @project, method: :delete, confirm: "Are you sure?" %></li>
 				<% end %>
 			</ul>
 		</div>

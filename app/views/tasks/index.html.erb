@@ -1,10 +1,7 @@
-<%= link_to "Back to project", @project %> <br />
-<%= link_to "Create new task", new_project_task_path(@project) %> <br />
+<h1>Tasks overview </h1>
 
-<%= Task::State.to_list.inspect %> <br />
-Company name: <%= @company.name %> <br/>
-Project name: <%= @project.name %> <br/>
- <br/>
+<%= link_to "Create new task", new_project_task_path(@project),  :class => 'button r' %>
+Project's tasks:<br /><br /><br />
 <% if @tasks.empty? %>
 No tasks defined
 <% else %>

@@ -4,15 +4,15 @@
 	<h2><%= repo_info @project%></h2>
 	<h2><%= link_to 'Update repository users', update_project_repo_users_path(@project) %></h2>
 	<br />
-	<%= link_to "Projects", projects_path %> <br />
-	<%= link_to "Delete project", @project, method: :delete, confirm: "You sure?" %><br />
-	<%= link_to "Edit project details", edit_project_path(@project)  %><br />
+<!--	<%= link_to "Projects", projects_path %> <br />
+	<%= link_to "Delete project", @project, method: :delete, confirm: "You sure?" %><br />-->
+	
 
-	Project name:	<%= @project.name %><br />
-	Repository type: <%= @project.ptype %> <br />
+<h2>	Project name:	<%= @project.name %></h2>
 
-	<%= link_to "Tasks", project_tasks_path(@project) %> <br />
-	<br />
+<%= link_to "Edit project details", edit_project_path(@project)  %><br />
+<%= link_to "Tasks", project_tasks_path(@project) %> <br />
+
 	<br />
 	Assigned people: <br />
 	<% @users.each do |user| %>

@@ -17,6 +17,7 @@ class Project < ActiveRecord::Base
 	
 	TYPE_SVN = 1
 	TYPE_GIT = 2
+	TYPE_HASH = {TYPE_SVN => "SVN", TYPE_GIT => "Git"}
 	
 	belongs_to :company
 	has_and_belongs_to_many :users
@@ -29,7 +30,7 @@ class Project < ActiveRecord::Base
 	validates :company_id, presence: true
 	validates :location, presence: true, length: {maximum: 128 }
 	validates :name, presence: true, length: {maximum: 32 }
-	validates :ptype, presence: true, inclusion: { in: 1..2 }
+	validates :ptype, presence: true, inclusion: { in: 1..1 }
 	
 	#TODO test this validator
 	validates :name, presence: true, uniqueness: { scope: :company_id }

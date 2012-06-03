@@ -1,16 +1,14 @@
 <h1>Edit task </h1>
 
-<%=link_to "View tasks", project_tasks_path(@project), :class => 'button r' %>
-
 <%= cw_form_for @task, url: edit_project_task_path(@project,@task) do |f| %>
 	<%= f.text_field :title %>
 	<%= f.text_area :description %>
+	<%= f.select :state, @states, include_blank: true %>
+	<%= f.select :priority, @priorities, include_blank: true %>
+	<%= f.text_field :deadline %>
 	<%= f.collection_select :user_id, @users, :id, :name, {} %>
 	<%= f.collection_select :responsible_user_id, @users, :id, :name, {} %>
-	<%= f.text_field :state %>
-	<%= f.text_field :priority %>
-	<%= f.text_field :deadline %>
-
+	<%= f.collection_select :milestone_id, @milestones, :id, :name, {} %>
 	<%= f.submit "Update task" %>
 <% end %>
 

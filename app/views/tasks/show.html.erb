@@ -1,5 +1,7 @@
 <h1>Task details</h1>
-<%= link_to "Tasks", project_tasks_path(@project) %><br /><br />
+<%= link_to "Edit", edit_project_task_path(@project, @task),  :class => 'button r' %>
+<%= link_to "Delete", project_task_path(@project, @task), method: :delete,  :class => 'button r', confirm: 'You sure?' %>
+	<%= link_to "Task History", task_tasks_histories_path(@task), class: 'button r' %>
 Task title:	<%= @task.title %><br />
 
 Description: <%= @task.description %> <br />
@@ -7,14 +9,13 @@ Description: <%= @task.description %> <br />
 Assigned user: <%=link_to @task.assigned_user.name, @task.assigned_user%> <br />
 Owner: <%= link_to @task.owner.name, @task.owner %> <br />
 Deadline: <%= @task.deadline %> <br />
-Posted: <%= @task.posted %> <br />
-Updated: <%= @task.updated %> <br />
-State: <%= @task.state %> <br /><br />
+Posted: <%= @task.created_at %> <br />
+Updated: <%= @task.updated_at %> <br />
+State: <%= state @task %> <br />
+Priority: <%= priority @task %> <br /><br />
 
 
-	<%= link_to "History", task_tasks_histories_path(@task) %>
-	<%= link_to "Delete", project_task_path(@project, @task), method: :delete, confirm: "You sure?" %>
-	<%= link_to "Edit", edit_project_task_path(@project,@task)  %>
+
 
 </br>
 
