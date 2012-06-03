@@ -65,7 +65,7 @@ module Codewatch
 				
 		def set_project_permissions project
 			admins = project.owners.all
-			admins << project.admins.all
+			admins += project.admins.all
 			writers = project.writers.all
 			readers = project.spectators.all
 			
@@ -73,13 +73,29 @@ module Codewatch
 			repo = conf.get_repo repo_name
 			repo.clean_permissions
 
-			repo.add_permission(perm_string, "RW+", admins)
-			repo.add_permission(perm_string, "RW", writers)
-			repo.add_permission(perm_string, "R", readers)
+			admins = names_with_public_key admins
+			writers = names_with_public_key writers
+			readers = names_with_public_key readers
+			unless admins.empty?
+				repo.add_permission( "RW+","", admins)
+			end
+			unless writers.empty?
+				repo.add_permission( "RW","",writers)
+			end
+			unless readers.empty?
+				repo.add_permission( "R","", readers)
+			end
 			conf.add_repo repo, true
 			ga_repo.save
 		end
-		
+
+		def names_with_public_key users
+			with_key = users.find_all do |u|
+				!u.public_key.blank?
+			end
+			with_key.map { |u| u.name }
+		end
+
 		def new_repo name
 			Gitolite::Config::Repo.new name
 		end
