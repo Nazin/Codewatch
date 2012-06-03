@@ -11,12 +11,9 @@ private
 
 	
 	def update_repo_perms
-		repo_name = @project.location
-		string_key = current_user.public_key
-		user_name = current_user.name
 		begin
 			Codewatch::Repositories.new.configure do |git| # provides 20s timeout
-				git.create repo_name, string_key, user_name
+				git.set_project_permissions @project
 			end
 		rescue Exception => e
 			flash[:error]="Set repository permissions error #{e.inspect}"
