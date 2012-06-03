@@ -22,7 +22,7 @@
 		<% if @project && !@project.new_record? %>
 		<div id="subnav">
 			<ul>
-				<li><a href="">Source</a></li>
+				<li><%=link_to "Source", project_source_index_path(@project)%></li>
 				<li><%=link_to "Tasks", project_tasks_path(@project)%></li>
 				<li><%=link_to "Deployment", project_servers_path(@project)%></li>
 				<% if admin? %>
