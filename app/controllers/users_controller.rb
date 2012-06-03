@@ -197,10 +197,10 @@ class UsersController < ApplicationController
 		
 		@user = User.find params[:id]
 		@user_company = UserCompany.find_by_user_id_and_company_id params[:id], @company.id
-		old_role = @ucer_company.role
+		old_role = @user_company.role
 		if request.put? and @user_company.update_attributes params[:user_company]
 			if old_role != @user_company.role
-				update_repo_perms
+				update_repo
 			end
 			flash[:succes] = "User updated"
 			redirect_to users_path
@@ -214,5 +214,19 @@ class UsersController < ApplicationController
 		user_company.destroy
 		flash[:success] = "User removed from company"
 		redirect_to users_path
+	end
+	
+private
+	
+	def update_repo
+		projects = Project.joins(company: {user_companies: :user}).where(companies: {id: @company.id}, users: {id:  @user.id})
+		project_backup = @project
+		projects.each do |p|
+			@project = p
+			update_repo_perms
+		end
+		@project = project_backup
+			
+
 	end
 end
