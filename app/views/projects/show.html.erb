@@ -1,23 +1,27 @@
-<h1>Project details</h1>
+<% provide(:title, 'Dashboard') %>
 
+<div id="projectsList">
+	<h2><%= repo_info @project%></h2>
+	<h2><%= link_to 'Update repository users', update_project_repo_users_path(@project) %></h2>
+	<br />
+	<%= link_to "Projects", projects_path %> <br />
+	<%= link_to "Delete project", @project, method: :delete, confirm: "You sure?" %><br />
+	<%= link_to "Edit project details", edit_project_path(@project)  %><br />
 
-<h2><%= repo_info @project%></h2>
-<h2><%= link_to 'Update repository users', update_project_repo_users_path(@project) %></h2>
-<br />
-<%= link_to "Projects", projects_path %> <br />
-<%= link_to "Delete project", @project, method: :delete, confirm: "You sure?" %><br />
-<%= link_to "Edit project details", edit_project_path(@project)  %><br />
+	Project name:	<%= @project.name %><br />
+	Repository type: <%= @project.ptype %> <br />
 
-Project name:	<%= @project.name %><br />
-Repository type: <%= @project.ptype %> <br />
+	<%= link_to "Tasks", project_tasks_path(@project) %> <br />
+	<br />
+	<br />
+	Assigned people: <br />
+	<% @users.each do |user| %>
+	<%= render  template: 'projects/_project_user.html.erb', locals:  { user: user }  %>
+	<% end %>
+</div>
 
-<%= link_to "Tasks", project_tasks_path(@project) %> <br />
-<br />
-<br />
-Assigned people: <br />
-<% @users.each do |user| %>
-<%= render  template: 'projects/_project_user.html.erb', locals:  { user: user }  %>
-<% end %>
+<h1><%=@project.name%> - dashboard</h1>
 
+<%=render :template => 'projects/_dashboard'%>
 
-</br>
+<div class="both"></div>

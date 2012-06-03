@@ -8,20 +8,24 @@ class ProjectsController < ApplicationController
 	before_filter :have_public_key?, only: :new
 	
 	def index
-		@projects = current_user.projects
+		@projects = current_user.projects.find_all_by_company_id @company
 	end
 
 	def show
 		@project = current_user.projects.find_by_id params[:id]
 		@users = @project.users
+		@logs = Log.order("logs.created_at desc").joins("LEFT JOIN tasks ON logs.task_id = tasks.id")
+			.includes(:author, :project).select("logs.*, users.*, tasks.*").limit(100)
+			.where('logs.project_id = ? AND (logs.user_id = ? OR logs.user_id is null)', @project, current_user.id)
 	end
 
 	def new 
 		
 		@project = @company.projects.build params[:project]
-		@repo_location = "#{@project.company.name}/#{@project.company.name}-#{@project.name}"
-		@project.location = @repo_location
+		@project.location = '.'
 		if request.post? && @project.save
+			@project.location = "#{@project.company.slug}/#{@project.slug}"
+			@project.save
 			flash[:success] = "New project created"
 			redirect_to project_path @project
 		elsif request.post?
@@ -50,19 +54,14 @@ class ProjectsController < ApplicationController
 	end
 
 	def dashboard
-		@projects = current_user.projects
-		#TODO pbatko
-		#introduce DashboardsController ?
+		@projects = current_user.projects.find_all_by_company_id @company
+		@logs = Log.order("logs.created_at desc").joins("LEFT JOIN tasks ON logs.task_id = tasks.id")
+			.includes(:author, :project).select("logs.*, users.*, tasks.*").limit(100)
+			.where('logs.project_id in (?) AND (logs.user_id = ? OR logs.user_id is null)', @projects, current_user.id)
 	end
 	
 	private
 
-
-
-	def company_admin?
-		role = UserCompany::Role.new @company, current_user
-		role.admin?
-	end
 
 	def have_public_key?
 		if current_user.public_key.blank?

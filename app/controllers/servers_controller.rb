@@ -4,10 +4,8 @@ class ServersController < ApplicationController
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
 	
 	def index
-		
 		@servers = @project.servers
-		
-		@deployments = Deployment.order("created_at desc").limit(10).joins(:server).find_all_by_server_id @servers
+		@deployments = Deployment.order("created_at desc").limit(10).includes(:server).find_all_by_server_id @servers
 	end
 
 	def new
@@ -42,7 +40,7 @@ class ServersController < ApplicationController
 			flash[:succes] = "Server is deploying at the moment"
 		else
 			flash[:succes] = "Server deployed"
-			@server.deploy
+			@server.deploy current_user
 		end
 		
 		redirect_to project_servers_path

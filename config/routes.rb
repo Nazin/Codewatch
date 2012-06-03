@@ -10,6 +10,7 @@ Www::Application.routes.draw do
 	resources :projects, except: [:create, :update] do
 		resources :tasks, except: [:create, :update]
 		resources :servers, except: [:create, :update, :show]
+		resources :source, only: [:index, :show]
 	end
 
 	match '/projects/:project_id/servers/new', to: 'servers#new', via: [:get, :post], as: :new_server

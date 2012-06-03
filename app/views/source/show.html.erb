@@ -1,0 +1,13 @@
+<% provide :title, "Revision: #{@commit.id}" %>
+
+<h1>Revision: <%=@commit.id%></h1>
+
+<p>Commit by <%=@commit.committer.name%> <span>at <%=@commit.committed_date.strftime '%A, %d %B %Y (%H:%M)'%></p>
+<%=simple_format @commit.message%>
+
+<h2>Files changed</h2>
+<ul id="filesChanged">
+	<% for diff in @diffs %>
+		<li class="<%=diff.deleted_file ? 'deleted': (diff.new_file ? 'new' : 'amend')%>"><a href="!!!LINK DO PODGLADU PLIKU"><%=diff.a_path%></a></li>
+	<% end %>
+</ul>

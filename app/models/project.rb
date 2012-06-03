@@ -13,7 +13,7 @@
 
 class Project < ActiveRecord::Base
 	
-	attr_accessible :name, :ptype, :user_ids
+	attr_accessible :name, :ptype, :user_ids, :slug
 	
 	TYPE_SVN = 1
 	TYPE_GIT = 2
@@ -23,6 +23,7 @@ class Project < ActiveRecord::Base
 	has_many :tasks
 	has_many :servers
 	has_many :milestones
+	has_many :logs
 
 	validates :user_ids, presence: true
 	validates :company_id, presence: true
@@ -33,4 +34,33 @@ class Project < ActiveRecord::Base
 	#TODO test this validator
 	validates :name, presence: true, uniqueness: { scope: :company_id }
 	
+	acts_as_url :name, :url_attribute => :slug
+	
+	def repo
+		Grit::Repo.new repo_location
+	end
+	
+	def repo_location
+		#TODO ladna konfigurowalna sciezka
+		'/home/git/repositories/' + location + '.git'
+	end
+	
+	def self.commit_received id, revision
+		
+		project = self.find id
+		
+		repo = project.repo
+		commits = repo.commits revision
+		newest_commit = commits.first
+		
+		author = User.find_by_mail newest_commit.author.email
+		
+		Log.it Log::Type::NEW_COMMIT, project, author, {:revision => revision, :message => newest_commit.message}
+		
+		project.servers.each do |server|
+			if server.autoUpdate
+				server.deploy author
+			end
+		end
+	end
 end

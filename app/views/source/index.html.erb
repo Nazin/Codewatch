@@ -1,0 +1,23 @@
+<% provide(:title, 'Source') %>
+
+<h1>Source</h1>
+
+<% if @commits.any? %>
+	
+	<div id="commits">
+		<% for commit in @commits %>
+			<div class="commit">
+				<div class="revision">Revision: <%=link_to commit.id[0..10], project_source_path(@project, commit)%></div>
+				<div class="info">
+					<%=commit.committer.name%> <span>at <%=commit.committed_date.strftime '%A, %d %B %Y (%H:%M)'%></span>
+				</div>
+				<div class="msg">
+					<%=simple_format commit.message%>
+				</div>
+			</div>
+		<% end %>
+	</div>
+
+<% else %>
+	<p>There are no commits yet.</p>
+<% end %>

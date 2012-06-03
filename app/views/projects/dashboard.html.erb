@@ -1,3 +1,5 @@
+<% provide(:title, 'Dashboard') %>
+
 <div id="projectsList">
 	
 	<% if admin? %>
@@ -17,7 +19,8 @@
 	<% end %>
 </div>
 
-<h1>Project#dashboard</h1>
-<p>Find me in app/views/project/dashboard.html.erb</p>
+<h1>Dashboard</h1>
+
+<%=render :template => 'projects/_dashboard'%>
 
 <div class="both"></div>

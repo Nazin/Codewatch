@@ -15,10 +15,18 @@ module ApplicationHelper
 		
 		base = "Codewatch.pl"
 		
+		if not @company.nil?
+			base = @company.name + " :: " + base
+		end
+		
+		if not @project.nil?
+			base = @project.name + " :: " + base
+		end
+		
 		if subtitle.blank?
 			base
 		else
-			subtitle + " | " + base
+			subtitle + " :: " + base
 		end
 	end
 
