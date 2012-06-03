@@ -56,7 +56,22 @@ module Codewatch
 			ga_repo.save
 		end
 		
-		
+		def set_project_permissions project
+			admins = project.owners.all
+			admins << project.admins.all
+			writers = project.writers.all
+			readers = project.spectators.all
+			
+			repo_name = project.location
+			repo = conf.get_repo repo_name
+			repo.clean_permissions
+
+			repo.add_permission(perm_string, "RW+", admins)
+			repo.add_permission(perm_string, "RW", writers)
+			repo.add_permission(perm_string, "R", readers)
+			conf.add_repo repo, true
+			ga_repo.save
+		end
 		
 		def new_repo name
 			Gitolite::Config::Repo.new name

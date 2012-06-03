@@ -36,25 +36,12 @@ class RepositoriesController < ApplicationController
 
 	def update_users
 		#TODO https://github.com/gitlabhq/gitlabhq/blob/master/lib/gitlab/gitolite.rb -> def update_project_config(project, conf)
-		users = @project.users
-		c = @project.company
-		p = @project
-		users.each do |u|
-			#TODO uc.nil? uc!=[record]
-			uc = UserCompany.joins(:user, {company: :projects}).where(users: {id: u.id}, companies: {id: c.id}, projects: {id: p})[0]
-			repo_name = @project.location
-			perm_string = get_perm_string uc.role
-			user_name = u.name
-			string_key = u.public_key
-			unless string_key.blank?
-				#TODO check if user need to be updated, mayge he is up to date
-				perm_string = "R"
-				Codewatch::Repositories.new.configure do |git| # provides 20s timeout
-					#TODO exception handling ->timeout throws one
-					flash[:notice] = " ::#{repo_name}::#{user_name}"
-					git.set_permission repo_name, user_name, perm_string
-				end
-			end
+		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
+			#TODO exception handling ->timeout throws one
+#			flash[:notice] = " ::#{repo_name}::#{user_name}"
+			git.set_project_permissions @project
+		end
+		
 
 		end
 		redirect_to project_path @project
