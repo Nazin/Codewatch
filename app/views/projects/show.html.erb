@@ -2,7 +2,7 @@
 
 <div id="projectsList">
 	<h2><%= repo_info @project%></h2>
-	<h2><%= link_to 'Update repository users', update_project_repo_users_path(@project) %></h2>
+	<h2><%= link_to 'Force update repository permissions', update_project_repo_users_path(@project), class: 'button r' %></h2>
 	<br />
 <!--	<%= link_to "Projects", projects_path %> <br />
 	<%= link_to "Delete project", @project, method: :delete, confirm: "You sure?" %><br />-->
