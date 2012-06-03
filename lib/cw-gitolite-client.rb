@@ -55,7 +55,14 @@ module Codewatch
 			conf.add_repo repo, true
 			ga_repo.save
 		end
+
 		
+    def destroy_repo project
+      FileUtils.rm_rf(project.repo_location)
+      conf.rm_repo(project.location)
+      ga_repo.save
+    end
+				
 		def set_project_permissions project
 			admins = project.owners.all
 			admins += project.admins.all
