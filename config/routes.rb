@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 Www::Application.routes.draw do
 
+	match '/tasks/:id/', to: 'tasks#show', via: :get, as: :task
+
 	match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
 	match '/projects/:project_id/repository/update_users', to: 'repositories#update_users', via: [:get], as: :update_project_repo_users
 

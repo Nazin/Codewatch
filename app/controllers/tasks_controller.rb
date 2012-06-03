@@ -42,8 +42,12 @@ class TasksController < ApplicationController
 
 
 	def show
-		
-		@task = @project.tasks.find_by_id params[:id]
+		if @project.nil? 
+			@task = Task.find_by_id params[:id]
+			@project =@task.project
+		else
+			@task = @project.tasks.find_by_id params[:id]
+		end
 		if @project.nil?
 			flash[:warning]= "Project not found"
 			redirect_to root_path
