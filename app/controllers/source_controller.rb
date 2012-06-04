@@ -28,6 +28,20 @@ class SourceController < ApplicationController
 		end
 	end
 
+	def file
+		repo = @project.repo
+		blob =	repo.blob params[:file_id]
+		@name = blob.name
+		text = blob.data
+		#TODO assumptions that text is text
+		@lines = text.lines.count
+		#TODO use Pygments lexer autodetect lang 
+		@highlighed = Pygments.highlight(@code_snippet.code, :lexer => 'Ruby' )
+
+
+	end
+
+	end
 
 private
 

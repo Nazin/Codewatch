@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 Www::Application.routes.draw do
 
+	match '/projects/:project_id/file/:file_id/', to: 'source#file', via: :get, as: :project_file
+
 	match '/projects/:project_id/tree', to: 'source#tree', via: :get, as: :project_root_tree
 	
 	match '/projects/:project_id/tree/:tree_id', to: 'source#tree', via: :get, as: :project_tree

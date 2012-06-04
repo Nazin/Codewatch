@@ -4,7 +4,7 @@ module SourceHelper
 	end
 
 	def blob el
-		link_to el.name, root_path
+		link_to el.name, project_file_path(@project, el.id)
 	end
 
 end
