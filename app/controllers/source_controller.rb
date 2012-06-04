@@ -1,10 +1,6 @@
 class SourceController < ApplicationController
 	include CodeSnippetsHelper
 
-	@@lexers	=	 Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
-	@@lexers = @@lexers.collect { |elt| elt.aliases.first }
-
-
 	before_filter :company_member?
 	
 	def index
@@ -41,7 +37,7 @@ class SourceController < ApplicationController
 		#TODO assumptions that text is text
 		@lines = @text.lines.count
 		#TODO use Pygments lexer autodetect lang 
-		@highlighed = Pygments.highlight("def a end if", :lexer => 'ruby' )# Pygments::Lexer.all[0].aliases.first ) #Ruby 'rb'
+		@highlighted = Pygments.highlight("def aaa end if", :lexer => 'ruby' )# Pygments::Lexer.all[0].aliases.first ) #Ruby 'rb'
 
 
 	end
