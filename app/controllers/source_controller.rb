@@ -1,5 +1,5 @@
 class SourceController < ApplicationController
-	
+	include CodeSnippetsHelper
 	before_filter :company_member?
 	
 	def index
@@ -28,9 +28,9 @@ class SourceController < ApplicationController
 		end
 	end
 
-	def file
+	def blob
 		repo = @project.repo
-		blob =	repo.blob params[:file_id]
+		blob =	repo.blob params[:blob_id]
 		@name = blob.name
 		text = blob.data
 		#TODO assumptions that text is text
