@@ -33,7 +33,7 @@ class SourceController < ApplicationController
 		repo = @project.repo
 		blob =	repo.blob params[:blob_id]
 		@name = blob.name
-		@id = blobl.id
+		@id = blob.id
 		@text = blob.data
 		@textfile = @text.ascii_only?
 		if @textfile
