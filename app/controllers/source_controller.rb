@@ -42,9 +42,7 @@ class SourceController < ApplicationController
 		end
 
 		if @textfile
-			#TODO assumptions that text is text
 			@lines = @text.lines.count
-			#TODO use Pygments lexer autodetect lang 
 			@highlighted = Pygments.highlight(@text )
 		end
 
