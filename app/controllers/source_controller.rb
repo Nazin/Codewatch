@@ -34,14 +34,12 @@ class SourceController < ApplicationController
 		
 		if params[:parent]
 			@tree = repo.tree params[:parent]
-			blob = @tree.blobs.find { |b| b.id == params[:blob_id] }
+			@blob = @tree.blobs.find { |b| b.id == params[:blob_id] }
 		else
-			blob =	repo.blob params[:blob_id]
+			@blob =	repo.blob params[:blob_id]
 		end
 
-		@name = blob.name
-		@id = blob.id
-		@text = blob.data
+		@text = @blob.data
 
 		@textfile =  @name =~ /\.rb|\.js/i
 		if !@textfile
