@@ -41,7 +41,7 @@ class SourceController < ApplicationController
 
 	end
 
-	end
+
 
 private
 
