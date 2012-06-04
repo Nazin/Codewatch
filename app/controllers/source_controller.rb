@@ -31,7 +31,9 @@ class SourceController < ApplicationController
 
 	def blob
 		repo = @project.repo
-		if @tree = repo.tree(params[:parent])
+		
+		if params[:parent]
+			@tree = repo.tree params[:parent]
 			blob = @tree.blobs.find { |b| b.id == params[:blob_id] }
 		else
 			blob =	repo.blob params[:blob_id]
