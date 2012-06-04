@@ -59,14 +59,14 @@ private
 
 	def root_tree
 		repo = @project.repo
-		tree = repo.commits.first.tree
+		@tree = repo.commits.first.tree
 		process_tree tree
 #		tree.id # => "3536eb9abac69c3e4db583ad38f3d30f8db4771f"
 	end 
 
 	def sub_tree
 		repo = @project.repo
-		tree =	repo.tree params[:tree_id]
+		@tree =	repo.tree params[:tree_id]
 		process_tree tree
 # => #<Grit::Tree "91169e1f5fa4de2eaea3f176461f5dc784796769">
 	end
