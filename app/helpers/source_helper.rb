@@ -7,7 +7,7 @@ module SourceHelper
 		if parent.nil?
 			link_to el.name, project_blob_path(@project, el.id)
 		else
-			link_to el.name, project_parent_blob_path(@project, parent, el.id)
+			link_to el.name, project_parent_blob_path(@project, parent.id, el.id)
 		end
 	end
 
