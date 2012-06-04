@@ -34,9 +34,9 @@ class SourceController < ApplicationController
 		@name = blob.name
 		@text = blob.data
 		#TODO assumptions that text is text
-		@lines = text.lines.count
+		@lines = @text.lines.count
 		#TODO use Pygments lexer autodetect lang 
-		@highlighed = Pygments.highlight(text, :lexer => 'rb' ) #Ruby
+		@highlighed = Pygments.highlight(@text, :lexer => 'rb' ) #Ruby
 
 
 	end
