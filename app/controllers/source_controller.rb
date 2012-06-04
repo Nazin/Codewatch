@@ -60,7 +60,7 @@ private
 	def root_tree
 		repo = @project.repo
 		@tree = repo.commits.first.tree
-		process_tree tree
+		process_tree @tree
 #		tree.id # => "3536eb9abac69c3e4db583ad38f3d30f8db4771f"
 	end 
 
@@ -71,7 +71,7 @@ private
 # => #<Grit::Tree "91169e1f5fa4de2eaea3f176461f5dc784796769">
 	end
 
-	def process_tree tree
+	def process_tree @tree
 		contents = tree.contents
 		@blobs = tree.blobs
 		@trees = tree.trees
