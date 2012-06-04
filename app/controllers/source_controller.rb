@@ -36,6 +36,8 @@ class SourceController < ApplicationController
 			@tree = repo.tree params[:parent]
 
 			@blob = @tree.blobs.select { |b| b.id == params[:blob_id] }
+			#wtof @blob[0]?
+			@blob = @blob[0]
 		else
 			@blob =	repo.blob params[:blob_id]
 		end
