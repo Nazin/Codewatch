@@ -33,7 +33,7 @@ class SourceController < ApplicationController
 		repo = @project.repo
 		blob =	repo.blob params[:blob_id]
 		@name = blob.name
-		@basename = blob.name
+		@basename = blob.mime_type
 		@text = blob.data
 		#TODO assumptions that text is text
 		@lines = @text.lines.count
