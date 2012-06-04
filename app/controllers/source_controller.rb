@@ -33,21 +33,19 @@ class SourceController < ApplicationController
 		repo = @project.repo
 		
 		if params[:parent]
+			"""parent: @tree is needed, to obtain @blob object with :name field"""
 			@tree = repo.tree params[:parent]
 
-			@blob = @tree.blobs.select { |b| b.id == params[:blob_id] }
-			#wtof @blob[0]?
-			@blob = @blob[0]
+			@blob = @tree.blobs.find { |b| b.id == params[:blob_id] }
 		else
+			"""here @blob object has only :id field"""
 			@blob =	repo.blob params[:blob_id]
 		end
 
 		@text = @blob.data
 
-		@textfile =  @name =~ /\.rb|\.js/i
-		if !@textfile
-			@textfile = @text.ascii_only?
-		end
+		@textfile =  (@blob.name =~ /\.rb|\.js/i) || (@textfile = @text.ascii_only?)
+
 
 		if @textfile
 			@lines = @text.lines.count
