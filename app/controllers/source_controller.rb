@@ -46,7 +46,7 @@ private
 	def tree_from_repo repo
 		tree = repo.commits.first.tree
 		contents = tree.contents
-		@blobs = contents.blobs
-		@trees = contents.trees
+		@blobs = tree.blobs
+		@trees = tree.trees
 	end
 end
