@@ -35,7 +35,12 @@ class SourceController < ApplicationController
 		@name = blob.name
 		@id = blob.id
 		@text = blob.data
-		@textfile = @text.ascii_only?
+
+		@textfile =  @name =~ /\.rb|\.js/i
+		if !@textfile
+			@textfile = @text.ascii_only?
+		end
+
 		if @textfile
 			#TODO assumptions that text is text
 			@lines = @text.lines.count
