@@ -1,6 +1,9 @@
 <h1>Filename:  <%= @blob.name %></h1>
 <h1>Id: <%= @blob.id %></h1>
 <h1>Mime type: <%= @blob.mime_type %></h1>
+<% if @parent %>
+<h1>Parent directory: <%= tree @parent %> </h1>
+<% end %>
 <% if @textfile %>
 <table>
 	<tbody>
