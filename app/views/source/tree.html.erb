@@ -1,0 +1,22 @@
+<h1>Source Tree</h1>
+
+
+<% @trees.each do |t| %>
+<div>
+<span>Dir</span>
+<span>
+  <%= tree t %>
+<span>
+<div>
+
+<% end %>
+
+
+<% @blobs.each do |b| %>
+<div>
+<span>Dir</span>
+<span>
+  <%= blob b %><br />
+<span>
+<div>
+<% end %>

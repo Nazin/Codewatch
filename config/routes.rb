@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 Www::Application.routes.draw do
 
+	match '/project/:project_id/tree', to: 'tasks#tree', via: :get, as: :project_root_tree
+	
+	match '/project/:project_id/tree/:tree_id', to: 'tasks#tree', via: :get, as: :project_tree
+
 	match '/tasks/:id/', to: 'tasks#show', via: :get, as: :task
 
 	match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
