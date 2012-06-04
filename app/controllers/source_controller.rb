@@ -32,7 +32,7 @@ class SourceController < ApplicationController
 	def blob
 		repo = @project.repo
 		blob =	repo.blob params[:blob_id]
-		@name = blob.name
+		@blob = blob
 		@id = blob.id
 		@text = blob.data
 
