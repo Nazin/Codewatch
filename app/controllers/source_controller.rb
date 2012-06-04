@@ -37,7 +37,7 @@ class SourceController < ApplicationController
 		#TODO assumptions that text is text
 		@lines = @text.lines.count
 		#TODO use Pygments lexer autodetect lang 
-		@highlighted = Pygments.highlight("def aaa end if", :lexer => 'ruby' )# Pygments::Lexer.all[0].aliases.first ) #Ruby 'rb'
+		@highlighted = Pygments.highlight(@text, :lexer => 'ruby' )
 
 
 	end
