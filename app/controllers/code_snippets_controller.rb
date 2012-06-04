@@ -1,9 +1,10 @@
 class CodeSnippetsController < ApplicationController
 	include CodeSnippetsHelper
 
-	@@lexers	=	 Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase }
-	@@lexers = @@lexers.collect { |elt| elt.aliases.first }
 
+
+
+	
 	def index
 		@code_snippets = CodeSnippet.all
 	end
