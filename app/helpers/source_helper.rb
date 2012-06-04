@@ -4,7 +4,7 @@ module SourceHelper
 	end
 
 	def blob el
-		lintk_to el.name, root_path
+		link_to el.name, root_path
 	end
 
 end
