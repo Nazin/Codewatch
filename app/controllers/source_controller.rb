@@ -33,13 +33,15 @@ class SourceController < ApplicationController
 		repo = @project.repo
 		blob =	repo.blob params[:blob_id]
 		@name = blob.name
-		@basename = blob.mime_type
+		@id = blobl.id
 		@text = blob.data
-		#TODO assumptions that text is text
-		@lines = @text.lines.count
-		#TODO use Pygments lexer autodetect lang 
-		@highlighted = Pygments.highlight(@text )
-
+		@textfile = @text.ascii_only?
+		if @textfile
+			#TODO assumptions that text is text
+			@lines = @text.lines.count
+			#TODO use Pygments lexer autodetect lang 
+			@highlighted = Pygments.highlight(@text )
+		end
 
 	end
 

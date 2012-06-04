@@ -1,5 +1,6 @@
 <h1>Filename: <%= @name %></h1>
-<h1>Filename: <%= @basename %></h1>
+<h1>Id0: <%= @id %></h1>
+<% if @textfile %>
 <table>
 	<tbody>
 		<tr>
@@ -15,5 +16,7 @@
 			</td>
 	</tbody>
 </table>
-
+<% else %>
+This file is probably not a text file. Preview not available.
+<% end %>
 
