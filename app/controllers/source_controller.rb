@@ -32,7 +32,7 @@ class SourceController < ApplicationController
 		repo = @project.repo
 		blob =	repo.blob params[:blob_id]
 		@name = blob.name
-		text = blob.data
+		@text = blob.data
 		#TODO assumptions that text is text
 		@lines = text.lines.count
 		#TODO use Pygments lexer autodetect lang 
