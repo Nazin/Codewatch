@@ -88,9 +88,9 @@ def make_projects
 		c = u.companies[0]
 		6.times do |n|
 			name = "fake-project-#{n}"
-			ptype = n%2+1
+#			ptype = n%2+1
 			location = "fake-repo#{n}.git"
-			project_params = { name: name, ptype: ptype }
+			project_params = { name: name }
 			associate_user_company_project u, c, project_params, location
 		end
 	end 
