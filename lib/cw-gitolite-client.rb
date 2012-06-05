@@ -93,7 +93,7 @@ module Codewatch
 			with_key = users.find_all do |u|
 				!u.public_key.blank?
 			end
-			with_key.map { |u| u.name }
+			with_key.map { |u| u.mail }
 		end
 
 		def new_repo name

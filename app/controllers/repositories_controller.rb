@@ -18,18 +18,20 @@ class RepositoriesController < ApplicationController
 				git.set_project_permissions @project
 			end
 		rescue
-			flash[:error]="Set repository permissions error"
+			flash[:error] = "Set repository permissions error"
 			redirect_to project_path @project
 			return
 		end
 		
-		flash[:notice]="Repository permissions updated "
+		flash[:notice] = "Repository permissions updated "
 		redirect_to project_path @project
 	end
 private
 	
 	def repository_created?
+		
 		@project = Project.find params[:project_id]
+		
 		if @project.repository_created 
 			flash[:error] = "No repository found. Create one"
 			redirect_to project_path @project 
@@ -37,6 +39,7 @@ private
 	end
 
 	def get_perm_string role
+		
 		if role == UserCompany::Role::OWNER
 			"RW+"
 		elsif role == UserCompany::Role::ADMIN

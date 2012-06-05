@@ -1,19 +1,10 @@
 class TasksController < ApplicationController
-	#TODO some/more filters ?
 
 	before_filter :company_member?
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
 
 	def index
-
-		#TODO before filter which inits @projects and redirects if @projects == nil 
-		
-		if @project.nil?
-			flash[:warning]= "Project not found"
-			redirect_to root_path
-		else
-			@tasks = tasks_of current_user, @company, @project
-		end
+		@tasks = tasks_of current_user, @company, @project
 	end
 
 
