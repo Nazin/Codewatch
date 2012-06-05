@@ -271,9 +271,10 @@ div#main p {
 	color: red;
 	margin: 5px;
 }
-.codewatchForm form input {
+.codewatchForm form input, .codewatchForm form select {
 	border: 1px solid #164B5F;
 	padding: 2px;
+	width: 200px;
 }
 .codewatchForm form .send {
 	margin-left: 162px;
@@ -282,6 +283,7 @@ div#main p {
 	background: red;
 	color: #fff;
 	border: 1px solid #141414;
+	width: auto;
 }
 a.button {
 	border: 1px solid #000;
@@ -453,6 +455,13 @@ div#main h2 {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 20px;
 	margin: 15px 0;
+}
+ul#projectsOverview li {
+	margin-bottom: 10px; 
+	line-height: 1.3;
+}
+ul#projectsOverview li span {
+	font-size: 19px;
 }
 div.jGrowl {
 	z-index: 9999;

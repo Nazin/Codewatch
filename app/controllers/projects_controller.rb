@@ -1,7 +1,6 @@
 class ProjectsController < ApplicationController
+	
 	require 'cw-gitolite-client'
-	#TODO pbatko
-	# before_filter correct_project? hmm @project.nil?
 
 	before_filter :company_member?
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
@@ -23,6 +22,7 @@ class ProjectsController < ApplicationController
 		
 		@project = @company.projects.build params[:project]
 		@project.location = '.'
+		
 		if request.post? && @project.save
 			@project.location = "#{@project.company.slug}/#{@project.slug}"
 			@project.save
@@ -33,14 +33,15 @@ class ProjectsController < ApplicationController
 		elsif request.post?
 			flash[:warning] = "Invalid information"
 		end
+		
 		@employees = @company.users.find(:all, :order => 'name')
-		@types = {'Git' => Project::TYPE_GIT}
 	end
 
 	def edit
+		
 		@project = @company.projects.find_by_id params[:id]
 		@company_employees =  @company.users.find(:all, :order => 'name')
-		@project.ptype = Project::TYPE_GIT
+		
 		if request.put? and @project.update_attributes params[:project]
 			flash[:success] = "Project updated"
 			redirect_to projects_path
@@ -51,7 +52,6 @@ class ProjectsController < ApplicationController
 
 	def destroy
 
-
 		@project = current_user.projects.find_by_id params[:id]
 		@project.destroy
 		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
@@ -59,11 +59,8 @@ class ProjectsController < ApplicationController
 			git.destroy_repo @project
 		end
 
-		
-
 		flash[:success] = "Project removed"
 		redirect_to projects_path
-
 	end
 
 	def dashboard
@@ -71,51 +68,11 @@ class ProjectsController < ApplicationController
 		@logs = Log.order("logs.created_at desc").joins("LEFT JOIN tasks ON logs.task_id = tasks.id")
 			.includes(:author, :project).select("logs.*, users.*, tasks.*").limit(100)
 			.where('logs.project_id in (?) AND (logs.user_id = ? OR logs.user_id is null)', @projects, current_user.id)
-	end
+	end	
+private
 	
-	private
-	
-
-	def create_repo
-		repo_name = @project.location
-		string_key = current_user.public_key
-		user_name = current_user.name
-		begin
-			Codewatch::Repositories.new.configure do |git| # provides 20s 
-				git.create repo_name, string_key, user_name
-			end
-		rescue
-			flash[:error] = "Repository creation error"
-			return
-		end
-		when_repo_created_action
-	end
-
-
-	def when_repo_created_action
-		hook_location = @project.repo_location + '/hooks/post-receive'
-		new_hook = File.new hook_location, 'w+'
-		
-		hook_template = File.open 'post-receive.hook.sample', 'r'
-		hook_template.each do |line|
-			new_hook.puts (line.gsub 'PROJECT_ID', @project.id.to_s)
-		end
-		
-		new_hook.close
-		hook_template.close
-		
-		File.chmod 0777, hook_location
-		
-		@project.repository_created = true
-		if @project.save
-			flash[:notice] = "New repository created"
-		else
-			flash[:error] = "New repository created, but something unsuspected happened"
-		end
-	end
-	
-
 	def have_public_key?
+		
 		if current_user.public_key.blank?
 			flash[:warning] = "Cannot create project - no public key for git repository"
 			redirect_to user_edit_path
@@ -124,5 +81,4 @@ class ProjectsController < ApplicationController
 			true
 		end
 	end
-	
 end

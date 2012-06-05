@@ -1,8 +1,9 @@
-<%=link_to "View projects", projects_path, :class => 'button r' %>
+<% provide(:title, 'New project') %>
+
+<h1>New project</h1>
 
 <%= cw_form_for @project, url: new_project_path do |f| %>
 	<%= f.text_field :name %>
-	<%= f.select :ptype, @types, label: "Type", include_blank: true %>
 	<%= f.collection_select :user_ids, @employees , :id, :name, {}, multiple: true, label: "Users"%>
 	<%= f.submit "Save project" %>
 <% end %>
