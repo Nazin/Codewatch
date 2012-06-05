@@ -8,6 +8,7 @@
 <h2>Files changed</h2>
 <ul id="filesChanged">
 	<% for diff in @diffs %>
-		<li class="<%=diff.deleted_file ? 'deleted': (diff.new_file ? 'new' : 'amend')%>"><a href="!!!LINK DO PODGLADU PLIKU"><%=diff.a_path%></a></li>
+		<li class="<%=diff.deleted_file ? 'deleted': (diff.new_file ? 'new' : 'amend')%>"><%= link_to diff.a_path, project_parent_blob_path(@project, @commit.tree.id, diff.a_blob)%></li>
+		
 	<% end %>
 </ul>

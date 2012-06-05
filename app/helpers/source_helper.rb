@@ -1,4 +1,5 @@
 module SourceHelper
+	
 	def tree el
 		link_to el.name, project_tree_path(@project, el.id) 
 	end
@@ -10,5 +11,4 @@ module SourceHelper
 			link_to el.name, project_parent_blob_path(@project, parent.id, el.id)
 		end
 	end
-
 end

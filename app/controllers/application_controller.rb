@@ -66,6 +66,8 @@ private
 		
 		domain_parts = request.host.split('.')
 		
+		@home = request.protocol + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80? ":#{request.port}":'')
+		
 		if domain_parts.length == 3
 			
 			@company = Company.find_by_slug domain_parts[0]
@@ -81,8 +83,6 @@ private
 		else
 			@company = nil
 		end
-		
-		@home = request.protocol + domain_parts[domain_parts.length-2] + '.' + domain_parts[domain_parts.length-1] + (request.port != 80? ":#{request.port}":'')
 	end
 	
 	def is_signed_in?

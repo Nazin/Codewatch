@@ -1,4 +1,5 @@
 class SourceController < ApplicationController
+	
 	include CodeSnippetsHelper
 
 	before_filter :company_member?
@@ -14,10 +15,10 @@ class SourceController < ApplicationController
 		commits = repo.commits params[:id]
 		@commit = commits.first
 		
-		if commits[1].nil?
-			@diffs = Grit::Commit.diff repo, params[:id]
-		else
+		if not commits[1].nil?
 			@diffs = Grit::Commit.diff repo, commits[1].id, params[:id]
+		else
+			@diffs = get_tree_diffs @commit.tree, [], ''
 		end
 	end
 
@@ -58,6 +59,27 @@ class SourceController < ApplicationController
 
 private
 
+	def get_tree_diffs tree, elements, path
+		
+		for el in tree.contents
+			
+			if el.is_a? Grit::Tree
+				elements = get_tree_diffs el, elements, (path != '' ? (File.join path, el.name) : el.name)
+			else
+				
+				temp = Server::ServerDiff.new
+				temp.deleted_file = false
+				temp.new_file = false
+				temp.a_blob = el.id
+				temp.a_path = path != '' ? (File.join path, el.name) : el.name
+				
+				elements.push temp
+			end
+		end
+		
+		elements
+	end
+	
 	def root_tree
 		repo = @project.repo
 		tree = repo.commits.first.tree

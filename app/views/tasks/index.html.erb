@@ -1,6 +1,11 @@
-<h1>Tasks overview </h1>
+<% provide(:title, 'Tasks Overview') %>
 
-<%= link_to "Create new task", new_project_task_path(@project),  :class => 'button r' %>
+<% if admin? %>
+	<%= link_to "Add new task", new_project_task_path(@project),  :class => 'button r' %>
+<% end %>
+
+<h1>Tasks overview</h1>
+
 Project's tasks:<br /><br /><br />
 <% if @tasks.empty? %>
 No tasks defined
