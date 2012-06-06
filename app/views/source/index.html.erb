@@ -1,5 +1,7 @@
 <% provide(:title, 'Source') %>
 
+<%=link_to "Browse all files", project_root_tree_path(@project), :class => 'button r' %>
+
 <h1>Source</h1>
 
 <% if @commits.any? %>

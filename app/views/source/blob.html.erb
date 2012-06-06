@@ -1,26 +1,23 @@
-<h1>Filename:  <%= @blob.name %></h1>
-<h1>Id: <%= @blob.id %></h1>
-<h1>Mime type: <%= @blob.mime_type %></h1>
-<% if @parent %>
-<h1>Parent directory: <%= tree @parent %> </h1>
-<% end %>
-<% if @textfile %>
-<table>
-	<tbody>
-		<tr>
-			<td>
-				<div>
-					<%= raw gen_line_numbers @lines %>
-					</div>
-			</td>
-			<td>
-				<div>
-					<%= raw @highlighted %>
-				</div>
-			</td>
-	</tbody>
-</table>
-<% else %>
-This file is probably not a text file. Preview not available.
-<% end %>
+<% provide(:title, "File: #{@blob.name}") %>
 
+<h1>File: <%= @blob.name %></h1>
+
+<% if @textfile %>
+	<table id="highlitedCode">
+		<tbody>
+			<tr>
+				<td class="lineNumbers">
+					<div>
+						<%= raw gen_line_numbers @lines %>
+						</div>
+				</td>
+				<td>
+					<div>
+						<%= raw @highlighted %>
+					</div>
+				</td>
+		</tbody>
+	</table>
+<% else %>
+	<p>This file is probably not a text file. Preview not available.</p>
+<% end %>

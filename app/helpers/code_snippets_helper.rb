@@ -5,12 +5,15 @@ module CodeSnippetsHelper
 	end
 
 	def gen_line_numbers n
-		numbers = "<pre	 class=\"line-numbers\" >"
+		
+		numbers = "<pre>"
+		
 		1.upto(n) do |i|
 			numbers << "#{i} \n"
 		end
+		
 		numbers << "</pre>"
+		
 		numbers
 	end
-
 end

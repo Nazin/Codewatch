@@ -139,7 +139,7 @@ class Server < ActiveRecord::Base
 	end
 	
 	class ServerDiff
-		attr_accessor :b_blob, :a_blob, :a_path, :b_path, :deleted_file, :new_file
+		attr_accessor :b_blob, :a_blob, :a_path, :b_path, :deleted_file, :new_file, :tree
 	end
 	
 private

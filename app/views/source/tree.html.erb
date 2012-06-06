@@ -1,22 +1,15 @@
 <h1>Source Tree</h1>
 
-
 <% @trees.each do |t| %>
-<div>
-<span>dir</span>
-<span>
-  <%= tree t %>
-<span>
-<div>
-
+	<div class="fileListing">
+		<span>dir</span>
+		<span><%= tree t %><span>
+	</div>
 <% end %>
 
-
 <% @blobs.each do |b| %>
-<div>
-<span>file</span>
-<span>
-  <%= blob b, @parent %><br />
-<span>
-<div>
+	<div class="fileListing">
+		<span>file</span>
+		<span><%= blob b, @parent %><span>
+	</div>
 <% end %>

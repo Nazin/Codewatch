@@ -45,17 +45,26 @@ class SourceController < ApplicationController
 
 		@text = @blob.data
 
-		@textfile =  (@blob.name =~ /\.rb|\.js/i) || (@textfile = @text.ascii_only?)
-
-
+		@textfile = (@blob.name =~ /\.rb|\.js/i) || (@textfile = @text.ascii_only?)
+		
 		if @textfile
+			
 			@lines = @text.lines.count
-			@highlighted = Pygments.highlight(@text )
+			
+			lexer = nil
+			
+			if @blob.name =~ /\./i
+				parts = @blob.name.split '.'
+				lexer = Pygments::Lexer.find_by_extname '.' + parts[parts.length-1]
+			end
+		
+			if lexer.nil?
+				@highlighted = Pygments.highlight @text
+			else
+				@highlighted = lexer.highlight @text
+			end
 		end
-
 	end
-
-
 
 private
 
@@ -72,6 +81,7 @@ private
 				temp.new_file = false
 				temp.a_blob = el.id
 				temp.a_path = path != '' ? (File.join path, el.name) : el.name
+				temp.tree = tree
 				
 				elements.push temp
 			end
@@ -85,7 +95,6 @@ private
 		tree = repo.commits.first.tree
 		@parent = tree
 		process_tree tree
-#		tree.id # => "3536eb9abac69c3e4db583ad38f3d30f8db4771f"
 	end 
 
 	def sub_tree
@@ -93,11 +102,9 @@ private
 		tree =	repo.tree params[:tree_id]
 		@parent = tree
 		process_tree tree
-# => #<Grit::Tree "91169e1f5fa4de2eaea3f176461f5dc784796769">
 	end
 
 	def process_tree tree
-		contents = tree.contents
 		@blobs = tree.blobs
 		@trees = tree.trees
 	end
