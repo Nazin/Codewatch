@@ -8,7 +8,9 @@ module SourceHelper
 			path = File.join @path, el.name
 		end
 		
-		link_to el.name, project_tree_path(@project, (u path))
+		path.gsub! '/','_'
+
+		link_to el.name, project_tree_path(@project, (path))
 	end
 
 	def blob el
@@ -16,7 +18,8 @@ module SourceHelper
 		if @path.nil?
 			link_to el.name, project_blob_path(@project, el.id)
 		else
-			link_to el.name, project_parent_blob_path(@project, (u @path), el.id)
+			@path.gsub! '/','_'
+			link_to el.name, project_parent_blob_path(@project, (@path), el.id)
 		end
 	end
 	
@@ -30,6 +33,6 @@ module SourceHelper
 			path = ''
 		end
 		
-		link_to '..', project_tree_path(@project, (u path))
+		link_to '..', project_tree_path(@project, (path))
 	end
 end

@@ -7,11 +7,11 @@ class ProjectsController < ApplicationController
 	before_filter :have_public_key?, only: :new
 	
 	def index
-		@projects = current_user.projects.find_all_by_company_id @company
+		@projects = @company.projects
 	end
 
 	def show
-		@project = current_user.projects.find_by_id params[:id]
+		@project = @company.projects.find_by_id params[:id]
 		@users = @project.users
 		@logs = Log.order("logs.created_at desc").joins("LEFT JOIN tasks ON logs.task_id = tasks.id")
 			.includes(:author, :project).select("logs.*, users.*, tasks.*").limit(100)

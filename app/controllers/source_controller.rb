@@ -29,6 +29,7 @@ class SourceController < ApplicationController
 		
 		if not params[:path].nil?
 			@path = params[:path]
+			@path.gsub! '_','/'
 			tree = last_commit.tree/params[:path]
 		else
 			tree = last_commit.tree
@@ -41,7 +42,7 @@ class SourceController < ApplicationController
 		
 		repo = @project.repo
 		@path = params[:path]
-		
+		@path.gsub! '_','/'
 		if not params[:path].nil?
 			@tree = repo.tree/params[:path]
 			@blob = @tree.blobs.find { |b| b.id == params[:blob_id] }
