@@ -51,8 +51,7 @@ class Project < ActiveRecord::Base
 	
 	def repo_location
 		#TODO ladna konfigurowalna sciezka
-		#'/home/git/repositories/' + location + '.git'
-		'../IO'
+		'/home/git/repositories/' + location + '.git'
 	end
 	
 	def self.commit_received id, revision
