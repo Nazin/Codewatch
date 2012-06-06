@@ -271,7 +271,7 @@ div#main p {
 	color: red;
 	margin: 5px;
 }
-.codewatchForm form input, .codewatchForm form select {
+.codewatchForm form input, .codewatchForm form select, .codewatchForm form textarea {
 	border: 1px solid #164B5F;
 	padding: 2px;
 	width: 200px;
@@ -482,6 +482,10 @@ table#highlitedCode td.lineNumbers {
 }
 .fileListing a {
 	font-size: 15px;
+}
+textarea#task_description {
+	height: 100px;
+	width: 500px;
 }
 div.jGrowl {
 	z-index: 9999;

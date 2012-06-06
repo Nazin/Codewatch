@@ -1,14 +1,6 @@
-<h1>Edit task </h1>
+<% provide(:title, "Edit task: #{@task.title}") %>
 
-<%= cw_form_for @task, url: edit_project_task_path(@project,@task) do |f| %>
-	<%= f.text_field :title %>
-	<%= f.text_area :description %>
-	<%= f.select :state, @states, include_blank: true %>
-	<%= f.select :priority, @priorities, include_blank: true %>
-	<%= f.text_field :deadline %>
-	<%= f.collection_select :user_id, @users, :id, :name, {}, label: 'Task owner' %>
-	<%= f.collection_select :responsible_user_id, @users, :id, :name,  label: 'Assigned user' %>
-	<%= f.collection_select :milestone_id, @milestones, :id, :name, {} %>
-	<%= f.submit "Update task" %>
-<% end %>
+<h1>Edit task: <%=@task.title%></h1>
 
+<% @url = edit_project_task_path(@project, @task) %>
+<%=render :template => 'tasks/_form'%>

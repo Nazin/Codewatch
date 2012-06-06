@@ -1,21 +1,37 @@
-<h1>Task details</h1>
-<%= link_to "Edit", edit_project_task_path(@project, @task),  :class => 'button r' %>
-<%= link_to "Delete", project_task_path(@project, @task), method: :delete,  :class => 'button r', confirm: 'You sure?' %>
-	<%= link_to "Task History", task_tasks_histories_path(@task), class: 'button r' %>
-Task title:	<%= @task.title %><br />
+<% provide(:title, "Task: #{@task.title}") %>
 
-Description: <%= @task.description %> <br />
+<% if admin? %>
+	<%= link_to "Edit", edit_project_task_path(@project, @task),  :class => 'button r' %>
+	<%= link_to "Delete", project_task_path(@project, @task), method: :delete,  :class => 'button r', confirm: 'Are you sure?' %>
+<% end %>
 
-Assigned user: <%=link_to @task.assigned_user.name, @task.assigned_user%> <br />
-Owner: <%= link_to @task.owner.name, @task.owner %> <br />
-Deadline: <%= @task.deadline %> <br />
-Posted: <%= @task.created_at %> <br />
-Updated: <%= @task.updated_at %> <br />
-State: <%= state @task %> <br />
-Priority: <%= priority @task %> <br /><br />
+<h1>Task: <%=@task.title%></h1>
 
+<%=simple_format @task.description%>
 
+<p>&nbsp;</p>
+<p><b>Assigned to:</b> <%=link_to @task.assigned_user.name, @task.assigned_user%></p>
+<p><b>Last action by:</b> <%= link_to @task.owner.name, @task.owner %></p>
+<% if not @task.deadline.nil? %>
+	<p><b>Deadline:</b> <%= @task.deadline.strftime '%d %B %Y' %></p>
+<% end %>
+<p><b>Posted:</b> <%= @task.created_at.strftime '%A, %d %B %Y (%H:%M)' %></p>
+<p><b>Updated:</b> <%= @task.updated_at.strftime '%A, %d %B %Y (%H:%M)' %></p>
+<p><b>State:</b> <%= Task::State.to_list.keys[@task.state-1] %></p>
+<p><b>Priority:</b> <%= Task::Priority.to_list.keys[@task.priority-1] %></p>
 
+<% if @task.tasks_histories.any? %>
 
-</br>
+	<p>&nbsp;</p>
+	<h2>Task history</h2>
 
+	<% for history in @task.tasks_histories %>
+		<p>
+			Changed by <%=link_to history.owner.name, history.owner%> on <%= history.created_at.strftime '%A, %d %B %Y (%H:%M)' %> | 
+			<b>State:</b> <%= Task::State.to_list.keys[history.state-1] %> | 
+			<b>Priority:</b> <%= Task::Priority.to_list.keys[history.priority-1] %> |
+			<b>Assigned to:</b> <%=link_to history.assigned_user.name, history.assigned_user%>
+		</p>
+	<% end %>
+	
+<% end %>

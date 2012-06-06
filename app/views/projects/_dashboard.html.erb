@@ -21,7 +21,7 @@
 						<%=link_to (log.message.nil? || log.message == '' ? 'No comments' : log.message[0..150]), project_source_path(log.project, log.revision)%><br />
 						<span>Commit <%=link_to log.revision[0..10], project_source_path(log.project, log.revision)%></a> by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
 					<% elsif log.ltype == Log::Type::TASK_ASSIGNMENT %>
-					<%= link_to  log.task.title[0..150], task_path(log.task) %>
+						<%= link_to log.task.title[0..150], project_task_path(log.project, log.task) %><br />
 						<span>Assigned by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
 					<% elsif log.ltype == Log::Type::DEPLOYMENT_FAILED %>
 						<%=link_to "Deployment failed", project_servers_path(log.project)%><br />

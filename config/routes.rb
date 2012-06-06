@@ -2,15 +2,9 @@
 Www::Application.routes.draw do
 
 	match '/projects/:project_id/tree/:parent/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_parent_blob
-
-
 	match '/projects/:project_id/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_blob
-
 	match '/projects/:project_id/tree', to: 'source#tree', via: :get, as: :project_root_tree
-	
 	match '/projects/:project_id/tree/:tree_id', to: 'source#tree', via: :get, as: :project_tree
-
-	match '/tasks/:id/', to: 'tasks#show', via: :get, as: :task
 
 	match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
 	match '/projects/:project_id/repository/update_users', to: 'repositories#update_users', via: [:get], as: :update_project_repo_users
@@ -21,11 +15,8 @@ Www::Application.routes.draw do
 	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: :post, as: :new_project_task
 	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: :put, as: :edit_project_task
 
-
-
 	match '/projects/:project_id/milestones/new', to: 'milestones#new', via: :post, as: :new_project_milestone
-		match '/projects/:project_id/milestones/:id/edit', to: 'milestones#edit', via: :put, as: :edit_project_milestone
-
+	match '/projects/:project_id/milestones/:id/edit', to: 'milestones#edit', via: :put, as: :edit_project_milestone
 
 	resources :projects, except: [:create, :update] do
 		resources :tasks, except: [:create, :update]
@@ -34,16 +25,9 @@ Www::Application.routes.draw do
 		resources :milestones
 	end
 
-
 	match '/projects/:project_id/servers/new', to: 'servers#new', via: [:get, :post], as: :new_server
 	match '/projects/:project_id/servers/:id/edit', to: 'servers#edit', via: [:get, :put], as: :edit_server
 	match '/projects/:project_id/servers/:id/deploy', to: 'servers#deploy', via: [:get], as: :deploy_server
-	
-#	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: [:get, :post], as: :new_project_task
-#	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: [:get, :put], as: :edit_project_task
-
-	match '/tasks/:task_id/tasks_histories', to: 'tasks_histories#index', via: :get, as: :task_tasks_histories
-	match '/tasks/:task_id/tasks_histories/:id', to: 'tasks_histories#show', via: :get, as: :task_tasks_history
 
 	match '/users/edit', to: 'users#edit', as: :user_edit
 	match '/users/:id/edit', to: 'users#update', as: :users_edit
@@ -62,16 +46,11 @@ Www::Application.routes.draw do
 	match '/about', to: 'page#about'
 	match '/contact', to: 'page#contact'
 	
-
-#	match '/signup(/:key)', to: 'users#signup', as: :signup #a moze tak zadziala? #nie chciało mi edziałać właśnie ;<s
-
 	match '/signup', to: 'users#signup'
 	match '/signup/:key', to: 'users#signup'
 	match '/signin', to: 'users#signin'
 	match '/signout', to: 'users#signout', via: :delete
 	match '/activate/:key', to: 'users#activate'
-
-#	match '/users/:id/edit', to: 'users#edit', as: :user_edit
 
 	match '/dashboard', to: 'projects#dashboard'
 	

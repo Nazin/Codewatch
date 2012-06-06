@@ -1,15 +1,6 @@
-<h1>New task </h1>
+<% provide(:title, "New task") %>
 
-<!--<%=link_to "View tasks", project_tasks_path(@project), :class => 'button r' %>-->
+<h1>New task</h1>
 
-<%= cw_form_for @task, url: new_project_task_path(@project) do |f| %>
-	<%= f.text_field :title %>
-	<%= f.text_area :description %>
-	<%= f.select :priority, @priorities, include_blank: true %>
-	<%= f.text_field :deadline %>
-	<%= f.collection_select :user_id, @users, :id, :name, label: 'Owner' %>
-	<%= f.collection_select :responsible_user_id, @users, :id, :name, label: 'Assinged user' %>
-	<%= f.collection_select :milestone_id, @milestones, :id, :name, {} %>
-	<%= f.submit "Save task" %>
-<% end %>
-
+<% @url = new_project_task_path(@project) %>
+<%=render :template => 'tasks/_form'%>

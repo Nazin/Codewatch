@@ -1,12 +1,6 @@
-<h1>New milestone </h1>
+<% provide(:title, "New milestone") %>
 
+<h1>New milestone</h1>
 
-<%= cw_form_for @milestone, url: new_project_milestone_path(@project) do |f| %>
-	<%= f.text_field :name %>
-	<%= f.text_field :deadline, id: "datepicker" %>
-<!--	$('#actionOptions div.e input').datepicker({dateFormat: 'yy-mm-dd', minDate: +1, changeMonth: t
-rue, changeYear: true}).change(function() { -->
-
-	<%= f.submit "Save milestone" %>
-<% end %>
-
+<% @url = new_project_milestone_path(@project) %>
+<%=render :template => 'milestones/_form'%>

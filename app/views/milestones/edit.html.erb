@@ -1,11 +1,6 @@
-<h1>Edit  milestone </h1>
+<% provide(:title, "Edit milestone #{@milestone.name}") %>
 
+<h1>Edit milestone: <%=@milestone.name%></h1>
 
-<%= cw_form_for @milestone, url: edit_project_milestone_path(@project) do |f| %>
-	<%= f.text_field :name %>
-	<%= f.text_field :deadline %>
-<!--	$('#actionOptions div.e input').datepicker({dateFormat: 'yy-mm-dd', minDate: +1, changeMonth: t
-rue, changeYear: true}).change(function() { -->
-
-	<%= f.submit "Update milestone" %>
-<% end %>
+<% @url = edit_project_milestone_path(@project) %>
+<%=render :template => 'milestones/_form'%>

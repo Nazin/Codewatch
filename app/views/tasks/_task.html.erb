@@ -1,13 +1,21 @@
-<li>
-Task title:	<%= task.title %><br />
-Assigned user: <%=link_to task.assigned_user.name, task.assigned_user%> <br />
-Owner: <%= task.owner.name %> <br />
-Deadline: <%= task.deadline %> <br />
-Posted: <%= task.created_at %> <br />
-Updated: <%= task.updated_at %> <br />
-State: <%= state task %> <br />
-Priority: <%= priority task %> <br /><br />
-	<%= link_to "Delete", project_task_path(@project, task), method: :delete, confirm: "You sure?" %>
-	<%= link_to "Edit", edit_project_task_path(@project,task)  %>
-	<%= link_to "View", project_task_path(@project,task)  %>
-</li></br>
+<div class="commit">
+	<div class="revision">Assigned to: <%=link_to task.assigned_user.name, task.assigned_user%></div>
+	<div class="info">
+		<%= link_to task.title, project_task_path(@project, task) %>
+		<% if not task.deadline.nil? %>
+			(Deadline: <%= task.deadline.strftime '%d %B %Y' %>)
+		<% end %>
+	</div>
+	<div class="msg">
+		<p>
+			<b>State:</b> <%= Task::State.to_list.keys[task.state-1] %> | 
+			<b>Priority:</b> <%= Task::Priority.to_list.keys[task.priority-1] %> |
+			<b>Posted:</b> <%= task.created_at.strftime '%A, %d %B %Y (%H:%M)' %> |
+			<b>Updated:</b> <%= task.updated_at.strftime '%A, %d %B %Y (%H:%M)' %>
+			<% if admin? %>
+				| <%= link_to "Delete", project_task_path(@project, task), method: :delete, confirm: "Are you sure?" %> |
+				<%= link_to "Edit", edit_project_task_path(@project, task) %>
+			<% end %>
+		</p>
+	</div>
+</div>

@@ -1,14 +1,39 @@
 <% provide(:title, 'Tasks Overview') %>
 
-<% if admin? %>
-	<%= link_to "Add new task", new_project_task_path(@project),  :class => 'button r' %>
-<% end %>
+<div id="projectsList">
 
-<h1>Tasks overview</h1>
+	<% if admin? %>
+		<%= link_to "Add new task", new_project_task_path(@project),  :class => 'button r' %>
+		<%= link_to "Add new milestone", new_project_milestone_path(@project),  :class => 'button r' %>
+	<% end %>
+	
+	<h4>Milestones</h4>
+	
+	<% if @milestones && @milestones.any? %>
+		<ul>
+			<% for milestone in @milestones %>
+				<li>
+					<%= link_to milestone.name, project_milestone_path(@project, milestone)%>
+					<% if not milestone.deadline.nil? %>
+						(Deadline: <%= milestone.deadline.strftime '%d %B %Y' %>)
+					<% end %>
+				</li>
+			<% end %>
+		</ul>
+	<% else %>
+		<p>You don't have any milestones.</p>
+	<% end %>
+</div>
 
-Project's tasks:<br /><br /><br />
-<% if @tasks.empty? %>
-No tasks defined
-<% else %>
-<%= render @tasks %>
-<% end %>
+<div style="margin-right: 450px;">
+	
+	<h1>Tasks overview</h1>
+
+	<% if @tasks.empty? %>
+		<p>There are no tasks defined.</p>
+	<% else %>
+		<div id="commits">
+			<%= render @tasks %>
+		</div>
+	<% end %>
+</div>

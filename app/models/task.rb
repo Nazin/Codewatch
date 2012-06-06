@@ -20,6 +20,8 @@
 
 class Task < ActiveRecord::Base
 
+	attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner, :milestone_id
+	
 	belongs_to :project
 	belongs_to :owner, class_name: 'User', foreign_key: :user_id
 	belongs_to :assigned_user, class_name: 'User', foreign_key: :responsible_user_id
@@ -28,64 +30,70 @@ class Task < ActiveRecord::Base
 	has_many :tasks_histories
 	has_many :logs
 
-	attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner, :milestone_id
-
 	validates :priority, presence: true
 	validates :title, presence: true, length: {maximum: 64}
 	validates :owner, presence: true
 	validates :assigned_user, presence: true
 	validates :project, presence: true
 	validates :milestone, presence: true
+	validates :state, presence: true
 
 	around_update :create_history_entry
 		
 	module State
+		
 		CLOSED = 1 #finished before deadline
 		FAILED = 2 #not finished before deadline
 		ACTIVE = 3 #in development, before deadline 
 
 		def self.to_hash
-			{CLOSED => 'CLOSED',
-				FAILED => 'FAILED',
-				ACTIVE =>  'ACTIVE'}
+			{
+				'Closed' => CLOSED,
+				'Failed' => FAILED,
+				'Active' => ACTIVE
+			}
 		end
 		
 		def self.to_list
-			to_hash.keys
+			to_hash
 		end
-
-
 	end
 
 	module Priority
+		
 		CRITICAL = 1 
 		IMPORTANT = 2
 		NEUTRAL = 3
 		NEGLIGIBLE = 4
 
 		def self.to_hash
-			{CRITICAL => 'CRITICAL', 
-				IMPORTANT => 'IMPORTANT',
-				NEUTRAL => 'NEUTRAL',
-				NEGLIGIBLE => 'NEGLIGIBLE'}
+			{
+				'Critical' => CRITICAL,
+				'Important' => IMPORTANT,
+				'Neutral' => NEUTRAL,
+				'Negligible' => NEGLIGIBLE
+			}
 		end
 		
 		def self.to_list
-			to_hash.keys
+			to_hash
 		end
-
 	end
-
-	
-	private
+private
 
 	def create_history_entry
-		posted = 0.days.from_now
-		history = tasks_histories.build state: state, priority: priority
-		history.owner = owner
-		history.assigned_user = assigned_user
+		
+		history = nil
+		
+		if state != state_was or priority != priority_was or responsible_user_id_was != responsible_user_id
+		
+			history = tasks_histories.build state: state_was, priority: priority_was
+			history.owner = User.find user_id_was
+			history.assigned_user = User.find responsible_user_id_was
+		end
+			
 		yield
-		#TODO what if history save failes?
-		history.save
+
+		history.save if not history.nil?
 	end
 end
