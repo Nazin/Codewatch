@@ -32,4 +32,16 @@ module SourceHelper
 		
 		link_to '..', project_tree_path(@project, (u path))
 	end
+	
+	def changed_file diff
+		
+		parts = diff.a_path.reverse.split File::SEPARATOR, 2
+					
+		if parts.length == 2
+			path = parts[1].reverse
+			link_to diff.a_path, project_parent_blob_path(@project, path, diff.a_blob)
+		else
+			link_to diff.a_path, project_blob_path(@project, diff.a_blob)
+		end
+	end
 end
