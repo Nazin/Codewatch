@@ -1,5 +1,7 @@
 <% provide(:title, "File: #{@blob.name}") %>
 
+<%=link_to 'Return to source browser', project_tree_path(@project, (u @path)), :class => 'button r'%>
+
 <h1>File: <%= @blob.name %></h1>
 
 <% if @textfile %>

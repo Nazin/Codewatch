@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 Www::Application.routes.draw do
 
-	match '/projects/:project_id/tree/:parent/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_parent_blob
+	match '/projects/:project_id/tree/:path/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_parent_blob
 	match '/projects/:project_id/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_blob
 	match '/projects/:project_id/tree', to: 'source#tree', via: :get, as: :project_root_tree
-	match '/projects/:project_id/tree/:tree_id', to: 'source#tree', via: :get, as: :project_tree
+	match '/projects/:project_id/tree/:path', to: 'source#tree', via: :get, as: :project_tree
 
 	match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
 	match '/projects/:project_id/repository/update_users', to: 'repositories#update_users', via: [:get], as: :update_project_repo_users

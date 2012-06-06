@@ -12,8 +12,6 @@
 #
 
 class Project < ActiveRecord::Base
-	
-
 
 	attr_accessible :name, :user_ids, :slug
 	
@@ -23,7 +21,6 @@ class Project < ActiveRecord::Base
 	has_many :servers
 	has_many :milestones
 	has_many :logs
-
 
 	validates :user_ids, presence: true
 	validates :company_id, presence: true
@@ -54,8 +51,7 @@ class Project < ActiveRecord::Base
 	
 	def repo_location
 		#TODO ladna konfigurowalna sciezka
-		#'/home/git/repositories/' + location + '.git'
-		'../IO'
+		'/home/git/repositories/' + location + '.git'
 	end
 	
 	def self.commit_received id, revision

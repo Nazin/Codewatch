@@ -1,14 +1,35 @@
 module SourceHelper
 	
 	def tree el
-		link_to el.name, project_tree_path(@project, el.id) 
+		
+		if @path.nil?
+			path = el.name
+		else
+			path = File.join @path, el.name
+		end
+		
+		link_to el.name, project_tree_path(@project, (u path))
 	end
 
-	def blob el, parent=nil
-		if parent.nil?
+	def blob el
+		
+		if @path.nil?
 			link_to el.name, project_blob_path(@project, el.id)
 		else
-			link_to el.name, project_parent_blob_path(@project, parent.id, el.id)
+			link_to el.name, project_parent_blob_path(@project, (u @path), el.id)
 		end
+	end
+	
+	def up_dir
+	
+		parts = @path.reverse.split File::SEPARATOR, 2
+					
+		if parts.length == 2
+			path = parts[1].reverse
+		else
+			path = ''
+		end
+		
+		link_to '..', project_tree_path(@project, (u path))
 	end
 end

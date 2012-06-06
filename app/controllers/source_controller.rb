@@ -23,28 +23,33 @@ class SourceController < ApplicationController
 	end
 
 	def tree
-		if params[:tree_id]
-			sub_tree
+		
+		repo = @project.repo
+		last_commit = repo.commits.first
+		
+		if not params[:path].nil?
+			@path = params[:path]
+			tree = last_commit.tree/params[:path]
 		else
-			root_tree
+			tree = last_commit.tree
 		end
+		
+		@tree = tree
 	end
 
 	def blob
-		repo = @project.repo
 		
-		if params[:parent]
-			"""parent: @tree is needed, to obtain @blob object with :name field"""
-			@tree = repo.tree params[:parent]
-
+		repo = @project.repo
+		@path = params[:path]
+		
+		if not params[:path].nil?
+			@tree = repo.tree/params[:path]
 			@blob = @tree.blobs.find { |b| b.id == params[:blob_id] }
 		else
-			"""here @blob object has only :id field"""
 			@blob =	repo.blob params[:blob_id]
 		end
 
 		@text = @blob.data
-
 		@textfile = (@blob.name =~ /\.rb|\.js/i) || (@textfile = @text.ascii_only?)
 		
 		if @textfile
@@ -88,24 +93,5 @@ private
 		end
 		
 		elements
-	end
-	
-	def root_tree
-		repo = @project.repo
-		tree = repo.commits.first.tree
-		@parent = tree
-		process_tree tree
-	end 
-
-	def sub_tree
-		repo = @project.repo
-		tree =	repo.tree params[:tree_id]
-		@parent = tree
-		process_tree tree
-	end
-
-	def process_tree tree
-		@blobs = tree.blobs
-		@trees = tree.trees
 	end
 end
