@@ -39,9 +39,9 @@ module SourceHelper
 					
 		if parts.length == 2
 			path = parts[1].reverse
-			link_to diff.a_path, project_parent_blob_path(@project, path, diff.a_blob)
+			link_to diff.a_path, project_parent_blob_path(@project, path, diff.a_blob.id)
 		else
-			link_to diff.a_path, project_blob_path(@project, diff.a_blob)
+			link_to diff.a_path, project_blob_path(@project, diff.a_blob.id)
 		end
 	end
 end
