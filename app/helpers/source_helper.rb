@@ -10,7 +10,7 @@ module SourceHelper
 		
 		path.gsub! '/','_'
 
-		link_to el.name, project_tree_path(@project, (path))
+		link_to el.name, project_tree_path(@project, path)
 	end
 
 	def blob el
@@ -19,7 +19,7 @@ module SourceHelper
 			link_to el.name, project_blob_path(@project, el.id)
 		else
 			@path.gsub! '/','_'
-			link_to el.name, project_parent_blob_path(@project, (@path), el.id)
+			link_to el.name, project_parent_blob_path(@project, @path, el.id)
 		end
 	end
 	
@@ -33,6 +33,6 @@ module SourceHelper
 			path = ''
 		end
 		
-		link_to '..', project_tree_path(@project, (path))
+		link_to '..', project_tree_path(@project, path)
 	end
 end
