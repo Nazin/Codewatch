@@ -43,7 +43,6 @@ class SourceController < ApplicationController
 		repo = @project.repo
 		@path = params[:path]
 		@path.gsub! '_','/' if not @path.nil?
-		
 		if not params[:path].nil?
 			@tree = repo.tree/params[:path]
 			@blob = @tree.blobs.find { |b| b.id == params[:blob_id] }
