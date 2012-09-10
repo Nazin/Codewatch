@@ -1,5 +1,6 @@
 class CwDiffsController < ApplicationController
 	require 'diff_file'
+  require 'diff_lsc_lib'
 
 	public 
 	
@@ -16,8 +17,10 @@ class CwDiffsController < ApplicationController
 			@diff_a, @diff_b = Codewatch::DiffFile.diff @diff.code_a, @diff.code_b
 			pygmentized_a = pygmentize @diff.code_a, @diff.lang
 			pygmentized_b = pygmentize @diff.code_b, @diff.lang
-			merge_diff_with_pygments! @diff_a, pygmentized_a
-			merge_diff_with_pygments! @diff_b, pygmentized_b
+      @diff_a = merge_diff_with_pygments!(@diff_a, pygmentized_a)
+      @diff_b = merge_diff_with_pygments!(@diff_b, pygmentized_b)
+
+      @char_diff = Codewatch::DiffLcsLib.execute_diff @diff.code_a, @diff.code_b
 			render 'show'
 		else
 			flash.now[:notice] = "Invalid form input"
@@ -38,11 +41,9 @@ class CwDiffsController < ApplicationController
 	
 	def merge_diff_with_pygments! diff_file, pygmentized_code
 		lines = pygmentized_code.lines.to_a
-		return diff_file if lines.size == 0
+		return diff_file if lines.empty?
 
-		lines.each do |line|
-			line.gsub! "\n",""
-		end
+    lines = remove_newline_characters(lines)
 		
 		#TODO refactor
 		lines[0]["<div class=\"highlight\"><pre>"]=""
@@ -52,8 +53,14 @@ class CwDiffsController < ApplicationController
 		diff_file
 	end
 
+  def remove_newline_characters(lines)
+    lines.each do |line|
+      line.gsub! "\n", ""
+    end
+  end
 
-	def self.lexers
+
+  def self.lexers
 		lexers =	Pygments::Lexer.all.sort { |a,b| a.name.downcase <=> b.name.downcase}
 		lexers =	lexers.collect { |l| [l.name, l.aliases.first] }
 		lexers

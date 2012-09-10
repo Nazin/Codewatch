@@ -24,7 +24,7 @@ module Codewatch
 		attr_reader :conf, :ga_repo
 
 		TMP_DIR = "/tmp"
-		GITOLITE_REPO_DIR = "/home/nobody/gitolite-admin"
+		GITOLITE_REPO_DIR = "/home/pbatko/gitolite-admin"
 		LOCK_FILE = "codewatch-gitolite.lock"
 
 		def initialize

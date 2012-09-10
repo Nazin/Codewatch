@@ -1,15 +1,16 @@
 <table>
-	<tbody>
-		<tr>
-			<td>
-				<div>
-					<%= raw gen_line_numbers diff_file.size %>
-					</div>
-			</td>
-			<td>
-				<div>
-				 <%= raw diff_file_to_html diff_file %>
-				</div>
-			</td>
-	</tbody>
+  <tbody>
+  <tr>
+    <td>
+      <div>
+        <%= raw gen_line_numbers diff_file.size %>
+      </div>
+    </td>
+    <td>
+      <div>
+        <%= raw diff_file_to_html diff_file %>
+      </div>
+    </td>
+  </tr>
+  </tbody>
 </table>

@@ -15,6 +15,16 @@
 					<%= render partial: 'diff_snippet', locals: { diff_file: @diff_b } %>
 				</div>
 			</td>
+        <tr/>
+        <tr>
+          <td>
+            <div>
+              <tr>
+                <%= raw @char_diff %>
+              </tr>
+            </div>
+          </td>
+        </tr>
 	</tbody>
 </table>
 

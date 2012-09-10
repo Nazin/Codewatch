@@ -1,5 +1,8 @@
 module Codewatch
- 
+
+  require 'diff_executor'
+  require 'diff_lsc_lib'
+
   class DiffLine
     attr_reader :status # :mutual, :fake, :extra
     attr_accessor :line 
@@ -29,6 +32,7 @@ module Codewatch
       @lines << (DiffLine.new :extra, line)
     end
 
+    #iterate over real lines
     def each_real
       @lines.each do |diff_line|
         if diff_line.status == :fake
@@ -38,6 +42,7 @@ module Codewatch
       end
     end
 
+    #iterate over real lines with index
     def each_real_with_index 
       i = 0
       each_real do |real|
@@ -45,7 +50,8 @@ module Codewatch
         i+=1
       end
     end
-    
+
+    #number of lines
     def size
       @lines.size
     end
@@ -53,53 +59,10 @@ module Codewatch
     def each
       @lines.each { |elt| yield elt }
     end
-  
+
+    #returns two DiffFile instances
     def self.diff code_a, code_b
-      #TODO random filenames
-      filename_a= "./tmp/filea"
-      filename_b= "./tmp/fileb"
-      
-
-      File.open(filename_a, "w+") do |file_a|
-        File.open(filename_b, "w+") do |file_b|
-          file_a.write code_a + "\n"
-          file_b.write code_b + "\n"
-        end
-      end
-      
-      diff_result = %x(diff --unified=999999 #{filename_a} #{filename_b})
-      diff_lines = diff_result.lines.to_a
-      diff_lines = diff_lines[3..999999]
-
-      diff_a = DiffFile.new
-      diff_b = DiffFile.new
-      
-      if !diff_lines
-        0.upto(code_a.lines.count-1) do |i|
-          diff_a.mutual
-          diff_b.mutual
-        end
-      else
-        diff_lines.each do |line|
-          unless line.empty?
-            case line[0]
-            when "+"
-              diff_a.fake line
-              diff_b.extra line
-            when "-"
-              diff_a.extra line
-              diff_b.fake line
-            else
-              diff_a.mutual line
-              diff_b.mutual line
-            end
-          end
-        end
-      end
-      File.delete filename_a
-      File.delete filename_b
-      
-      [diff_a, diff_b]
+      DiffExecutor.execute_diff code_a, code_b
     end
   end
 
