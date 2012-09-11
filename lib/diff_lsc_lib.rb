@@ -8,17 +8,31 @@ module Codewatch
     # @param [String] code_b
     # @return [String]
     def self.execute_diff code_a, code_b
-      #list of differences with position, action, and elements
+      #list of difference_entries where each entry is an array of Diff::LCS::Chang objects
       #e.g. #<Diff::LCS::Change:0x0000000127f5a0 @action="-", @position=0, @element="a">
       difference_array = Diff::LCS.diff(code_a, code_b)
 
+      p difference_array
+
       html_result = ""
       code_a_index = 0
+      chars_added = 0
+      chars_deleted = 0
       difference_array.each do |difference_entry|
         next_change_index = difference_entry[0].position
-        while (code_a_index < next_change_index)
-          html_result << CGI::escapeHTML(code_a[code_a_index])
-          code_a_index+=1
+
+        if difference_entry[0].action == "+" then
+          while (code_a_index < (next_change_index-chars_added+chars_deleted))
+            html_result << CGI::escapeHTML(code_a[code_a_index])
+            code_a_index+=1
+          end
+        elsif difference_entry[0].action == "-" then
+          while (code_a_index < (next_change_index))
+            html_result << CGI::escapeHTML(code_a[code_a_index])
+            code_a_index+=1
+          end
+        else
+          raise Exception.new
         end
 
         red_segment = ""
@@ -26,11 +40,13 @@ module Codewatch
         difference_entry.each do |difference_instance|
           if difference_instance.action == "+" then
             green_segment << difference_instance.element
+            chars_added+=1
           end
           if difference_instance.action == "-" then
             red_segment << difference_instance.element
+            code_a_index+=1
+            chars_deleted+=1
           end
-          code_a_index =  difference_instance.position + 1
         end
         red_segment = htmlize_red(CGI::escapeHTML(red_segment))
         green_segment = htmlize_green(CGI::escapeHTML(green_segment))
