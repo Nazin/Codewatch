@@ -1,12 +1,11 @@
 module Codewatch
 
   require 'diff_executor'
-  require 'diff_lsc_lib'
 
   class DiffLine
     attr_reader :status # :mutual, :fake, :extra
-    attr_accessor :line 
-    
+    attr_accessor :line
+
     def initialize status, line=""
       @status=status
       @line=line
@@ -15,7 +14,7 @@ module Codewatch
 
   class DiffFile
     include Enumerable
-    
+
     def initialize
       @lines =[]
     end
@@ -27,7 +26,7 @@ module Codewatch
     def fake line=""
       @lines << (DiffLine.new :fake, line)
     end
-    
+
     def extra line=""
       @lines << (DiffLine.new :extra, line)
     end
@@ -43,10 +42,10 @@ module Codewatch
     end
 
     #iterate over real lines with index
-    def each_real_with_index 
+    def each_real_with_index
       i = 0
       each_real do |real|
-        yield real,i
+        yield real, i
         i+=1
       end
     end
