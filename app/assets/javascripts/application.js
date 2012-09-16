@@ -134,6 +134,8 @@ $(document).ready(function() {
 				$('#commentDetails > .comment').html($(this).html());
 				$('#commentDetails .info').html('posted by <a href="' + $(this).data('author-url') + '">' + $(this).data('author') + '</a> on ' + $(this).data('posted'));
 				$('#commentDetails').show();
+				
+				location.hash = '#comment_' + $(this).data('id')
 			});
 		}
 		
@@ -269,6 +271,7 @@ $(document).ready(function() {
 		$('#commentDetails a#closeCommentBox').click(function(e) {
 			e.preventDefault();
 			$('#commentDetails').hide();
+			location.hash = '';
 		})
 		
 		$('#showHideComments').click(function(e) {
