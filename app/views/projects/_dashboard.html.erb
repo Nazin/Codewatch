@@ -26,6 +26,12 @@
 					<% elsif log.ltype == Log::Type::DEPLOYMENT_FAILED %>
 						<%=link_to "Deployment failed", project_servers_path(log.project)%><br />
 						<span>Deployed by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
+					<% elsif log.ltype == Log::Type::NEW_CODE_COMMENT %>
+						<%=link_to "New comment to code", log.message%><br />
+						<span>Comment by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
+					<% elsif log.ltype == Log::Type::NEW_COMMENT_COMMENT %>
+						<%=link_to "New comment to code comment", log.message%><br />
+						<span>Comment by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
 					<% end %>
 				</div>
 			</div>
