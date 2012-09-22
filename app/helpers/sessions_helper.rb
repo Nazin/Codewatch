@@ -4,15 +4,20 @@ module SessionsHelper
   # @param [String] project_id
   # @param [String] branch_id
   def store_branch_id project_id, branch_id
-    cookies[:projects][project_id] = {} unless cookies[project_id]
-    cookies[:projects][project_id][:branch_id] = branch_id
+    cookies[:project_id]={
+        value: project_id,
+        domain: :all
+    }
+    cookies[:branch_name]={
+        value: branch_id,
+        domain: :all
+    }
   end
 
   # @param [String] project_id
   # @return [String] branch_name
   def get_branch_id project_id
-    cookies[:projects][project_id][:branch_id] if cookies[:projects] || cookies[:projects][project_id]
-    nil
+    cookies[:branch_name] if cookies[:project_id] == project_id
   end
 
   def sign_in user
@@ -21,8 +26,6 @@ module SessionsHelper
         :value => user.remember_token,
         :domain => :all
     }
-    #this ensures that cookies[:projects] always exists
-    cookies.permanent[:projects] = {}
     @current_user = user
   end
 
