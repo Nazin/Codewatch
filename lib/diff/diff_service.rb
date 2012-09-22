@@ -1,9 +1,9 @@
 module Codewatch
 
-  require 'internal/char_htmlizer'
-  require 'internal/line_pygment_combiner'
-  require 'internal/enumerable'
-  require 'internal/line_htmlizer'
+  require 'diff/internal/char_htmlizer'
+  require 'diff/internal/line_pygment_combiner'
+  require 'diff/internal/diff_enumerable'
+  require 'diff/internal/line_htmlizer'
 
   class DiffService
 

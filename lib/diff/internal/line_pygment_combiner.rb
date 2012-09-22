@@ -2,8 +2,6 @@ module Codewatch
 
   module CwDiff
 
-    require 'enumerable'
-
     class LinePygmentCombiner
 
       # @param [Array of Strings] code_a

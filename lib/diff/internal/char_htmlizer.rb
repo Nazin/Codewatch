@@ -2,11 +2,9 @@ module Codewatch
 
   module CwDiff
 
-    require 'enumerable'
     require 'cgi'
 
     class CharHtmlizer
-
 
       # @param [DiffEnumerable] enumerable
       def initialize enumerable
