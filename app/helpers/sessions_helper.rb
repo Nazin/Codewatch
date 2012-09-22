@@ -4,11 +4,11 @@ module SessionsHelper
   # @param [String] project_id
   # @param [String] branch_id
   def store_branch_id project_id, branch_id
-    cookies[:project_id]={
+    cookies.permanent[:project_id]={
         value: project_id,
         domain: :all
     }
-    cookies[:branch_name]={
+    cookies.permanent[:branch_name]={
         value: branch_id,
         domain: :all
     }
