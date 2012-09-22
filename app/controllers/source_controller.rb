@@ -51,11 +51,11 @@ class SourceController < ApplicationController
 		end
 
 		@text = @blob.data
-		@textfile = (@blob.name =~ /\.rb|\.js/i) || (@textfile = @text.ascii_only?)
+		@textfile = (@blob.name =~ /\.rb|\.js|\.php|\.css/i) || (@textfile = @text.ascii_only?)
 		
 		if @textfile
 			
-			@lines = @text.lines.count
+			@lines = @text.lines.count+1
 			
 			lexer = nil
 			
@@ -69,6 +69,21 @@ class SourceController < ApplicationController
 			else
 				@highlighted = lexer.highlight @text
 			end
+			
+			@highlighted = @highlighted.gsub! "</pre>\n</div>", '</div></pre></div>'
+			@highlighted = @highlighted.gsub! '<pre>', '<pre><div class="line">'
+			@highlighted = @highlighted.gsub! /\n/, '</div><div class="line">'
+			@highlighted = @highlighted.gsub! /\t/, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+			@highlighted = @highlighted.gsub! '<div class="line"></div>', '<div class="line">&nbsp;</div>'
+			
+			@comment = @project.comments.build params[:comment]
+			@comment.blob = @blob.id
+			@comment.revision = repo.heads.first.commit.id #TODO z urla jak bedzie
+			@comment.path = @path
+			
+			@comments = @project.comments.order('"comments"."startLine"').find_all_by_path_and_blob @path, @blob.id
+			
+			@ccomment = CommentComment.new
 		end
 	end
 
