@@ -11,7 +11,7 @@ module SessionsHelper
   # @param [String] project_id
   # @return [String] branch_name
   def get_branch_id project_id
-    cookies[:projects][project_id][:branch_id] if cookies[:projects][project_id]
+    cookies[:projects][project_id][:branch_id] if cookies[:projects] || cookies[:projects][project_id]
     nil
   end
 
