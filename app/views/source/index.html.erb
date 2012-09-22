@@ -7,7 +7,7 @@
 
 <div id="branches">
   <% @branches.each do |branch| %>
-      <%= link_to branch.name, project_branch_name_path(@project, branch.name), class: 'button r' %>
+      <%= link_to branch.name, project_branch_name_path(@project, branch.name), method: :put, class: 'button r' %>
       <br/>
   <% end %>
 </div>
