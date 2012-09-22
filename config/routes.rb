@@ -1,65 +1,66 @@
 # -*- coding: utf-8 -*-
 Www::Application.routes.draw do
 
-	match '/projects/:project_id/comments/new', to: 'comments#new', via: :post, as: :new_comment
-	match '/projects/:project_id/comments/:id', to: 'comments#destroy', via: :delete, as: :delete_comment
-	match '/projects/:project_id/comments/:id', to: 'comments#show', via: :get, as: :get_comment
-	match '/projects/:project_id/comments/:id/new', to: 'comments#new2', via: :post, as: :new_comment_comment
-	
-	match '/projects/:project_id/tree/:path/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_parent_blob
-	match '/projects/:project_id/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_blob
-	match '/projects/:project_id/tree', to: 'source#tree', via: :get, as: :project_root_tree
-	match '/projects/:project_id/tree/:path', to: 'source#tree', via: :get, as: :project_tree
+  match '/projects/:project_id/comments/new', to: 'comments#new', via: :post, as: :new_comment
+  match '/projects/:project_id/comments/:id', to: 'comments#destroy', via: :delete, as: :delete_comment
+  match '/projects/:project_id/comments/:id', to: 'comments#show', via: :get, as: :get_comment
+  match '/projects/:project_id/comments/:id/new', to: 'comments#new2', via: :post, as: :new_comment_comment
 
-	match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
-	match '/projects/:project_id/repository/update_users', to: 'repositories#update_users', via: [:get], as: :update_project_repo_users
+  match '/projects/:project_id/tree/:path/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_parent_blob
+  match '/projects/:project_id/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_blob
+  match '/projects/:project_id/tree', to: 'source#tree', via: :get, as: :project_root_tree
+  match '/projects/:project_id/tree/:path', to: 'source#tree', via: :get, as: :project_tree
+  match '/projects/:project_id/branch/:branch_name', to: 'source#choose_branch', via: :put, as: :project_branch_name
 
-	match '/projects/new', to: 'projects#new', via: [:get, :post], as: :new_project
-	match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put], as: :edit_project
+  match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
+  match '/projects/:project_id/repository/update_users', to: 'repositories#update_users', via: [:get], as: :update_project_repo_users
 
-	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: :post, as: :new_project_task
-	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: :put, as: :edit_project_task
+  match '/projects/new', to: 'projects#new', via: [:get, :post], as: :new_project
+  match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put], as: :edit_project
 
-	match '/projects/:project_id/milestones/new', to: 'milestones#new', via: :post, as: :new_project_milestone
-	match '/projects/:project_id/milestones/:id/edit', to: 'milestones#edit', via: :put, as: :edit_project_milestone
+  match '/projects/:project_id/tasks/new', to: 'tasks#new', via: :post, as: :new_project_task
+  match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: :put, as: :edit_project_task
 
-	resources :projects, except: [:create, :update] do
-		resources :tasks, except: [:create, :update]
-		resources :servers, except: [:create, :update, :show]
-		resources :source, only: [:index, :show]
-		resources :milestones
-	end
+  match '/projects/:project_id/milestones/new', to: 'milestones#new', via: :post, as: :new_project_milestone
+  match '/projects/:project_id/milestones/:id/edit', to: 'milestones#edit', via: :put, as: :edit_project_milestone
 
-	match '/projects/:project_id/servers/new', to: 'servers#new', via: [:get, :post], as: :new_server
-	match '/projects/:project_id/servers/:id/edit', to: 'servers#edit', via: [:get, :put], as: :edit_server
-	match '/projects/:project_id/servers/:id/deploy', to: 'servers#deploy', via: [:get], as: :deploy_server
+  resources :projects, except: [:create, :update] do
+    resources :tasks, except: [:create, :update]
+    resources :servers, except: [:create, :update, :show]
+    resources :source, only: [:index, :show]
+    resources :milestones
+  end
 
-	match '/users/edit', to: 'users#edit', as: :user_edit
-	match '/users/:id/edit', to: 'users#update', as: :users_edit
-	match '/users/invite', to: 'users#invite'
-	match '/users/remove_avatar', to: 'users#remove_avatar', via: :delete
-	
-	resources :users, only: [:index, :show, :destroy]
-	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
-	resources :cw_diffs, only: [:new, :create, :show]
-	resources :sessions, only: [:new, :create, :destroy]
+  match '/projects/:project_id/servers/new', to: 'servers#new', via: [:get, :post], as: :new_server
+  match '/projects/:project_id/servers/:id/edit', to: 'servers#edit', via: [:get, :put], as: :edit_server
+  match '/projects/:project_id/servers/:id/deploy', to: 'servers#deploy', via: [:get], as: :deploy_server
 
-	match '/projects/dashbaoard', to: 'projects#dashboard'
-	match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
+  match '/users/edit', to: 'users#edit', as: :user_edit
+  match '/users/:id/edit', to: 'users#update', as: :users_edit
+  match '/users/invite', to: 'users#invite'
+  match '/users/remove_avatar', to: 'users#remove_avatar', via: :delete
 
-	match '/help', to: 'page#help'
-	match '/about', to: 'page#about'
-	match '/contact', to: 'page#contact'
-	
-	match '/signup', to: 'users#signup'
-	match '/signup/:key', to: 'users#signup'
-	match '/signin', to: 'users#signin'
-	match '/signout', to: 'users#signout', via: :delete
-	match '/activate/:key', to: 'users#activate'
+  resources :users, only: [:index, :show, :destroy]
+  resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
+  resources :cw_diffs, only: [:new, :create, :show]
+  resources :sessions, only: [:new, :create, :destroy]
 
-	match '/dashboard', to: 'projects#dashboard'
-	
-	root to: 'page#home'
+  match '/projects/dashbaoard', to: 'projects#dashboard'
+  match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
+
+  match '/help', to: 'page#help'
+  match '/about', to: 'page#about'
+  match '/contact', to: 'page#contact'
+
+  match '/signup', to: 'users#signup'
+  match '/signup/:key', to: 'users#signup'
+  match '/signin', to: 'users#signin'
+  match '/signout', to: 'users#signout', via: :delete
+  match '/activate/:key', to: 'users#activate'
+
+  match '/dashboard', to: 'projects#dashboard'
+
+  root to: 'page#home'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

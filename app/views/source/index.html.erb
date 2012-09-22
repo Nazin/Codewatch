@@ -1,25 +1,39 @@
 <% provide(:title, 'Source') %>
 
-<%=link_to "Browse all files", project_root_tree_path(@project), :class => 'button r' %>
+<%= link_to "Browse all files", project_root_tree_path(@project), :class => 'button r' %>
 
 <h1>Source</h1>
 
-<% if @commits.any? %>
-	
-	<div id="commits">
-		<% for commit in @commits %>
-			<div class="commit">
-				<div class="revision">Revision: <%=link_to commit.id[0..10], project_source_path(@project, commit)%></div>
-				<div class="info">
-					<%=commit.committer.name%> <span>at <%=commit.committed_date.strftime '%A, %d %B %Y (%H:%M)'%></span>
-				</div>
-				<div class="msg">
-					<%=simple_format commit.message%>
-				</div>
-			</div>
-		<% end %>
-	</div>
+
+<div id="branches">
+  <% @branches.each do |branch| %>
+      <%= link_to branch.name, project_branch_name_path(@project, branch.name), class: 'button r' %>
+      <br/>
+  <% end %>
+</div>
+
+<div>
+  <h2>
+    Current branch: <%= @current_branch_name %>
+  </h2>
+</div>
+
+<% if @current_branch_commits.any? %>
+
+    <div id="commits">
+      <% for commit in @current_branch_commits %>
+          <div class="commit">
+            <div class="revision">Revision: <%= link_to commit.id[0..10], project_source_path(@project, commit) %></div>
+            <div class="info">
+              <%= commit.committer.name %> <span>at <%= commit.committed_date.strftime '%A, %d %B %Y (%H:%M)' %></span>
+            </div>
+            <div class="msg">
+              <%= simple_format commit.message %>
+            </div>
+          </div>
+      <% end %>
+    </div>
 
 <% else %>
-	<p>There are no commits yet.</p>
+    <p>There are no commits yet.</p>
 <% end %>
