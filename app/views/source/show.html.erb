@@ -1,15 +1,16 @@
 <% provide :title, "Revision: #{@commit.id}" %>
 
-<%=link_to "Browse all files", project_root_tree_path(@project), :class => 'button r' %>
+<%= link_to "Browse all files", project_branch_root_tree_path(@project, @branch), :class => 'button r' %>
 
-<h1>Revision: <%=@commit.id%></h1>
+<h1>Revision: <%= @commit.id %></h1>
 
-<p>Commit by <%=@commit.committer.name%> <span>at <%=@commit.committed_date.strftime '%A, %d %B %Y (%H:%M)'%></p>
-<%=simple_format @commit.message%>
+<p>Commit by <%= @commit.committer.name %> <span>at <%= @commit.committed_date.strftime '%A, %d %B %Y (%H:%M)' %></p>
+<%= simple_format @commit.message %>
 
 <h2>Files changed</h2>
 <ul id="filesChanged">
-	<% for diff in @diffs %>
-		<li class="<%=diff.deleted_file ? 'deleted': (diff.new_file ? 'new' : 'amend')%>"><a><%=diff.a_path%></a></li>
-	<% end %>
+  <% for diff in @diffs %>
+      <li class="<%= diff.deleted_file ? 'deleted' : (diff.new_file ? 'new' : 'amend') %>"><a><%= diff.a_path %></a>
+      </li>
+  <% end %>
 </ul>

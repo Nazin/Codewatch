@@ -8,23 +8,15 @@ class SourceController < ApplicationController
   def index
     repo = @project.repo
     @branches = repo.heads
-    @current_branch_name = get_current_branch_name(repo)
+    @current_branch_name = params[:branch] || repo.heads.first.name
     @current_branch_commits = repo.commits(@current_branch_name)
-  end
-
-  #TODO make it more restful
-  #TODO incorporate branch name (its slug?) into url rather than in session
-  def choose_branch
-    branch_name = params[:branch_name]
-    project_id = params[:project_id]
-    store_branch_id(project_id, branch_name)
-    redirect_to project_source_index_path
   end
 
   #shows given commit in a branch
   def show
     repo = @project.repo
-    commits = repo.commits(params[:id])
+    @branch = params[:branch]
+    commits = repo.commits(params[:commit_id])
     @commit = commits.first
 
     if commits[1].nil?
@@ -39,7 +31,9 @@ class SourceController < ApplicationController
     repo = @project.repo
 
     #TODO last commit?
-    last_commit = get_head_commit(repo)
+    branch_name = params[:branch]
+    @branch = branch_name
+    last_commit = get_head_commit(repo, branch_name)
 
     if params[:path].nil?
       tree = last_commit.tree
@@ -55,7 +49,9 @@ class SourceController < ApplicationController
   def blob
 
     repo = @project.repo
-    last_commit = get_head_commit(repo)
+    branch_name = params[:branch]
+    @branch = branch_name
+    last_commit = get_head_commit(repo, branch_name)
     @path = params[:path]
     @path.gsub! '_', '/' if not @path.nil?
     if params[:path].nil?
@@ -113,18 +109,8 @@ class SourceController < ApplicationController
 
   private
 
-  def get_head_commit repo
-    branch_name = get_current_branch_name(repo)
+  def get_head_commit repo, branch_name
     repo.commits(branch_name).first
-  end
-
-  def get_current_branch_name repo
-    branch_name = get_branch_id(@project.id)
-    if branch_name.blank?
-      first_branch_name = repo.heads.first.name
-      store_branch_id(@project.id, first_branch_name)
-    end
-    get_branch_id(@project.id)
   end
 
   def get_tree_diffs tree, elements, path

@@ -6,11 +6,12 @@ Www::Application.routes.draw do
   match '/projects/:project_id/comments/:id', to: 'comments#show', via: :get, as: :get_comment
   match '/projects/:project_id/comments/:id/new', to: 'comments#new2', via: :post, as: :new_comment_comment
 
-  match '/projects/:project_id/tree/:path/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_parent_blob
-  match '/projects/:project_id/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_blob
-  match '/projects/:project_id/tree', to: 'source#tree', via: :get, as: :project_root_tree
-  match '/projects/:project_id/tree/:path', to: 'source#tree', via: :get, as: :project_tree
-  match '/projects/:project_id/branch/:branch_name', to: 'source#choose_branch', via: :put, as: :project_branch_name
+  match '/projects/:project_id/branch/:branch/tree/:path/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_parent_branch_blob
+  match '/projects/:project_id/branch/:branch/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_branch_blob
+  match '/projects/:project_id/branch/:branch/tree', to: 'source#tree', via: :get, as: :project_branch_root_tree
+  match '/projects/:project_id/branch/:branch/tree/:path', to: 'source#tree', via: :get, as: :project_branch_tree
+  match '/projects/:project_id/branch/:branch', to: 'source#index', via: :get, as: :project_branch
+  match '/projects/:project_id/branch/:branch/commit/:commit_id', to: 'source#show', via: :get, as: :project_branch_commit
 
   match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
   match '/projects/:project_id/repository/update_users', to: 'repositories#update_users', via: [:get], as: :update_project_repo_users
@@ -27,7 +28,7 @@ Www::Application.routes.draw do
   resources :projects, except: [:create, :update] do
     resources :tasks, except: [:create, :update]
     resources :servers, except: [:create, :update, :show]
-    resources :source, only: [:index, :show]
+    resources :source, only: :index
     resources :milestones
   end
 
