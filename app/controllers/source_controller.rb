@@ -68,6 +68,7 @@ class SourceController < ApplicationController
     end
 
     @text = @blob.data
+    puts @text
     #TODO ? use blob.mime_type method
     @textfile = (@blob.name =~ /\.rb|\.js|\.php|\.css/i) || (@textfile = @text.ascii_only?)
 
@@ -88,11 +89,16 @@ class SourceController < ApplicationController
         @highlighted = lexer.highlight @text
       end
 
-      @highlighted = @highlighted.gsub! "</pre>\n</div>", '</div></pre></div>'
-      @highlighted = @highlighted.gsub! '<pre>', '<pre><div class="line">'
-      @highlighted = @highlighted.gsub! /\n/, '</div><div class="line">'
-      @highlighted = @highlighted.gsub! /\t/, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-      @highlighted = @highlighted.gsub! '<div class="line"></div>', '<div class="line">&nbsp;</div>'
+      begin
+        #TODO wtf these gsub!s ??
+        @highlighted = @highlighted.gsub! "</pre>\n</div>", '</div></pre></div>'
+        @highlighted = @highlighted.gsub! '<pre>', '<pre><div class="line">'
+        @highlighted = @highlighted.gsub! /\n/, '</div><div class="line">'
+        @highlighted = @highlighted.gsub! /\t/, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+        @highlighted = @highlighted.gsub! '<div class="line"></div>', '<div class="line">&nbsp;</div>'
+      rescue
+        @highlighted = "<pre>" + @text + "</pre>"
+      end
 
       @comment = @project.comments.build params[:comment]
       @comment.blob = @blob.id

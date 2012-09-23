@@ -23,8 +23,9 @@ module Codewatch
 
     attr_reader :conf, :ga_repo
 
+    NOBODY = "#{ENV['USER'] == 'pbatko' ? 'pbatko' : 'nobody'}"
     TMP_DIR = "/tmp"
-    GITOLITE_REPO_DIR = "/home/nobody/gitolite-admin"
+    GITOLITE_REPO_DIR = "/home/#{NOBODY}/gitolite-admin"
     LOCK_FILE = "codewatch-gitolite.lock"
 
     def initialize
