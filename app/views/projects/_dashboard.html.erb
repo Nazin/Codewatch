@@ -17,9 +17,10 @@
 			<div class="log">
 				<img src="<%=(not log.author.avatar.nil?) ? '/upload/avatars/'+log.author.avatar : '/assets/default_avatar.jpg'%>" alt="<%=log.author.name%>" />
 				<div class="info">
+					<!-- TODO: add branch name to log entity-->
 					<% if log.ltype == Log::Type::NEW_COMMIT %>
-						<%=link_to (log.message.nil? || log.message == '' ? 'No comments' : log.message[0..150]), project_source_path(log.project, log.revision)%><br />
-						<span>Commit <%=link_to log.revision[0..10], project_source_path(log.project, log.revision)%></a> by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
+						<%=link_to (log.message.nil? || log.message == '' ? 'No comments' : log.message[0..150]), project_branch_commit_path(log.project,'master', log.revision)%><br />
+						<span>Commit <%=link_to log.revision[0..10], project_branch_commit_path(log.project,'master', log.revision)%></a> by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
 					<% elsif log.ltype == Log::Type::TASK_ASSIGNMENT %>
 						<%= link_to log.task.title[0..150], project_task_path(log.project, log.task) %><br />
 						<span>Assigned by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
