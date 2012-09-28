@@ -9,7 +9,6 @@
   <div class="both">
     <% @branches.each do |branch| %>
         <%= link_to branch.name, project_branch_path(@project.id, branch.name), class: 'button r' %>
-        <br/>
     <% end %>
   </div>
 
