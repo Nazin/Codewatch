@@ -39,14 +39,15 @@ class CommentsController < ApplicationController
 		@comment = @project.comments.find params[:id]
 		path = @comment.path
 		blob = @comment.blob
+		branch = @comment.branch
 		@comment.destroy
 		flash[:success] = "Comment removed"
 		
 		if path.nil? || path == ''
-			redirect_to project_blob_path(@project, blob)
+			redirect_to project_branch_blob_path(@project, branch, blob)
 		else
 			path.gsub! '/','_'
-			redirect_to project_parent_blob_path(@project, path, blob)
+			redirect_to project_parent_branch_blob_path(@project, branch, path, blob)
 		end
 	end
 	
@@ -66,10 +67,10 @@ private
 		path = @comment.path
 		
 		if path.nil? || path == ''
-			url = project_branch_blob_path @project.id, @branch, @comment.blob
+			url = project_branch_blob_path @project, @comment.branch, @comment.blob
 		else
 			path.gsub! '/','_'
-			url = project_parent_branch_blob_path @project.id, @branch, path, @comment.blob
+			url = project_parent_branch_blob_path @project, @comment.branch, path, @comment.blob
 		end
 		
 		url += '#comment_' + @comment.id.to_s

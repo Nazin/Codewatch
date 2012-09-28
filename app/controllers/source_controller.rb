@@ -100,6 +100,7 @@ class SourceController < ApplicationController
       @comment.blob = @blob.id
       @comment.revision = repo.heads.first.commit.id #TODO z urla jak bedzie    #TODO narazie jest z cookies
       @comment.path = @path
+      @comment.branch = @branch
 
       @comments = @project.comments.order('"comments"."startLine"').find_all_by_path_and_blob @path, @blob.id
 
