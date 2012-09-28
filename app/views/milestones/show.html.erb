@@ -1,0 +1,24 @@
+<% provide(:title, @milestone.name) %>
+
+<% if admin? %>
+	<%= link_to "Delete", project_milestone_path(@project, @milestone), method: :delete, confirm: "Are you sure?", :class => 'button r' %>
+	<%= link_to "Edit", edit_project_milestone_path(@project, @milestone), :class => 'button r'  %>
+<% end %>
+
+<h1><%=@milestone.name%></h1>
+
+<% if not @milestone.deadline.nil? %>
+	<p><b>Deadline:</b> <%= @milestone.deadline.strftime '%d %B %Y' %></p>
+<% end %>
+
+<p>&nbsp;</p>
+
+<h2>Tasks</h2>
+
+<% if @milestone.tasks.empty? %>
+	<p>There are no tasks defined for this milestone.</p>
+<% else %>
+	<div id="commits">
+		<%= render @milestone.tasks %>
+	</div>
+<% end %>

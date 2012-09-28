@@ -1,0 +1,6 @@
+<% provide(:title, "Edit milestone #{@milestone.name}") %>
+
+<h1>Edit milestone: <%=@milestone.name%></h1>
+
+<% @url = edit_project_milestone_path(@project) %>
+<%=render :template => 'milestones/_form'%>

@@ -1,0 +1,13 @@
+<%= cw_form_for @milestone, url: @url do |f| %>
+	<%= f.text_field :name %>
+	<%= f.text_field :deadline %>
+	<%= f.submit "Save milestone" %>
+<% end %>
+
+<script type="text/javascript">	
+	/* <![CDATA[ */
+		$(document).ready(function() {
+			$('#milestone_deadline').datepicker({dateFormat:'yy-mm-dd'});
+		});
+	/* ]]> */
+</script>

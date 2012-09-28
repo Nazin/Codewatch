@@ -1,0 +1,9 @@
+<% provide(:title, 'New project') %>
+
+<h1>New project</h1>
+
+<%= cw_form_for @project, url: new_project_path do |f| %>
+	<%= f.text_field :name %>
+	<%= f.collection_select :user_ids, @employees , :id, :name, {}, multiple: true, label: "Users"%>
+	<%= f.submit "Save project" %>
+<% end %>

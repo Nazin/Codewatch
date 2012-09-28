@@ -1,0 +1,9 @@
+<% provide(:title, 'Edit') %>
+
+<h1>Edit project</h1>
+
+<%= cw_form_for @project, url: edit_project_path do |f| %>
+	<%= f.text_field :name, label: 'Project name' %>
+	<%= f.collection_select :user_ids, @company_employees, :id, :name, {}, multiple: true, label: 'Company employees'%>
+	<%= f.submit "Save changes" %>
+<% end %>

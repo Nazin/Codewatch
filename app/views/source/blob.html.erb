@@ -1,0 +1,64 @@
+<% provide(:title, "File: #{@blob.name}") %>
+
+<%= link_to 'Return to source browser', project_branch_tree_path(@project, @branch, (u @path)), :class => 'button r' %>
+
+<h1>File: <%= @blob.name %></h1>
+
+<% if @textfile %>
+    <% if @comments && @comments.any? %>
+        <a href="#" class="button r" id="showHideComments">Hide comments</a>
+    <% end %>
+    <table id="highlitedCode">
+      <tbody>
+      <tr>
+        <td class="lineNumbers">
+          <div>
+            <%= raw gen_line_numbers @lines %>
+          </div>
+        </td>
+        <td>
+          <div>
+            <%= raw @highlighted %>
+          </div>
+        </td>
+      </tbody>
+    </table>
+    <div id="commentDetails" data-comments="<%= get_comment_path @project, '_ID_' %>">
+      <a href="#" id="closeCommentBox" class="button r">Close</a>
+      <% if admin? %>
+          <%= link_to "Delete", delete_comment_path(@project, '_ID_'), :class => 'button r', :id => 'deleteComment', method: :delete, confirm: 'Are you sure?' %>
+      <% end %>
+      <div class="both"></div>
+      <div class="comment"></div>
+      <div class="info"></div>
+      <div class="comments"></div>
+      <div class="commentForm">
+        <%= cw_form_for @ccomment, url: new_comment_comment_path(@project, '_ID_'), remote: true do |f| %>
+            <%= f.text_area :commentText %>
+            <div class="errors"></div>
+            <%= f.submit "Add comment" %>
+        <% end %>
+      </div>
+    </div>
+    <div id="comments">
+      <div>
+        <% for comment in @comments %>
+            <div class="comment" data-start-line="<%= comment.startLine %>" data-id="<%= comment.id %>" data-posted="<%= comment.created_at.strftime '%A, %d %B %Y (%H:%M)' %>" data-lines="<%= comment.lines %>" data-author="<%= comment.author.name %>" data-author-url="<%= user_path(comment.author) %>"><%= comment.comment %></div>
+        <% end %>
+      </div>
+    </div>
+    <div id="newComment" title="Add comment to selected lines">
+      <%= cw_form_for @comment, url: new_comment_path, remote: true do |f| %>
+          <%= f.text_area :comment %>
+          <%= f.hidden_field :startLine %>
+          <%= f.hidden_field :lines %>
+          <%= f.hidden_field :path %>
+          <%= f.hidden_field :blob %>
+          <%= f.hidden_field :revision %>
+          <div class="errors"></div>
+          <%= f.submit "Save comment" %>
+      <% end %>
+    </div>
+<% else %>
+    <p>This file is probably not a text file. Preview not available.</p>
+<% end %>

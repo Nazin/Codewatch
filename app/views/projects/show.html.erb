@@ -1,0 +1,25 @@
+<% provide(:title, 'Dashboard') %>
+
+<div id="projectsList">
+	<p><%= repo_info @project%></p>
+	
+	<% if @project.repository_created %>
+		<p>If you are experiencing permission problems with your repo click:</p>
+		<%= link_to 'Force update repository permissions', update_project_repo_users_path(@project), class: 'button r' %>
+	<% end %>
+	
+	<div class="both"></div>
+	<p>&nbsp;</p>
+	<b>Assigned people:</b>
+	<ul>
+	<% @users.each do |user| %>
+		<li><%=link_to user.name, user_path(user)%></li>
+	<% end %>
+	</ul>
+</div>
+
+<h1><%=@project.name%> - dashboard</h1>
+
+<%=render :template => 'projects/_dashboard'%>
+
+<div class="both"></div>

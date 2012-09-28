@@ -23,3 +23,7 @@
 
 
 bundler_stubs/
+
+/public/upload/avatars/*
+
+/db/schema.rb

@@ -1,0 +1,18 @@
+<%= cw_form_for @task, url: @url do |f| %>
+	<%= f.text_field :title %>
+	<%= f.text_area :description %>
+	<%= f.select :state, Task::State.to_list, include_blank: true %>
+	<%= f.select :priority, Task::Priority.to_list, include_blank: true %>
+	<%= f.text_field :deadline %>
+	<%= f.collection_select :responsible_user_id, @company.users.find(:all, :order => 'name'), :id, :name,  label: 'Assigned user' %>
+	<%= f.collection_select :milestone_id, @project.milestones.find(:all, :order => 'name'), :id, :name, {} %>
+	<%= f.submit "Save task" %>
+<% end %>
+
+<script type="text/javascript">	
+	/* <![CDATA[ */
+		$(document).ready(function() {
+			$('#task_deadline').datepicker({dateFormat:'yy-mm-dd'});
+		});
+	/* ]]> */
+</script>

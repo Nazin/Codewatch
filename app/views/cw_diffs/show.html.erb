@@ -1,0 +1,32 @@
+<h1>Diff</h1>
+
+
+
+<table>
+  <tbody>
+  <tr>
+    <td>
+      <div>
+        <%= render partial: 'diff_snippet', locals: {diff_file: @file_a, size: @size} %>
+      </div>
+    </td>
+    <td>
+      <div>
+        <%= render partial: 'diff_snippet', locals: {diff_file: @file_b, size: @size} %>
+      </div>
+    </td>
+  <tr/>
+  <tr>
+    <td>
+      <div>
+        <tr>
+          <%= raw @char_diff %>
+        </tr>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+

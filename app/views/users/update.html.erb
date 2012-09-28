@@ -1,0 +1,8 @@
+<% provide :title, "Edit user: #{@user.name}" %>
+
+<h1>Edit user: <%=@user.name%></h1>
+
+<%= cw_form_for @user_company, url: users_edit_path(@user) do |f| %>
+	<%= f.select :role, UserCompany::Role.to_list, include_blank: true %>
+	<%= f.submit 'Save' %>
+<% end %>

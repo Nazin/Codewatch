@@ -1,0 +1,6 @@
+<% provide(:title, "New milestone") %>
+
+<h1>New milestone</h1>
+
+<% @url = new_project_milestone_path(@project) %>
+<%=render :template => 'milestones/_form'%>

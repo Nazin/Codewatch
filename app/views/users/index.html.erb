@@ -1,0 +1,18 @@
+<% provide :title, 'Users' %>
+
+<% if owner? %>
+	<%=link_to "Invite new user", users_invite_path, :class => 'button r' %>
+<% end %>
+
+<h1>Users</h1>
+
+<% for user in @users %>
+	<div class="user">
+		<a href="<%=url_for user_path(user)%>"><img src="<%=(not user.avatar.nil?) ? '/upload/avatars/'+user.avatar : '/assets/default_avatar.jpg'%>" alt="<%=user.name%>" /></a>
+		<%=link_to user.name, user_path(user)%> 
+		<% if not user.fullName.nil? and user.fullName != '' %>
+			(<%=user.fullName%>)
+		<% end %>
+		<span><%=user.mail%></span>
+	</div>
+<% end %>

@@ -1,0 +1,22 @@
+<h1>Source Tree</h1>
+
+<% if not @path.nil? %>
+	<div class="fileListing">
+		<span>dir</span>
+		<%= up_dir %>
+	</div>
+<% end %>
+
+<% @tree.trees.each do |t| %>
+	<div class="fileListing">
+		<span>dir</span>
+		<span><%= tree t %><span>
+	</div>
+<% end %>
+
+<% @tree.blobs.each do |b| %>
+	<div class="fileListing">
+		<span>file</span>
+		<span><%= blob b %><span>
+	</div>
+<% end %>

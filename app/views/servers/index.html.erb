@@ -1,0 +1,70 @@
+<% provide :title, 'Servers' %>
+
+<% if admin? %>
+	<%=link_to "Add new server", new_server_path, :class => 'button r' %>
+<% end %>
+
+<h1>Servers</h1>
+
+<% if @deployments.any? %>
+	<div id="projectsList">
+		<% for deployment in @deployments %>
+			<div class="deployment<%=deployment.state != Deployment::State::FINE ? ' failedDeployment':''%>">
+				<h4><%=deployment.server.name%></h4> on <%=deployment.created_at.strftime '%A, %d %B %Y (%H:%M)'%>
+				<div class="progress">
+					<% if deployment.filesTotal == 0 %>
+						<div style="width: 100%;"></div>
+					<% else %>
+						<div style="width: <%=(deployment.filesProceeded/(deployment.filesTotal*1.0)*100).round.to_s + '%'%>"></div>
+					<% end %>
+				</div>
+				<% if deployment.state != Deployment::State::FINE %>
+					<div class="failInfo">
+						Deployment failed - <a href="#">Click to see fail log</a>
+						<div>
+							<% if deployment.state == Deployment::State::CONNECTION_PROBLEM %>
+								Could not connect to host with given credentials.
+							<% elsif deployment.state == Deployment::State::ACCESSIBILITY_PROBLEM %>
+								Could not access: <%=deployment.info%>
+							<% elsif deployment.state == Deployment::State::WRITE_PROBLEM %>
+								Could not write: <%=deployment.info%>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+<% end %>
+
+<% if @servers.any? %>
+	
+	<% for server in @servers %>
+		<div class="server">
+			<h4><%=server.name%></h4>
+			<% if server.revision == '' %>
+				<span>No revisions deployed</span>
+			<% else %>
+				<span>Revision on server:</span>
+				<span><%=link_to server.revision[0..10], project_source_path(@project, server.revision)%></a></span>
+			<% end %>
+			<% if user? %>
+				<span class="links">
+					<% if server.state == Server::State::DEPLOYING %>
+						<a>In deployment</a>
+					<% else %>
+						<%=link_to 'Deploy', deploy_server_path(@project, server)%>
+					<% end %>
+					<% if admin? %>
+						<%=link_to 'Edit', edit_server_path(@project, server)%>
+						<%=link_to 'Delete', project_server_path(@project, server), method: :delete, confirm: 'Are you sure?'%>
+					<% end %>
+				</span>
+			<% end %>
+		</div>
+	<% end %>
+<% else %>
+	<p>You don't have any deployment servers!</p>
+<% end %>
+
+<div class="both"></div>

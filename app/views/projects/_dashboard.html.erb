@@ -1,0 +1,47 @@
+<% if @logs.any? ; date = '' ; ltype = 0 %>
+
+	<div id="logs">
+
+		<% for log in @logs; cur_date = log.created_at.strftime '%A, %d %B %Y'  %>
+
+			<% if date != cur_date %>
+				<div class="date"><%=cur_date%></div>
+			<% date = cur_date; ltype = 0; end %>
+
+			<% if ltype != log.ltype %>
+				<div class="type type<%=log.ltype%>">
+					<span><%=Log::Type.to_list.keys[log.ltype-1]%></span>
+				</div>
+			<% ltype = log.ltype; end %>
+				
+			<div class="log">
+				<img src="<%=(not log.author.avatar.nil?) ? '/upload/avatars/'+log.author.avatar : '/assets/default_avatar.jpg'%>" alt="<%=log.author.name%>" />
+				<div class="info">
+					<!-- TODO: add branch name to log entity-->
+					<% if log.ltype == Log::Type::NEW_COMMIT %>
+						<%=link_to (log.message.nil? || log.message == '' ? 'No comments' : log.message[0..150]), project_branch_commit_path(log.project,'master', log.revision)%><br />
+						<span>Commit <%=link_to log.revision[0..10], project_branch_commit_path(log.project,'master', log.revision)%></a> by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
+					<% elsif log.ltype == Log::Type::TASK_ASSIGNMENT %>
+						<%= link_to log.task.title[0..150], project_task_path(log.project, log.task) %><br />
+						<span>Assigned by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
+					<% elsif log.ltype == Log::Type::DEPLOYMENT_FAILED %>
+						<%=link_to "Deployment failed", project_servers_path(log.project)%><br />
+						<span>Deployed by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
+					<% elsif log.ltype == Log::Type::NEW_CODE_COMMENT %>
+						<%=link_to "New comment to code", log.message%><br />
+						<span>Comment by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
+					<% elsif log.ltype == Log::Type::NEW_COMMENT_COMMENT %>
+						<%=link_to "New comment to code comment", log.message%><br />
+						<span>Comment by <%=link_to log.author.name, user_path(log.author)%> at <%=log.created_at.strftime '%H:%M'%> in <%=link_to log.project.name, log.project%></span>
+					<% end %>
+				</div>
+			</div>
+		<% end %>
+
+	</div>
+		
+<% else %>
+
+	<p>There is no recent activity to show.</p>
+
+<% end %>

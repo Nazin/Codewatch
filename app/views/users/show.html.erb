@@ -1,0 +1,28 @@
+<% provide(:title, @user.name) %>
+
+<% if owner? and @user != current_user %>
+	<%=link_to "Remove from company", @user, method: :delete, confirm: "Are you sure?", :class => 'button r'%>
+	<%=link_to "Edit", users_edit_path(@user), :class => 'button r' %>
+<% end %>
+
+<h1><%=@user.name%></h1>
+
+<img src="<%=(not @user.avatar.nil?) ? '/upload/avatars/'+@user.avatar : '/assets/default_avatar.jpg'%>" alt="<%=@user.name%>" />
+
+<div class="box">
+	
+	<b>Name</b>: <%=@user.name%><br />
+	
+	<% if not @user.fullName.nil? and @user.fullName != '' %>
+		<b>Full name</b>: <%=@user.fullName%><br />
+	<% end %>
+		
+	<b>Email</b>: <%=@user.mail%><br />
+	
+	<% @user.user_companies.each do |link| 
+		if link.company != @company 
+			next 
+		end%>
+		<b>Company role</b>: <%=UserCompany::Role.to_list.keys[link.role]%></li>
+	<% end %>
+</div>
