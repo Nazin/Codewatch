@@ -66,10 +66,10 @@ private
 		path = @comment.path
 		
 		if path.nil? || path == ''
-			url = project_branch_blob_path @project, @branch, @comment.blob
+			url = project_branch_blob_path @project.id, @branch, @comment.blob
 		else
 			path.gsub! '/','_'
-			url = project_parent_branch_blob_path @project, @branch, path, @comment.blob
+			url = project_parent_branch_blob_path @project.id, @branch, path, @comment.blob
 		end
 		
 		url += '#comment_' + @comment.id.to_s
