@@ -20,80 +20,80 @@
 
 class Task < ActiveRecord::Base
 
-  attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner, :milestone_id
+	attr_accessible :title, :description, :state, :deadline, :assigned_user, :user_id, :priority, :responsible_user_id, :owner, :milestone_id
 
-  belongs_to :project
-  belongs_to :owner, class_name: 'User', foreign_key: :user_id
-  belongs_to :assigned_user, class_name: 'User', foreign_key: :responsible_user_id
-  belongs_to :milestone
+	belongs_to :project
+	belongs_to :owner, class_name: 'User', foreign_key: :user_id
+	belongs_to :assigned_user, class_name: 'User', foreign_key: :responsible_user_id
+	belongs_to :milestone
 
-  has_many :tasks_histories
-  has_many :logs
+	has_many :tasks_histories
+	has_many :logs
 
-  validates :priority, presence: true
-  validates :title, presence: true, length: {maximum: 64}
-  validates :owner, presence: true
-  validates :assigned_user, presence: true
-  validates :project, presence: true
-  validates :milestone, presence: true
-  validates :state, presence: true
+	validates :priority, presence: true
+	validates :title, presence: true, length: {maximum: 64}
+	validates :owner, presence: true
+	validates :assigned_user, presence: true
+	validates :project, presence: true
+	validates :milestone, presence: true
+	validates :state, presence: true
 
-  around_update :create_history_entry
+	around_update :create_history_entry
 
-  module State
+	module State
 
-    CLOSED = 1 #finished before deadline
-    FAILED = 2 #not finished before deadline
-    ACTIVE = 3 #in development, before deadline
+		CLOSED = 1 #finished before deadline
+		FAILED = 2 #not finished before deadline
+		ACTIVE = 3 #in development, before deadline
 
-    def self.to_hash
-      {
-          'Closed' => CLOSED,
-          'Failed' => FAILED,
-          'Active' => ACTIVE
-      }
-    end
+		def self.to_hash
+			{
+					'Closed' => CLOSED,
+					'Failed' => FAILED,
+					'Active' => ACTIVE
+			}
+		end
 
-    def self.to_list
-      to_hash
-    end
-  end
+		def self.to_list
+			to_hash
+		end
+	end
 
-  module Priority
+	module Priority
 
-    CRITICAL = 1
-    IMPORTANT = 2
-    NEUTRAL = 3
-    NEGLIGIBLE = 4
+		CRITICAL = 1
+		IMPORTANT = 2
+		NEUTRAL = 3
+		NEGLIGIBLE = 4
 
-    def self.to_hash
-      {
-          'Critical' => CRITICAL,
-          'Important' => IMPORTANT,
-          'Neutral' => NEUTRAL,
-          'Negligible' => NEGLIGIBLE
-      }
-    end
+		def self.to_hash
+			{
+					'Critical' => CRITICAL,
+					'Important' => IMPORTANT,
+					'Neutral' => NEUTRAL,
+					'Negligible' => NEGLIGIBLE
+			}
+		end
 
-    def self.to_list
-      to_hash
-    end
-  end
-  private
+		def self.to_list
+			to_hash
+		end
+	end
+	private
 
-  def create_history_entry
+	def create_history_entry
 
-    history = nil
+		history = nil
 
-    if state != state_was or priority != priority_was or responsible_user_id_was != responsible_user_id
+		if state != state_was or priority != priority_was or responsible_user_id_was != responsible_user_id
 
-      history = tasks_histories.build state: state_was, priority: priority_was
-      history.owner = User.find user_id_was
-      history.assigned_user = User.find responsible_user_id_was
-    end
+			history = tasks_histories.build state: state_was, priority: priority_was
+			history.owner = User.find user_id_was
+			history.assigned_user = User.find responsible_user_id_was
+		end
 
-    yield
+		yield
 
-    history.save if not history.nil?
-  end
+		history.save if not history.nil?
+	end
 end

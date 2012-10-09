@@ -1,17 +1,17 @@
 class CompanyHeaderCell < UnauthorizedUserHeaderCell
 
-  helper SessionsHelper
+	helper SessionsHelper
 
-  def display(args)
-    @company = args[:company]
-    @project = args[:project]
-    @admin = args[:admin]
-    render
-  end
+	def display(args)
+		@company = args[:company]
+		@project = args[:project]
+		@admin = args[:admin]
+		render
+	end
 
-  def cookies
-    @cookies
-  end
+	def cookies
+		@cookies
+	end
 
 
 end

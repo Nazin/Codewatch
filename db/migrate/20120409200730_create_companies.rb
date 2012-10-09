@@ -1,11 +1,11 @@
 class CreateCompanies < ActiveRecord::Migration
 
-  def change
+	def change
 
-    create_table :companies do |t|
+		create_table :companies do |t|
 
-      t.string :name, :limit => 32, :null => false
-      t.string :slug, :null => false
-    end
-  end
+			t.string :name, :limit => 32, :null => false
+			t.string :slug, :null => false
+		end
+	end
 end

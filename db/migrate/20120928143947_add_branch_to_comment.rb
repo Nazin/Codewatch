@@ -1,7 +1,7 @@
 class AddBranchToComment < ActiveRecord::Migration
 
-  def change
+	def change
 
-    add_column :comments, :branch, :string
-  end
+		add_column :comments, :branch, :string
+	end
 end
