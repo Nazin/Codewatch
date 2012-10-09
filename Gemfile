@@ -16,6 +16,8 @@ gem 'rmagick' #requires on unix: apt-get install libmagick9-dev
 gem 'net-sftp'
 gem 'spawn', :git => 'git://github.com/rfc2822/spawn'
                               #gem 'ptools' #check if file is binary
+gem 'cells', '~> 3.8.5' # view cells
+gem 'rspec-cells' # test cells
 
 group :assets do
   gem 'sass-rails', '~> 3.2.3'

@@ -1,0 +1,11 @@
+<% if not flash.empty? %>
+    <script type="text/javascript">
+	    /* <![CDATA[ */
+	    $(document).ready(function () {
+		    <% flash.each do |key, value| %>
+		    $.jGrowl("<%=value%>", { header:'<%=key.to_s.humanize%>', life:6000 });
+		    <% end %>
+	    });
+	    /* ]]> */
+    </script>
+<% end %>

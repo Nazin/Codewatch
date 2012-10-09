@@ -1,25 +1,5 @@
 module SessionsHelper
 
-
-  # @param [String] project_id
-  # @param [String] branch_id
-  def store_branch_id project_id, branch_id
-    cookies.permanent[:project_id]={
-        value: project_id,
-        domain: :all
-    }
-    cookies.permanent[:branch_name]={
-        value: branch_id,
-        domain: :all
-    }
-  end
-
-  # @param [String] project_id
-  # @return [String] branch_name
-  def get_branch_id project_id
-    cookies[:branch_name] if cookies[:project_id] == project_id
-  end
-
   def sign_in user
 
     cookies.permanent[:remember_token] = {

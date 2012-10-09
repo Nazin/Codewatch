@@ -1,37 +1,28 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl">
-	<head>
-		<title><%= full_title yield(:title) %></title>
-		<%= stylesheet_link_tag		 "application", media: "all" %>
-		<link href="/assets/dark-hive/jquery-ui-1.8.21.custom.css" media="all" rel="stylesheet" type="text/css" />
-		<%= javascript_include_tag "application" %>
-		<%= csrf_meta_tags %>
-		<link rel="shortcut icon" href="/favicon.ico" />
-		<% if not flash.empty? %>
-		<script type="text/javascript">	
-			/* <![CDATA[ */
-				$(document).ready(function() {
-					<% flash.each do |key, value| %>
-						$.jGrowl("<%=value%>", { header: '<%=key.to_s.humanize%>', life: 6000 });
-					<% end %>
-				});
-			/* ]]> */
-		</script>
-		<% end%>
-	</head>
-	<body id="<%=@company.nil? ? 'basic':'company'%>">
-		<div id="main">
-			<% if @company.nil? %>
-				<%= render "layouts/header" %>
-			<% else %>
-				<%= render "layouts/company_header" %>
-			<% end %>
-			<div id="content">
-				<%= yield %>
-			</div>
-			<div id="clearFooter"></div>
-		</div>
-		<%= render "layouts/footer" %>
-		<%= debug(params) if Rails.env.development? %>
-	</body>
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl">-->
+<!DOCTYPE html>
+<head>
+  <title><%= full_title yield(:title) %></title>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <link href="/assets/dark-hive/jquery-ui-1.8.21.custom.css" media="all" rel="stylesheet" type="text/css"/>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <link rel="shortcut icon" href="/favicon.ico"/>
+  <%= render 'layouts/flash_header' %>
+</head>
+
+<body id="<%= @company.nil? ? 'basic' : 'company' %>">
+<div id="main">
+  <%= render_cell :unauthorized_user_header, :display, {company: @company, project: @project, admin: (admin? rescue nil)} %>
+  <div id="content">
+    <%= yield %>
+  </div>
+  <div id="clearFooter"></div>
+</div>
+<%= render "layouts/footer" %>
+
+<%= debug(params) if Rails.env.development? %>
+
+</body>
+
 </html>
