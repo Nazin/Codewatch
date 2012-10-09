@@ -2,7 +2,7 @@
 
 <h1>Update my profile</h1>
 
-<%= cw_form_for @user, html: { multipart:  true }, url: user_edit_path do |f| %>
+<%= cw_form_for @user, html: {multipart: true}, url: user_edit_path do |f| %>
 	<%= f.text_field :name %>
 	<%= f.text_field :fullName, label: 'Full name' %>
 	<%= f.text_area :public_key %>
@@ -10,7 +10,7 @@
 	<% if not @avatar.nil? %>
 		<label>Current avatar</label>
 		<div class="e">
-			<img src="/upload/avatars/<%=@avatar%>" alt="My avatar" /><br />
+			<img src="/upload/avatars/<%= @avatar %>" alt="My avatar"/><br/>
 			<%= link_to "Remove avatar", users_remove_avatar_path, method: :delete, confirm: "Are you sure?" %>
 		</div>
 	<% end %>

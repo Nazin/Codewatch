@@ -2,22 +2,22 @@
 <!--<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl">-->
 <!DOCTYPE html>
 <head>
-  <title><%= full_title yield(:title) %></title>
-  <%= stylesheet_link_tag "application", media: "all" %>
-  <link href="/assets/dark-hive/jquery-ui-1.8.21.custom.css" media="all" rel="stylesheet" type="text/css"/>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-  <link rel="shortcut icon" href="/favicon.ico"/>
-  <%= render 'layouts/flash_header' %>
+	<title><%= full_title yield(:title) %></title>
+	<%= stylesheet_link_tag "application", media: "all" %>
+	<link href="/assets/dark-hive/jquery-ui-1.8.21.custom.css" media="all" rel="stylesheet" type="text/css"/>
+	<%= javascript_include_tag "application" %>
+	<%= csrf_meta_tags %>
+	<link rel="shortcut icon" href="/favicon.ico"/>
+	<%= render 'layouts/flash_header' %>
 </head>
 
 <body id="<%= @company.nil? ? 'basic' : 'company' %>">
 <div id="main">
-  <%= render_cell :unauthorized_user_header, :display, {company: @company, project: @project, admin: (admin? rescue nil)} %>
-  <div id="content">
-    <%= yield %>
-  </div>
-  <div id="clearFooter"></div>
+	<%= render_cell :unauthorized_user_header, :display, {company: @company, project: @project, admin: (admin? rescue nil)} %>
+	<div id="content">
+		<%= yield %>
+	</div>
+	<div id="clearFooter"></div>
 </div>
 <%= render "layouts/footer" %>
 

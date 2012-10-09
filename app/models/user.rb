@@ -18,71 +18,71 @@
 # require 'digest/sha1'
 
 class User < ActiveRecord::Base
-	
-	attr_accessible :name, :mail , :password, :password_confirmation, :user_companies_attributes, :fullName, :avatar, :public_key
-	attr_accessor :updating_password
-	
-	has_secure_password	
 
-	has_many :user_companies
-	has_many :user_actions
-	has_many :companies, through: :user_companies
-	has_many :owned_tasks, class_name: 'Task', foreign_key: :user_id
-	has_many :assigned_tasks, class_name: 'Task', foreign_key: :responsible_user_id
-	has_many :owned_tasks_histories, class_name: 'TasksHistory', foreign_key: :user_id
-	has_many :assigned_tasks_histories, class_name: 'TasksHistory', foreign_key: :responsible_user_id
-	has_many :created_logs, class_name: 'Log', foreign_key: :author_id
-	has_many :logs
-	has_many :deployments
-	  
-	has_and_belongs_to_many  :projects
+  attr_accessible :name, :mail, :password, :password_confirmation, :user_companies_attributes, :fullName, :avatar, :public_key
+  attr_accessor :updating_password
 
-	accepts_nested_attributes_for :user_companies, :user_actions
+  has_secure_password
 
-	validates :mail, presence: true, length: {maximum: 64}, uniqueness: {case_sensitive: false}, email: {strict_mode: true}
-	validates :name, presence: true, length: {maximum: 32, minimum: 3}
-	validates :password, presence: true, length: {minimum: 6}, if: :should_validate_password?
-	validates :password_confirmation, presence: true, if: :should_validate_password?
-	validate :avatar_validation, if: "avatar?"
-			
-	before_update :avatar_upload
-	before_save :create_remember_token
-private
+  has_many :user_companies
+  has_many :user_actions
+  has_many :companies, through: :user_companies
+  has_many :owned_tasks, class_name: 'Task', foreign_key: :user_id
+  has_many :assigned_tasks, class_name: 'Task', foreign_key: :responsible_user_id
+  has_many :owned_tasks_histories, class_name: 'TasksHistory', foreign_key: :user_id
+  has_many :assigned_tasks_histories, class_name: 'TasksHistory', foreign_key: :responsible_user_id
+  has_many :created_logs, class_name: 'Log', foreign_key: :author_id
+  has_many :logs
+  has_many :deployments
 
-	def create_remember_token
-		self.remember_token = SecureRandom.urlsafe_base64
-	end
+  has_and_belongs_to_many :projects
 
-	def should_validate_password?
-		updating_password || new_record?
-	end
-	
-	def avatar_upload
+  accepts_nested_attributes_for :user_companies, :user_actions
 
-		if not avatar.nil? and not avatar.is_a?(String)
-			
-			if not avatar_was.nil?
-				FileUtils.remove_file File.join('public', 'upload', 'avatars', avatar_was), true
-			end
-			
-			name_parts = avatar.original_filename.split '.'
+  validates :mail, presence: true, length: {maximum: 64}, uniqueness: {case_sensitive: false}, email: {strict_mode: true}
+  validates :name, presence: true, length: {maximum: 32, minimum: 3}
+  validates :password, presence: true, length: {minimum: 6}, if: :should_validate_password?
+  validates :password_confirmation, presence: true, if: :should_validate_password?
+  validate :avatar_validation, if: "avatar?"
 
-			file = File.join 'public', 'upload', 'avatars', id.to_s + '.' + name_parts[name_parts.length-1]
-			FileUtils.cp_r avatar.tempfile.path, file
-			FileUtils.chmod 0666, file
+  before_update :avatar_upload
+  before_save :create_remember_token
+  private
 
-			require 'RMagick'
+  def create_remember_token
+    self.remember_token = SecureRandom.urlsafe_base64
+  end
 
-			image = Magick::Image::read(file).first
-			image.resize_to_fill! 50
-			image.write file
-			image.destroy!
+  def should_validate_password?
+    updating_password || new_record?
+  end
 
-			self.avatar = id.to_s + '.' + name_parts[name_parts.length-1]
-		end
-	end
-	
-	def avatar_validation
-		errors[:avatar] << "should be image" if not avatar.nil? and not avatar.is_a?(String) and not ['image/jpeg', 'image/png', 'image/gif'].include? avatar.content_type
-	end
+  def avatar_upload
+
+    if not avatar.nil? and not avatar.is_a?(String)
+
+      if not avatar_was.nil?
+        FileUtils.remove_file File.join('public', 'upload', 'avatars', avatar_was), true
+      end
+
+      name_parts = avatar.original_filename.split '.'
+
+      file = File.join 'public', 'upload', 'avatars', id.to_s + '.' + name_parts[name_parts.length-1]
+      FileUtils.cp_r avatar.tempfile.path, file
+      FileUtils.chmod 0666, file
+
+      require 'RMagick'
+
+      image = Magick::Image::read(file).first
+      image.resize_to_fill! 50
+      image.write file
+      image.destroy!
+
+      self.avatar = id.to_s + '.' + name_parts[name_parts.length-1]
+    end
+  end
+
+  def avatar_validation
+    errors[:avatar] << "should be image" if not avatar.nil? and not avatar.is_a?(String) and not ['image/jpeg', 'image/png', 'image/gif'].include? avatar.content_type
+  end
 end

@@ -3,26 +3,26 @@
 
 
 <div id="projectsList">
-  <h4>Files</h4>
-  <%= link_to "Browse all files", project_branch_root_tree_path(@project.id, @current_branch_name), :class => 'button r' %>
+	<h4>Files</h4>
+	<%= link_to "Browse all files", project_branch_root_tree_path(@project.id, @current_branch_name), :class => 'button r' %>
 </div>
 <div id="projectsList">
-  <h4>Branches</h4>
+	<h4>Branches</h4>
 
-  <!--TODO: remove it-->
-  <% @branches = @branches * 10 %>
-  <button class='button -r' id="unwind_branches" data-unwinded="1">
-    <span class="button-text">Show more branches</span>
-  </button>
-  <div id="branch_list">
-    <% @branches.each_with_index do |branch, i| %>
-        <% if i < 3 %>
-            <%= link_to branch.name, project_branch_path(@project.id, branch.name), class: 'button r' %>
-        <% else %>
-            <%= link_to branch.name, project_branch_path(@project.id, branch.name), class: 'button r hidden-moving-branches' %>
-        <% end %>
-    <% end %>
-  </div>
+	<!--TODO: remove it-->
+	<% @branches = @branches * 10 %>
+	<button class='button -r' id="unwind_branches" data-unwinded="1">
+		<span class="button-text">Show more branches</span>
+	</button>
+	<div id="branch_list">
+		<% @branches.each_with_index do |branch, i| %>
+			<% if i < 3 %>
+				<%= link_to branch.name, project_branch_path(@project.id, branch.name), class: 'button r' %>
+			<% else %>
+				<%= link_to branch.name, project_branch_path(@project.id, branch.name), class: 'button r hidden-moving-branches' %>
+			<% end %>
+		<% end %>
+	</div>
 
 
 </div>
@@ -33,34 +33,34 @@
 
 <div>
 
-  <h1>Source</h1>
+	<h1>Source</h1>
 
-  <div>
-    <h2>
-      Current branch: <%= @current_branch_name %>
-    </h2>
-  </div>
+	<div>
+		<h2>
+			Current branch: <%= @current_branch_name %>
+		</h2>
+	</div>
 
-  <% if @current_branch_commits.any? %>
+	<% if @current_branch_commits.any? %>
 
-      <div id="commits">
-        <% for commit in @current_branch_commits %>
-            <div class="commit">
-              <div class="revision">
-                Revision: <%= link_to commit.id[0..10], project_branch_commit_path(@project.id, @current_branch_name, commit.id) %>
-              </div>
-              <div class="info">
-                <%= commit.committer.name %>
-                <span>at <%= commit.committed_date.strftime '%A, %d %B %Y (%H:%M)' %></span>
-              </div>
-              <div class="msg">
-                <%= simple_format commit.message %>
-              </div>
-            </div>
-        <% end %>
-      </div>
+		<div id="commits">
+			<% for commit in @current_branch_commits %>
+				<div class="commit">
+					<div class="revision">
+						Revision: <%= link_to commit.id[0..10], project_branch_commit_path(@project.id, @current_branch_name, commit.id) %>
+					</div>
+					<div class="info">
+						<%= commit.committer.name %>
+						<span>at <%= commit.committed_date.strftime '%A, %d %B %Y (%H:%M)' %></span>
+					</div>
+					<div class="msg">
+						<%= simple_format commit.message %>
+					</div>
+				</div>
+			<% end %>
+		</div>
 
-  <% else %>
-      <p>There are no commits yet.</p>
-  <% end %>
+	<% else %>
+		<p>There are no commits yet.</p>
+	<% end %>
 </div>

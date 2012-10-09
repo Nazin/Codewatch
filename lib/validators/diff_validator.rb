@@ -1,12 +1,12 @@
 class DiffValidator < ActiveModel::Validator
-  
+
   def validate record
     @record = record
     validate_urls_and_codes
   end
 
 
-private
+  private
 
   def validate_urls_and_codes
     if urls_blank? && codes_blank?
@@ -17,18 +17,16 @@ private
   end
 
   def no_non_blank?
-   !urls_blank? && !codes_blank?
+    !urls_blank? && !codes_blank?
   end
 
   def urls_blank?
-     @record.url_a.blank? && @record.url_b.blank?
+    @record.url_a.blank? && @record.url_b.blank?
   end
 
   def codes_blank?
-     @record.code_a.blank? && @record.code_b.blank?
+    @record.code_a.blank? && @record.code_b.blank?
   end
 
-
-  
 
 end

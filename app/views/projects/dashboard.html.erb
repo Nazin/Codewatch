@@ -1,13 +1,13 @@
 <% provide(:title, 'Dashboard') %>
 
 <div id="projectsList">
-	
+
 	<% if admin? %>
-		<%=link_to "Add new project", new_project_path, :class => 'button r' %>
+		<%= link_to "Add new project", new_project_path, :class => 'button r' %>
 	<% end %>
-	
+
 	<h4>My projects</h4>
-	
+
 	<% if @projects && @projects.any? %>
 		<ul>
 			<% for project in @projects %>
@@ -21,6 +21,6 @@
 
 <h1>Dashboard</h1>
 
-<%=render :template => 'projects/_dashboard'%>
+<%= render :template => 'projects/_dashboard' %>
 
 <div class="both"></div>

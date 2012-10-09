@@ -13,16 +13,16 @@
 <% end %>
 
 <script type="text/javascript">
-/* <![CDATA[ */
-	$(document).ready(function() {
-		
-		$('#server_stype').change(function() {
-			
+	/* <![CDATA[ */
+	$(document).ready(function () {
+
+		$('#server_stype').change(function () {
+
 			if ($(this).val() == <%=Server::Type::SFTP_PASSWORD%>)
 				$('#server_port').val(22);
 			else
 				$('#server_port').val(21);
 		});
 	});
-/* ]]> */
+	/* ]]> */
 </script>

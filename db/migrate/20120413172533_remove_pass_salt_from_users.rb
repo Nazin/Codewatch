@@ -1,7 +1,7 @@
 class RemovePassSaltFromUsers < ActiveRecord::Migration
   def up
     remove_column :users, :passSalt
-      end
+  end
 
   def down
     add_column :users, :passSalt, :string

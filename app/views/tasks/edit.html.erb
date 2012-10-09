@@ -1,6 +1,6 @@
 <% provide(:title, "Edit task: #{@task.title}") %>
 
-<h1>Edit task: <%=@task.title%></h1>
+<h1>Edit task: <%= @task.title %></h1>
 
 <% @url = edit_project_task_path(@project, @task) %>
-<%=render :template => 'tasks/_form'%>
+<%= render :template => 'tasks/_form' %>

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-	</head>
-	<body>
-		<h1>Welcome to codewatch.pl, <%=@user.name%></h1>	
-		
-		<p>You have successfully signed up and your account is ready to use.</p>
-    
-		<p>To login use the following link:</p>
-		
-		<p><a href="<%=@url%>"><%=@url%></a></p>
-		
-		<p>Thanks for joining and have a great day!</p>
-  </body>
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<h1>Welcome to codewatch.pl, <%= @user.name %></h1>
+
+<p>You have successfully signed up and your account is ready to use.</p>
+
+<p>To login use the following link:</p>
+
+<p><a href="<%= @url %>"><%= @url %></a></p>
+
+<p>Thanks for joining and have a great day!</p>
+</body>
 </html>

@@ -1,7 +1,7 @@
 class AddProjectToComment < ActiveRecord::Migration
 
-	def change
+  def change
 
-		add_column :comments, :project_id, :integer, :null => false
-	end
+    add_column :comments, :project_id, :integer, :null => false
+  end
 end

@@ -11,10 +11,10 @@
 #
 
 class Milestone < ActiveRecord::Base
-	belongs_to :project
-	has_many :tasks
+  belongs_to :project
+  has_many :tasks
 
-	attr_accessible :name, :deadline
+  attr_accessible :name, :deadline
 
-	validates :name, presence: true, length: {maximum: 32}
+  validates :name, presence: true, length: {maximum: 32}
 end

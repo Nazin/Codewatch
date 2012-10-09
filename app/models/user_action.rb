@@ -10,31 +10,31 @@
 #
 
 class UserAction < ActiveRecord::Base
-	
-	belongs_to :user, :autosave => true
-	
-	def generate_key
-		
-		o = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten
-		self.key = (0..31).map{o[rand(o.length)]}.join;
-		
-		self.key
-	end
-	
-	class Type
-		
-		ACTIVATION = 1 
-		REMINDER = 2
-		
-		def self.to_hash
-			{
-				'Activation' => ACTIVATION,
-				'Reminder' => REMINDER,
-			}
-		end
-		
-		def self.to_list
-			to_hash
-		end
-	end
+
+  belongs_to :user, :autosave => true
+
+  def generate_key
+
+    o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
+    self.key = (0..31).map { o[rand(o.length)] }.join;
+
+    self.key
+  end
+
+  class Type
+
+    ACTIVATION = 1
+    REMINDER = 2
+
+    def self.to_hash
+      {
+          'Activation' => ACTIVATION,
+          'Reminder' => REMINDER,
+      }
+    end
+
+    def self.to_list
+      to_hash
+    end
+  end
 end

@@ -1,43 +1,43 @@
 <div id="top">
-  <div id="logo">
-    <%= link_to "", @home %>
-  </div>
-  <div id="branding">
-    <% if @project && !@project.new_record? %>
-        <%= link_to @project.name, @project, :class => 'project' %> <span>by</span>
-    <% end %>
-    <%= link_to @company.name, dashboard_path, :class => 'company' %>
-  </div>
-  <div class="both"></div>
-  <div id="nav"
-       <% if @project %> class="r"
-       <% end %>>
-    <ul>
-      <li><%= link_to "Projects", projects_path %></li>
-      <li><%= link_to "Users", users_path %></li>
-      <li><%= link_to "Settings", user_edit_path %></li>
-      <li><%= link_to "Sign out", signout_path, method: :delete, confirm: "Are you sure?" %></li>
-      <li><%= link_to "About", about_path %></li>
-      <li><%= link_to "Contact", contact_path %></li>
-      <li><%= link_to "Help", help_path %></li>
-      <li><%= link_to "Snippets", code_snippets_path %></li>
-      <li><%= link_to "Diff", new_cw_diff_path %></li>
-    </ul>
-  </div>
-  <% if @project && !@project.new_record? %>
-      <div id="subnav">
-        <ul>
-          <li><%= link_to "Source", project_source_index_path(@project) %></li>
-          <li><%= link_to "Tasks", project_tasks_path(@project) %></li>
-          <li><%= link_to "Deployment", project_servers_path(@project) %></li>
-          <% if @admin %>
-              <li class="divider"></li>
-              <li><%= link_to "Edit project", edit_project_path(@project) %></li>
-              <li><%= link_to "Delete project", @project, method: :delete, confirm: "Are you sure?" %></li>
-          <% end %>
-        </ul>
-      </div>
-      <!--
+	<div id="logo">
+		<%= link_to "", @home %>
+	</div>
+	<div id="branding">
+		<% if @project && !@project.new_record? %>
+			<%= link_to @project.name, @project, :class => 'project' %> <span>by</span>
+		<% end %>
+		<%= link_to @company.name, dashboard_path, :class => 'company' %>
+	</div>
+	<div class="both"></div>
+	<div id="nav"
+			 <% if @project %> class="r"
+			 <% end %>>
+		<ul>
+			<li><%= link_to "Projects", projects_path %></li>
+			<li><%= link_to "Users", users_path %></li>
+			<li><%= link_to "Settings", user_edit_path %></li>
+			<li><%= link_to "Sign out", signout_path, method: :delete, confirm: "Are you sure?" %></li>
+			<li><%= link_to "About", about_path %></li>
+			<li><%= link_to "Contact", contact_path %></li>
+			<li><%= link_to "Help", help_path %></li>
+			<li><%= link_to "Snippets", code_snippets_path %></li>
+			<li><%= link_to "Diff", new_cw_diff_path %></li>
+		</ul>
+	</div>
+	<% if @project && !@project.new_record? %>
+		<div id="subnav">
+			<ul>
+				<li><%= link_to "Source", project_source_index_path(@project) %></li>
+				<li><%= link_to "Tasks", project_tasks_path(@project) %></li>
+				<li><%= link_to "Deployment", project_servers_path(@project) %></li>
+				<% if @admin %>
+					<li class="divider"></li>
+					<li><%= link_to "Edit project", edit_project_path(@project) %></li>
+					<li><%= link_to "Delete project", @project, method: :delete, confirm: "Are you sure?" %></li>
+				<% end %>
+			</ul>
+		</div>
+		<!--
   <% end %>-->
-  <div class="both"></div>
+	<div class="both"></div>
 </div>

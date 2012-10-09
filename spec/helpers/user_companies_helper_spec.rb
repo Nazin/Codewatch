@@ -13,7 +13,7 @@
 # 		@current_user = @user # for SessionsHelper::current_user
 
 # 	}
-	
+
 # 	subject { @result }
 
 # 	describe "user has_role? role method" do
@@ -23,7 +23,7 @@
 # 		it{ should be_true }
 #   end
 
-	
+
 # 	describe "USER should have SPECTATOR rights and more" do
 # 		before {@result = company_spectator? }
 # 		it { should be_true }
@@ -37,7 +37,7 @@
 # 			@result = company_admin?
 # 		}
 # 		it { should be_true }
-	
+
 # 	end
 
 

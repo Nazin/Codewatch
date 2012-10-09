@@ -1,7 +1,7 @@
 <% provide(:title, 'Projects Overview') %>
 
 <% if admin? %>
-	<%=link_to "Add new project", new_project_path, :class => 'button r' %>
+	<%= link_to "Add new project", new_project_path, :class => 'button r' %>
 <% end %>
 
 <h1>Projects Overview</h1>
@@ -9,10 +9,10 @@
 <% if @projects && @projects.any? %>
 	<ul id="projectsOverview">
 		<% for project in @projects %>
-			<li><span><%= link_to project.name, project%></span>
+			<li><span><%= link_to project.name, project %></span>
 				<% if admin? %>
-					<br />
-					<%= link_to "Edit", edit_project_path(project) %> | 
+					<br/>
+					<%= link_to "Edit", edit_project_path(project) %> |
 					<%= link_to "Delete", project, method: :delete, confirm: "Are you sure?" %>
 				<% end %>
 			</li>

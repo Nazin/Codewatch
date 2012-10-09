@@ -1,6 +1,6 @@
 <% provide(:title, "Edit server: #{@server.name}") %>
 
-<h1>Edit server: <%=@server.name%></h1>
+<h1>Edit server: <%= @server.name %></h1>
 
 <% @url = edit_server_path(@project, @server) %>
-<%=render :template => 'servers/_form'%>
+<%= render :template => 'servers/_form' %>

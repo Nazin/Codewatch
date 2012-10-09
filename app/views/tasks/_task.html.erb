@@ -1,5 +1,5 @@
 <div class="commit">
-	<div class="revision">Assigned to: <%=link_to task.assigned_user.name, task.assigned_user%></div>
+	<div class="revision">Assigned to: <%= link_to task.assigned_user.name, task.assigned_user %></div>
 	<div class="info">
 		<%= link_to task.title, project_task_path(@project, task) %>
 		<% if not task.deadline.nil? %>
@@ -8,7 +8,7 @@
 	</div>
 	<div class="msg">
 		<p>
-			<b>State:</b> <%= Task::State.to_list.keys[task.state-1] %> | 
+			<b>State:</b> <%= Task::State.to_list.keys[task.state-1] %> |
 			<b>Priority:</b> <%= Task::Priority.to_list.keys[task.priority-1] %> |
 			<b>Posted:</b> <%= task.created_at.strftime '%A, %d %B %Y (%H:%M)' %> |
 			<b>Updated:</b> <%= task.updated_at.strftime '%A, %d %B %Y (%H:%M)' %>
