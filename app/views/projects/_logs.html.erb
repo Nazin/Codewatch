@@ -1,4 +1,4 @@
-<% for log in @logs; cur_date = log.created_at.strftime '%A, %d %B %Y'; date = ''; ltype = 0 %>
+<% date = ''; ltype = 0; for log in @logs; cur_date = log.created_at.strftime '%A, %d %B %Y'; %>
 
 	<% if date != cur_date %>
 		<div class="date"><%= cur_date %></div>
