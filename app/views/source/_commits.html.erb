@@ -1,0 +1,14 @@
+<% for commit in @current_branch_commits %>
+	<div class="commit">
+		<div class="revision">
+			Revision: <%= link_to commit.id[0..10], project_branch_commit_path(@project.id, @current_branch_name, commit.id) %>
+		</div>
+		<div class="info">
+			<%= commit.committer.name %>
+			<span>at <%= commit.committed_date.strftime '%A, %d %B %Y (%H:%M)' %></span>
+		</div>
+		<div class="msg">
+			<%= simple_format commit.message %>
+		</div>
+	</div>
+<% end %>

@@ -11,9 +11,16 @@ class ProjectsController < ApplicationController
 	end
 
 	def show
+		
+		page = get_page
+		
 		@project = @company.projects.find_by_id params[:id]
 		@users = @project.users
-		@logs = Log.order("logs.created_at desc").joins("LEFT JOIN tasks ON logs.task_id = tasks.id").includes(:author, :project).select("logs.*, users.*, tasks.*").limit(100).where('logs.project_id = ? AND (logs.user_id = ? OR logs.user_id is null)', @project, current_user.id)
+		@logs = Log.order("logs.created_at desc").joins("LEFT JOIN tasks ON logs.task_id = tasks.id").includes(:author, :project).select("logs.*, users.*, tasks.*").limit(100).offset((page-1)*100).where('logs.project_id = ? AND (logs.user_id = ? OR logs.user_id is null)', @project, current_user.id)
+		
+		if request.xhr?
+			render '_logs', :layout => false
+		end
 	end
 
 	def new
@@ -62,8 +69,15 @@ class ProjectsController < ApplicationController
 	end
 
 	def dashboard
+		
+		page = get_page
+		
 		@projects = current_user.projects.find_all_by_company_id @company
-		@logs = Log.order("logs.created_at desc").joins("LEFT JOIN tasks ON logs.task_id = tasks.id").includes(:author, :project).select("logs.*, users.*, tasks.*").limit(100).where('logs.project_id in (?) AND (logs.user_id = ? OR logs.user_id is null)', @projects, current_user.id)
+		@logs = Log.order("logs.created_at desc").joins("LEFT JOIN tasks ON logs.task_id = tasks.id").includes(:author, :project).select("logs.*, users.*, tasks.*").limit(100).offset((page-1)*100).where('logs.project_id in (?) AND (logs.user_id = ? OR logs.user_id is null)', @projects, current_user.id)
+		
+		if request.xhr?
+			render '_logs', :layout => false
+		end
 	end
 
 	private

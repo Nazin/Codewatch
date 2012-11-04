@@ -319,3 +319,20 @@ $(document).ready(function () {
 		}
 	}
 });
+
+var scrollLoading = false;
+var page = 1;
+
+function loadNextPage(element) {
+	
+	scrollLoading = true;
+	
+	$.get(location.href + '?page=' + (page+1), function(data) {
+		
+		if (data != '') {
+			$(element).append(data);
+			page++;
+			scrollLoading = false;
+		}
+	}, 'html');
+}

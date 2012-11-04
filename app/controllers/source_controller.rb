@@ -4,12 +4,19 @@ class SourceController < ApplicationController
 
 	before_filter :company_member?
 
-
 	def index
+		
 		repo = @project.repo
+		page = get_page
+		
 		@branches = repo.heads
 		@current_branch_name = params[:branch] || repo.heads.first.name
-		@current_branch_commits = repo.commits(@current_branch_name)
+		
+		@current_branch_commits = repo.commits @current_branch_name, 15, (page-1)*15
+		
+		if request.xhr?
+			render '_commits', :layout => false
+		end
 	end
 
 	#shows given commit in a branch

@@ -10,6 +10,18 @@ class ApplicationController < ActionController::Base
 
 	private
 
+	def get_page
+		
+		page = params[:page]
+		if page.nil?
+			page = 1 
+		else
+			page = page.to_i
+		end
+		
+		page
+	end
+	
 	def update_repo_perms
 
 		begin
