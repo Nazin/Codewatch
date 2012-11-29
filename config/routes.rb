@@ -6,8 +6,8 @@ Www::Application.routes.draw do
 	match '/projects/:project_id/comments/:id', to: 'comments#show', via: :get, as: :get_comment
 	match '/projects/:project_id/comments/:id/new', to: 'comments#new2', via: :post, as: :new_comment_comment
 
-	match '/projects/:project_id/branch/:branch/tree/:path/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_parent_branch_blob
-	match '/projects/:project_id/branch/:branch/blob/:blob_id/', to: 'source#blob', via: :get, as: :project_branch_blob
+	match '/projects/:project_id/branch/:branch/tree/:path/:file', constraints: { :file => /[^\/]+/, :path => /[^\/]+/ }, to: 'source#blob', via: :get, as: :project_parent_branch_blob
+	match '/projects/:project_id/branch/:branch/blob/:file', constraints: { :file => /[^\/]+/ }, to: 'source#blob', via: :get, as: :project_branch_blob
 	match '/projects/:project_id/branch/:branch/tree', to: 'source#tree', via: :get, as: :project_branch_root_tree
 	match '/projects/:project_id/branch/:branch/tree/:path', to: 'source#tree', via: :get, as: :project_branch_tree
 	match '/projects/:project_id/branch/:branch', to: 'source#index', via: :get, as: :project_branch

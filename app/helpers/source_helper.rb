@@ -6,20 +6,21 @@ module SourceHelper
 			path = el.name
 		else
 			path = File.join @path, el.name
+			path.gsub! '/', '%2F'
 		end
-
-		path.gsub! '/', '_'
 
 		link_to el.name, project_branch_tree_path(@project.id, @branch, path)
 	end
 
 	def blob el
 
+		name = el.name
+		
 		if @path.nil?
-			link_to el.name, project_branch_blob_path(@project.id, @branch, el.id)
+			link_to name, project_branch_blob_path(@project.id, @branch, name)
 		else
-			@path.gsub! '/', '_'
-			link_to el.name, project_parent_branch_blob_path(@project.id, @branch, @path, el.id)
+			@path.gsub! '/', '%2F'
+			link_to name, project_parent_branch_blob_path(@project.id, @branch, @path, name)
 		end
 	end
 
@@ -29,6 +30,7 @@ module SourceHelper
 
 		if parts.length == 2
 			path = parts[1].reverse
+			path.gsub! '/', '%2F'
 		else
 			path = ''
 		end

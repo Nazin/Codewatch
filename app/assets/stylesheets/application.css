@@ -239,15 +239,54 @@ div#nav ul li a, div#subnav ul li a {
 }
 
 ul#nav {
-	text-transform: lowercase;
 	position: absolute;
 	right: 0px;
 	top: 159px;
 }
 
-ul#nav li {
+ul#nav > li {
 	display: inline-block;
 	margin-left: 25px;
+	position: relative;
+}
+
+ul#nav > li > ul {
+	display: none;
+	background: #0D3342;
+	padding-left: 20px;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+ul#nav > li > ul li {
+	list-style-type: disc;
+	color: #fff;
+}
+
+ul#nav > li > ul li a {
+	padding: 12px 20px;
+	display: block;
+}
+
+ul#nav > li > ul li:hover {
+	background: #0D4256;
+}
+
+ul#nav > li > ul li:hover a {
+	color: #fff;
+}
+
+ul#nav > li:hover > ul {
+	display: block;
+	position: absolute;
+}
+
+ul#nav > li > a {
+	text-transform: lowercase;
 }
 
 ul#nav li a {

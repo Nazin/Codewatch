@@ -46,8 +46,7 @@ class SourceController < ApplicationController
 			tree = last_commit.tree
 		else
 			@path = params[:path]
-			@path.gsub! '_', '/'
-			tree = last_commit.tree/params[:path]
+			tree = last_commit.tree/@path
 		end
 
 		@tree = tree
@@ -55,25 +54,25 @@ class SourceController < ApplicationController
 
 	def blob
 
-		repo = @project.repo
 		branch_name = params[:branch]
+		@path = params[:path]
+		
+		repo = @project.repo
+		
 		@branch = branch_name
 		last_commit = get_head_commit(repo, branch_name)
-		@path = params[:path]
-		@path.gsub! '_', '/' if not @path.nil?
+		
 		if params[:path].nil?
-			#is it the case when file is in repo's root directory?
-			@blob = repo.blob params[:blob_id]
+			@tree = last_commit.tree
 		else
-			#TODO does all repo have to have 'master' branch?
 			@tree = last_commit.tree/params[:path]
-			@blob = @tree.blobs.find { |b| b.id == params[:blob_id] }
 		end
-
+		
+		@blob = @tree.blobs.find { |b| b.name == params[:file] }
 		@text = @blob.data
-		puts @text
-		#TODO ? use blob.mime_type method
-		@textfile = (@blob.name =~ /\.rb|\.js|\.php|\.css/i) || (@textfile = @text.ascii_only?)
+		
+		#TODO ? use blob.mime_type method - too many mine_types i guess
+		@textfile = (@blob.name =~ /\.rb|\.js|\.php|\.css|\.txt/i) || (@textfile = @text.ascii_only?)
 
 		if @textfile
 
@@ -92,16 +91,13 @@ class SourceController < ApplicationController
 				@highlighted = lexer.highlight @text
 			end
 
-			begin
-				#TODO wtf these gsub!s ??
-				@highlighted = @highlighted.gsub! "</pre>\n</div>", '</div></pre></div>'
-				@highlighted = @highlighted.gsub! '<pre>', '<pre><div class="line">'
-				@highlighted = @highlighted.gsub! /\n/, '</div><div class="line">'
-				@highlighted = @highlighted.gsub! /\t/, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-				@highlighted = @highlighted.gsub! '<div class="line"></div>', '<div class="line">&nbsp;</div>'
-			rescue
-				@highlighted = "<pre>" + @text + "</pre>"
-			end
+			#its needed for js selection
+			@highlighted = @highlighted.gsub "</pre>\n</div>", '</div></pre></div>'
+			@highlighted = @highlighted.gsub '<pre>', '<pre><div class="line">'
+			@highlighted = @highlighted.gsub /\n/, '</div><div class="line">'
+			@highlighted = @highlighted.gsub /\t/, '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+			@highlighted = @highlighted.gsub '<div class="line"></div>', '<div class="line">&nbsp;</div>'
+			@highlighted = @highlighted.gsub '</pre></div></div><div class="line">', '</pre></div>'
 
 			@comment = @project.comments.build params[:comment]
 			@comment.blob = @blob.id

@@ -36,9 +36,13 @@ $(function () {
 $(document).ready(function () {
 	$(".hidden-moving-branches").hide();
 	$("#unwind_branches span").html("Show more branches");
-})
+});
 
 $(document).ready(function () {
+
+	$('a[href=\'#\']').click(function(e) {
+		e.preventDefault();
+	});
 
 	if ($('#projectsList .deployment').length)
 		$('#projectsList .deployment .failInfo a').click(function (e) {
