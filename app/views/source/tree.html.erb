@@ -1,4 +1,8 @@
-<h1>Source Tree</h1>
+<%= breadcrumb %>
+
+<% if not @tree.nil? %>
+	<h1><%= @tree.name %></h1>
+<% end %>
 
 <% if not @path.nil? %>
 	<div class="fileListing">
@@ -7,16 +11,20 @@
 	</div>
 <% end %>
 
-<% @tree.trees.each do |t| %>
-	<div class="fileListing">
-		<span>dir</span>
-		<span><%= tree t %><span>
-	</div>
-<% end %>
+<% if not @tree.nil? %>
 
-<% @tree.blobs.each do |b| %>
-	<div class="fileListing">
-		<span>file</span>
-		<span><%= blob b %><span>
-	</div>
+	<% @tree.trees.each do |t| %>
+		<div class="fileListing">
+			<span>dir</span>
+			<span><%= tree t %><span>
+		</div>
+	<% end %>
+
+	<% @tree.blobs.each do |b| %>
+		<div class="fileListing">
+			<span>file</span>
+			<span><%= blob b %><span>
+		</div>
+	<% end %>
+
 <% end %>

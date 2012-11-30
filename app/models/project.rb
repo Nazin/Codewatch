@@ -27,8 +27,6 @@ class Project < ActiveRecord::Base
 	validates :company_id, presence: true
 	validates :location, presence: true, length: {maximum: 128}
 	validates :name, presence: true, length: {maximum: 32}
-
-	#TODO test this validator
 	validates :name, presence: true, uniqueness: {scope: :company_id}
 
 	acts_as_url :name, :url_attribute => :slug
@@ -59,17 +57,22 @@ class Project < ActiveRecord::Base
 		'/home/git/repositories/' + location + '.git'
 	end
 
-	def self.commit_received id, revision
+	def self.commit_received id, revision, refname
 
 		project = self.find id
 
+		branch = refname.sub 'refs/heads/', ''
+		
+		puts branch
+		puts "---------------"
+		
 		repo = project.repo
 		commits = repo.commits revision
 		newest_commit = commits.first
 
 		author = User.find_by_mail newest_commit.author.email
 
-		Log.it Log::Type::NEW_COMMIT, project, author, {:revision => revision, :message => newest_commit.message}
+		Log.it Log::Type::NEW_COMMIT, project, author, {:revision => revision, :message => newest_commit.message, :branch => branch}
 
 		project.servers.each do |server|
 			if server.autoUpdate

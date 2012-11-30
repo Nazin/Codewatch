@@ -18,7 +18,7 @@
 			<% if log.ltype == Log::Type::NEW_COMMIT %>
 				<%= link_to (log.message.nil? || log.message == '' ? 'No comments' : log.message[0..150]), project_branch_commit_path(log.project, 'master', log.revision) %>
 				<br/>
-				<span>Commit <%= link_to log.revision[0..10], project_branch_commit_path(log.project, 'master', log.revision) %></a>
+				<span>Commit <%= link_to log.revision[0..10], project_branch_commit_path(log.project, log.branch, log.revision) %></a>
 					by <%= link_to log.author.name, user_path(log.author) %> at <%= log.created_at.strftime '%H:%M' %>
 					in <%= link_to log.project.name, log.project %></span>
 			<% elsif log.ltype == Log::Type::TASK_ASSIGNMENT %>

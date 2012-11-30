@@ -1,16 +1,20 @@
 <% provide :title, "Revision: #{@commit.id}" %>
 
-<%= link_to "Browse all files", project_branch_root_tree_path(@project, @branch), :class => 'button r' %>
+<%= breadcrumb false %>
+
+<%= link_to "Browse files on this revision", project_branch_browse_path(@project.id, @branch, @commit.id, ''), :class => 'button r' %>
 
 <h1>Revision: <%= @commit.id %></h1>
 
 <p>Commit by <%= @commit.committer.name %> <span>at <%= @commit.committed_date.strftime '%A, %d %B %Y (%H:%M)' %></p>
-<%= simple_format @commit.message %>
+
+<div id="commitMessage">
+	<%= simple_format @commit.message %>
+</div>
 
 <h2>Files changed</h2>
 <ul id="filesChanged">
 	<% for diff in @diffs %>
-		<li class="<%= diff.deleted_file ? 'deleted' : (diff.new_file ? 'new' : 'amend') %>"><a><%= diff.a_path %></a>
-		</li>
+		<li class="<%= diff.deleted_file ? 'deleted' : (diff.new_file ? 'new' : 'amend') %>"><%= path_blob diff.a_path %></li>
 	<% end %>
 </ul>

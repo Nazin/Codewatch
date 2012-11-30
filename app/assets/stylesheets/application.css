@@ -747,6 +747,36 @@ textarea#task_description {
 	width: 354px;
 }
 
+ul#breadcrumb {
+	margin-bottom: 15px;
+	border-bottom: 1px dotted #777;
+	padding-bottom: 4px;
+}
+
+ul#breadcrumb li {
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+}
+
+ul#breadcrumb li:after {
+	content: '»';
+	margin: 0 10px;
+}
+
+ul#breadcrumb li:last-child:after {
+	display: none;
+}
+
+ul#breadcrumb li a:hover {
+	text-decoration: underline;
+}
+
+div#commitMessage {
+	border: 1px dotted #777;
+	padding: 5px 20px;
+}
+
 div.jGrowl {
 	z-index: 9999;
 	color: #000;

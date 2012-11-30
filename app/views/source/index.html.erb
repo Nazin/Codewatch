@@ -1,56 +1,26 @@
 <% provide(:title, 'Source') %>
 
-
-
-<div id="projectsList">
-	<h4>Files</h4>
-	<%= link_to "Browse all files", project_branch_root_tree_path(@project.id, @current_branch_name), :class => 'button r' %>
-</div>
-<div id="projectsList">
-	<h4>Branches</h4>
-
-	<!--TODO: remove it-->
-	<% @branches = @branches * 10 %>
-	<button class='button -r' id="unwind_branches" data-unwinded="1">
-		<span class="button-text">Show more branches</span>
-	</button>
-	<div id="branch_list">
-		<% @branches.each_with_index do |branch, i| %>
-			<% if i < 3 %>
-				<%= link_to branch.name, project_branch_path(@project.id, branch.name), class: 'button r' %>
-			<% else %>
-				<%= link_to branch.name, project_branch_path(@project.id, branch.name), class: 'button r hidden-moving-branches' %>
-			<% end %>
+<% if @branches.length > 1 %>
+	<% @branches.each do |branch| %>
+		<% if @current_branch_name != branch.name %>
+			<%= link_to "#{branch.name} branch", project_branch_path(@project.id, branch.name), class: 'button r' %>
 		<% end %>
-	</div>
-
-
-</div>
-
-<br/>
-<br/>
-<br/>
-
-<div>
-
-	<h1>Source</h1>
-
-	<div>
-		<h2>
-			Current branch: <%= @current_branch_name %>
-		</h2>
-	</div>
-
-	<% if @current_branch_commits.any? %>
-
-		<div id="commits">
-			<%= render 'source/commits' %>
-		</div>
-
-	<% else %>
-		<p>There are no commits yet.</p>
 	<% end %>
-</div>
+<% end %>
+
+<%= link_to "Browse all files", project_branch_browse_path(@project.id, @current_branch_name, '-', ''), :class => 'button r' %>
+
+<h1>Source</h1>
+<h2>Current branch: <%= @current_branch_name %></h2>
+
+<% if @current_branch_commits.any? %>
+
+	<div id="commits">
+		<%= render 'source/commits' %>
+	</div>
+<% else %>
+	<p>There are no commits yet.</p>
+<% end %>
 
 <script type="text/javascript">
 $(window).scroll(function() {

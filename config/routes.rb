@@ -6,13 +6,12 @@ Www::Application.routes.draw do
 	match '/projects/:project_id/comments/:id', to: 'comments#show', via: :get, as: :get_comment
 	match '/projects/:project_id/comments/:id/new', to: 'comments#new2', via: :post, as: :new_comment_comment
 
-	match '/projects/:project_id/branch/:branch/tree/:path/:file', constraints: { :file => /[^\/]+/, :path => /[^\/]+/ }, to: 'source#blob', via: :get, as: :project_parent_branch_blob
-	match '/projects/:project_id/branch/:branch/blob/:file', constraints: { :file => /[^\/]+/ }, to: 'source#blob', via: :get, as: :project_branch_blob
-	match '/projects/:project_id/branch/:branch/tree', to: 'source#tree', via: :get, as: :project_branch_root_tree
-	match '/projects/:project_id/branch/:branch/tree/:path', to: 'source#tree', via: :get, as: :project_branch_tree
-	match '/projects/:project_id/branch/:branch', to: 'source#index', via: :get, as: :project_branch
-	match '/projects/:project_id/branch/:branch/commit/:commit_id', to: 'source#show', via: :get, as: :project_branch_commit
-
+	match '/projects/:project_id/source/:branch', to: 'source#index', via: :get, as: :project_branch
+	match '/projects/:project_id/source/:branch/:commit', to: 'source#show', via: :get, as: :project_branch_commit
+	match '/projects/:project_id/source/:branch/:commit/browse', to: 'source#tree', via: :get
+	match '/projects/:project_id/source/:branch/:commit/browse/:path', constraints: { :path => /[^\/]*/ }, to: 'source#tree', via: :get, as: :project_branch_browse
+	match '/projects/:project_id/source/:branch/:commit/browse/:path/:file', constraints: { :file => /[^\/]+/, :path => /[^\/]*/ }, to: 'source#blob', via: :get, as: :project_branch_file
+	
 	match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
 	match '/projects/:project_id/repository/update_users', to: 'repositories#update_users', via: [:get], as: :update_project_repo_users
 

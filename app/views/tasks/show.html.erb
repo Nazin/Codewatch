@@ -7,7 +7,9 @@
 
 <h1>Task: <%= @task.title %></h1>
 
-<%= simple_format @task.description %>
+<div id="commitMessage">
+	<%= simple_format @task.description %>
+</div>
 
 <p>&nbsp;</p>
 <p><b>Assigned to:</b> <%= link_to @task.assigned_user.name, @task.assigned_user %></p>
@@ -34,5 +36,4 @@
 			<b>Assigned to:</b> <%= link_to history.assigned_user.name, history.assigned_user %>
 		</p>
 	<% end %>
-
 <% end %>

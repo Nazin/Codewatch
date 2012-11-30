@@ -3,5 +3,6 @@
 read oldrev newrev refname
 
 export newrev
+export refname
 
-/bin/bash -l -c 'rvm 1.9.3 && cd /var/www/codewatch && script/rails runner "Project.commit_received PROJECT_ID, '\''$newrev'\''"'
+/bin/bash -l -c 'rvm 1.9.3 && cd /var/www/codewatch && script/rails runner "Project.commit_received PROJECT_ID, '\''$newrev'\'', '\''$refname'\''"'
