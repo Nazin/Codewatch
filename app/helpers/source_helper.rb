@@ -2,7 +2,7 @@ module SourceHelper
 
 	def tree el
 
-		if @path.nil?
+		if @path.nil? || @path == ''
 			path = el.name
 		else
 			path = File.join @path, el.name
@@ -14,7 +14,7 @@ module SourceHelper
 
 	def blob el
 
-		if @path.nil?
+		if @path.nil? || @path == ''
 			path = ' '
 		else
 			path = @path
@@ -24,7 +24,9 @@ module SourceHelper
 		link_to el.name, project_branch_file_path(@project.id, @branch, @commit, path, el.name)
 	end
 
-	def path_blob path
+	def path_blob diff
+		
+		path = diff.a_path
 		
 		parts = path.reverse.split File::SEPARATOR, 2
 		
@@ -37,7 +39,15 @@ module SourceHelper
 			lpath.gsub! '/', '%3A'			
 		end
 		
-		link_to path, project_branch_file_path(@project.id, @branch, @commit, lpath, name)
+		if diff.deleted_file
+			path
+		else
+			if diff.new_file
+				link_to path, project_branch_file_path(@project.id, @branch, @commit, lpath, name)
+			else
+				link_to path, project_diff_file_path(@project.id, @branch, @commit, lpath, name, @commit2)
+			end
+		end
 	end
 	
 	def up_dir
@@ -74,8 +84,19 @@ module SourceHelper
 				breadcrumb += content_tag 'li', (link_to part, project_branch_browse_path(@project.id, @branch, @commit, path[0..-4]))
 			end
 		end
-		
-		if not @blob.nil?
+	
+		if not @blob.nil? and not params[:commit2].nil?
+			path = @path
+			
+			if path.nil? || path == ''
+				path = ' '
+			end
+			
+			path.gsub! '/', '%3A'
+			
+			breadcrumb += content_tag 'li', (link_to @blob.name, project_branch_file_path(@project.id, @branch, @commit, path, @blob.name))
+			breadcrumb += content_tag 'li', 'diff with ' + params[:commit2] + ' commit'
+		elsif not @blob.nil?
 			breadcrumb += content_tag 'li', @blob.name
 		end
 		

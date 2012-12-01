@@ -1,0 +1,37 @@
+<% if not @blob.nil? and not @blob2.nil? %>
+
+	<%= breadcrumb %>
+
+	<h1><%= @blob.name %></h1>
+
+	<% if @textfile %>
+		<div id="codeContainer">
+			<table id="highlitedCode" class="diff">
+				<tbody>
+				<tr>
+					<td class="lineNumbers">
+						<div></div>
+					</td>
+					<td>
+						<div>
+							<%= raw @diff %>
+						</div>
+					</td>
+				</tbody>
+			</table>
+		</div>
+	<% else %>
+
+		<% if @imagefile %>
+			<div id="codeContainer">
+				<img alt="<%=@blob.name%> new" title="new" src="data:<%=@blob.mime_type%>;base64,<%=@imagedata%>" />
+				<img alt="<%=@blob2.name%> old" title="old" src="data:<%=@blob2.mime_type%>;base64,<%=@imagedata2%>" />
+			</div>
+		<% else %>
+			<p>This file is probably not a text file. Preview not available.</p>
+		<% end %>
+	<% end %>
+<% else %>
+	<h1>Unknown file</h1>
+	<p>This resource doesn't exist yet (or anymore) in this revision. It could have also been moved or renamed.</p>
+<% end %>

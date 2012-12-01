@@ -11,6 +11,7 @@ Www::Application.routes.draw do
 	match '/projects/:project_id/source/:branch/:commit/browse', to: 'source#tree', via: :get
 	match '/projects/:project_id/source/:branch/:commit/browse/:path', constraints: { :path => /[^\/]*/ }, to: 'source#tree', via: :get, as: :project_branch_browse
 	match '/projects/:project_id/source/:branch/:commit/browse/:path/:file', constraints: { :file => /[^\/]+/, :path => /[^\/]*/ }, to: 'source#blob', via: :get, as: :project_branch_file
+	match '/projects/:project_id/source/:branch/:commit/browse/:path/:file/diff/:commit2', constraints: { :file => /[^\/]+/, :path => /[^\/]*/ }, to: 'source#diff', via: :get, as: :project_diff_file
 	
 	match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
 	match '/projects/:project_id/repository/update_users', to: 'repositories#update_users', via: [:get], as: :update_project_repo_users

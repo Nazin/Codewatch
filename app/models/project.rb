@@ -63,9 +63,6 @@ class Project < ActiveRecord::Base
 
 		branch = refname.sub 'refs/heads/', ''
 		
-		puts branch
-		puts "---------------"
-		
 		repo = project.repo
 		commits = repo.commits revision
 		newest_commit = commits.first

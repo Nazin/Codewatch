@@ -50,6 +50,23 @@ $(document).ready(function () {
 			$(this).next().toggle(100);
 		});
 
+	if ($('table#highlitedCode.diff').length) {
+		
+		var line = 1;
+		var lines = "";
+		
+		$('table#highlitedCode.diff pre > div > div').each(function(i, e) {
+			
+			if (!$(e).hasClass('diff-removed')) {
+				lines += line + "\n";
+				line++;
+			} else
+				lines += "--\n";
+		});
+		
+		$('table#highlitedCode.diff td.lineNumbers').html('<pre>' + lines + '</pre>')
+	}
+
 	if ($('table#highlitedCode div.highlight pre div.line').length) {
 
 		$('table#highlitedCode div.highlight pre').selectable({

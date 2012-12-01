@@ -39,13 +39,13 @@ module Codewatch
 			# @param [String] fragment
 			# @return [String]
 			def apply_red_strategy fragment
-				"<span class=\"diff-fake\">#{fragment}</span>"
+				"<span class=\"diff-removed\">#{fragment}</span>"
 			end
 
 			# @param [String] fragment
 			# @return [String]
 			def apply_green_strategy fragment
-				"<span class=\"diff-extra\">#{fragment}</span>"
+				"<span class=\"diff-new\">#{fragment}</span>"
 			end
 
 			# @param [String] text

@@ -100,19 +100,21 @@ body, input, select, textarea {
 	color: #141414;
 }
 
+div#main {
+	min-height: 100%;
+	position: relative;
+}
+
 body#basic div#main {
 	margin: 0 auto;
 	width: 1000px;
-	min-height: 100%;
 	margin-bottom: -38px;
-	position: relative;
 }
 
 body#company div#main {
 	margin: 0 20px;
 	min-height: 100%;
 	margin-bottom: -64px;
-	position: relative;
 }
 
 body#basic div#top {
@@ -580,12 +582,34 @@ ul#filesChanged {
 	margin-left: 10px;
 }
 
-ul#filesChanged li.deleted a {
+ul#filesChanged li {
+	margin-bottom: 4px;
+}
+
+ul#filesChanged li:before {
+	content: '+';
+	font-weight: bold;
+	color: #fff;
+	width: 20px;
+	display: inline-block;
+	text-align: center;
+}
+
+ul#filesChanged li.deleted a, ul#filesChanged li.deleted {
 	color: red;
 }
 
 ul#filesChanged li.new a {
 	color: green;
+}
+
+ul#filesChanged li.new:before {
+	color: green;
+}
+
+ul#filesChanged li.deleted:before {
+	content: '-';
+	color: red;
 }
 
 div#main h2 {
@@ -601,6 +625,10 @@ ul#projectsOverview li {
 
 ul#projectsOverview li span {
 	font-size: 19px;
+}
+
+div#codeContainer {
+	overflow: auto;
 }
 
 table#highlitedCode {
@@ -1227,6 +1255,14 @@ div.jGrowl div.jGrowl-closer {
 /* Name.Variable.Instance */
 #highlitedCode .il {
 	color: #666666
+}
+
+.diff-removed {
+	background-color: #f2dede;
+}
+
+.diff-new {
+	background-color: #dff0d8;
 }
 
 /* Literal.Number.Integer.Long */

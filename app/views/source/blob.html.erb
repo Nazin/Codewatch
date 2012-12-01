@@ -9,21 +9,23 @@
 		<% if @comments && @comments.any? %>
 			<a href="#" class="button r" id="showHideComments">Hide comments</a>
 		<% end %>
-		<table id="highlitedCode">
-			<tbody>
-			<tr>
-				<td class="lineNumbers">
-					<div>
-						<%= raw gen_line_numbers @lines %>
-					</div>
-				</td>
-				<td>
-					<div>
-						<%= raw @highlighted %>
-					</div>
-				</td>
-			</tbody>
-		</table>
+		<div id="codeContainer">
+			<table id="highlitedCode">
+				<tbody>
+				<tr>
+					<td class="lineNumbers">
+						<div>
+							<%= raw gen_line_numbers @lines %>
+						</div>
+					</td>
+					<td>
+						<div>
+							<%= raw @highlighted %>
+						</div>
+					</td>
+				</tbody>
+			</table>
+		</div>
 		<div id="commentDetails" data-comments="<%= get_comment_path @project, '_ID_' %>">
 			<a href="#" id="closeCommentBox" class="button r">Close</a>
 			<% if admin? %>
@@ -65,7 +67,9 @@
 	<% else %>
 		
 		<% if @imagefile %>
-			<img alt="<%=@blob.name%>" src="data:<%=@blob.mime_type%>;base64,<%=@imagedata%>" />
+			<div id="codeContainer">
+				<img alt="<%=@blob.name%>" src="data:<%=@blob.mime_type%>;base64,<%=@imagedata%>" />
+			</div>
 		<% else %>
 			<p>This file is probably not a text file. Preview not available.</p>
 		<% end %>
