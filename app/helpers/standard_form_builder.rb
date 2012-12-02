@@ -33,7 +33,7 @@ class StandardFormBuilder < ActionView::Helpers::FormBuilder
 			end
 
 			@template.content_tag("label", custom_label, :for => "#{@object_name}_#{label}") +
-					@template.content_tag("div", super(label, *(args << options)) + errors + description, :class => 'e')
+				@template.content_tag("div", super(label, *(args << options)) + errors + description, :class => 'e')
 		end
 	end
 

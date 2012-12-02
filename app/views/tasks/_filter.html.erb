@@ -1,0 +1,8 @@
+<div id="taskFilterForm">
+	<%= cw_form_for @project.tasks.build, url: 'TODO' do |f| %>
+		<%= f.select :state, Task::State.to_list, include_blank: true %>
+		<%= f.select :priority, Task::Priority.to_list, include_blank: true %>
+		<%= f.collection_select :responsible_user_id, @company.users.find(:all, :order => 'name'), :id, :name, label: 'Assigned user', include_blank: true %>
+		<%= f.submit 'Filter' %>
+	<% end %>
+</div>

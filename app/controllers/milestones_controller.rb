@@ -13,7 +13,15 @@ class MilestonesController < ApplicationController
 	end
 
 	def show
+		
+		page = get_page
+		
 		@milestone = @project.milestones.find_by_id params[:id]
+		@tasks = @milestone.tasks.limit(15).offset((page-1)*15)
+		
+		if request.xhr?
+			render @tasks, :layout => false
+		end
 	end
 
 	def edit

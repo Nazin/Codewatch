@@ -4,8 +4,13 @@ class TasksController < ApplicationController
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
 
 	def index
+		
 		@tasks = tasks_of current_user, @company, @project
 		@milestones = @project.milestones.find(:all, :order => 'deadline')
+		
+		if request.xhr?
+			render @tasks, :layout => false
+		end
 	end
 
 	def new
@@ -48,7 +53,7 @@ class TasksController < ApplicationController
 		redirect_to project_tasks_path @project
 	end
 
-	private
+private
 
 	def log_task_assignment do_it=true
 		if do_it
@@ -57,10 +62,9 @@ class TasksController < ApplicationController
 	end
 
 	def tasks_of user, company, project
-		"" " builds sql query to select of given user, company, project" ""
-		user_id = user.id
-		company_id = company.id
-		project_id = project.id
-		Task.joins(project: {company: :users}).where(users: {id: user_id}, companies: {id: company_id}, projects: {id: project_id})
+		
+		page = get_page
+		
+		Task.joins(project: {company: :users}).where(users: {id: user.id}, companies: {id: company.id}, projects: {id: project.id}).limit(15).offset((page-1)*15)
 	end
 end

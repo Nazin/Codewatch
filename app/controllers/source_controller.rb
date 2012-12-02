@@ -104,6 +104,7 @@ class SourceController < ApplicationController
 		get_branch_and_commit
 		commit = get_commit @commit
 		@tree = get_tree commit
+		@chooseButton = true
 		
 		if not @tree.nil? 
 		

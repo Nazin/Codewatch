@@ -29,6 +29,8 @@ class Task < ActiveRecord::Base
 
 	has_many :tasks_histories
 	has_many :logs
+	
+	has_and_belongs_to_many :comments
 
 	validates :priority, presence: true
 	validates :title, presence: true, length: {maximum: 64}

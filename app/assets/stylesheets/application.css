@@ -103,23 +103,13 @@ body, input, select, textarea {
 div#main {
 	min-height: 100%;
 	position: relative;
-}
-
-body#basic div#main {
-	margin: 0 auto;
+	margin: 0 auto -38px;
 	width: 1000px;
-	margin-bottom: -38px;
 }
 
-body#basic div#main.wide {
-	margin: 0 20px;
+body#basic div#main.wide, body#company div#main {
+	margin: 0 20px -38px;
 	width: auto;
-}
-
-body#company div#main {
-	margin: 0 20px;
-	min-height: 100%;
-	margin-bottom: -64px;
 }
 
 body#basic div#top {
@@ -145,7 +135,7 @@ body#company div#logo {
 }
 
 body#company div#top {
-	margin: 25px;
+	padding: 25px 25px 0;
 }
 
 body#basic div#logo a {
@@ -331,7 +321,7 @@ div#footerIn {
 	background: url('../assets/footer.png') no-repeat 340px 0;
 	text-align: center;
 	padding-top: 12px;
-	color: #3e3e3e;
+	color: #777;
 }
 
 div#main h1 {
@@ -792,13 +782,41 @@ textarea#task_description {
 	width: 354px;
 }
 
+#taskFilterForm {
+	margin-bottom: 15px;
+}
+
+#taskFilterForm label, #taskFilterForm div.e {
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0;
+}
+
+#taskFilterForm label {
+	margin-right: 5px;
+}
+
+#taskFilterForm div.e {
+	border: 0;
+	margin-right: 15px;
+}
+
+#taskFilterForm div.e select {
+	width: 120px;
+}
+
+#taskFilterForm .codewatchForm form .send {
+	margin: 0;
+}
+
 ul#breadcrumb {
 	margin-bottom: 15px;
 	border-bottom: 1px dotted #777;
 	padding-bottom: 4px;
 }
 
-ul#breadcrumb li, #tabs ul li {
+ul#breadcrumb li, #tabs ul li, #taskFilterForm label, #taskFilterForm div.e, #taskFilterForm .codewatchForm form .send {
 	display: inline-block;
 	*display: inline;
 	zoom: 1;

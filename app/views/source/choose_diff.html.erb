@@ -8,7 +8,6 @@
 	<% if @current_branch_commits.any? %>
 
 		<div id="commits">
-			<% @chooseButton = true %>
 			<%= render 'source/commits' %>
 		</div>
 	<% else %>

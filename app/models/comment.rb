@@ -4,6 +4,8 @@ class Comment < ActiveRecord::Base
 	belongs_to :project
 
 	has_many :comments, class_name: 'CommentComment', foreign_key: :comment_id
+	
+	has_and_belongs_to_many :tasks
 
 	validates :comment, presence: true, length: {minimum: 3}
 	validates :lines, presence: true

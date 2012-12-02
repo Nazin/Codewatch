@@ -382,19 +382,23 @@ $(document).ready(function () {
 	}
 });
 
+var scrollActive = true;
 var scrollLoading = false;
 var page = 1;
 
 function loadNextPage(element) {
 	
-	scrollLoading = true;
-	
-	$.get(location.href + '?page=' + (page+1), function(data) {
-		
-		if (data != '') {
-			$(element).append(data);
-			page++;
-			scrollLoading = false;
-		}
-	}, 'html');
+	if (scrollActive) {
+		scrollLoading = true;
+
+		$.get(location.href + '?page=' + (page+1), function(data) {
+
+			if ($.trim(data) != '') {
+				$(element).append(data);
+				page++;
+				scrollLoading = false;
+			} else
+				scrollActive = false;
+		}, 'html');
+	}
 }

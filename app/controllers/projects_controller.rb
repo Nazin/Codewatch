@@ -80,7 +80,7 @@ class ProjectsController < ApplicationController
 		end
 	end
 
-	private
+private
 
 	def have_public_key?
 
