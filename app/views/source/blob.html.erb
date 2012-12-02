@@ -72,10 +72,6 @@
 	<% else %>
 		
 		<% if @imagefile %>
-		
-			<%= choose_diff %>
-			<div class="both">&nbsp;</div>
-		
 			<div id="codeContainer">
 				<img alt="<%=@blob.name%>" src="data:<%=@blob.mime_type%>;base64,<%=@imagedata%>" />
 			</div>
