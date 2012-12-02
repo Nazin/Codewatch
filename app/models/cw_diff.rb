@@ -3,12 +3,10 @@ class CwDiff
 	include ActiveModel::Conversion
 	extend ActiveModel::Naming
 
-	attr_accessor :code_a, :code_b, :title, :lang, :url_a, :url_b
+	attr_accessor :code_a, :code_b, :lang, :url_a, :url_b
 
 	validates_with DiffValidator
-	validates :title, presence: true, length: {maximum: 50, minumum: 5}
-	validates :lang, presence: true #TODO #, inclusion: { in: DiffController.lexers }
-
+	validates :lang, presence: true
 
 	def build
 		return false unless valid?
@@ -32,8 +30,11 @@ class CwDiff
 	end
 
 	def initialize attributes={}
-		attributes.each do |name, value|
-			send "#{name}=", value
+		
+		if not attributes.nil?
+			attributes.each do |name, value|
+				send "#{name}=", value
+			end
 		end
 	end
 

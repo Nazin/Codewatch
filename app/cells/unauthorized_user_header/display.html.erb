@@ -7,7 +7,7 @@
 		<li><%= link_to "Contact", contact_path %></li>
 		<li><%= link_to "Help", help_path %></li>
 		<li><%= link_to "Snippets", code_snippets_path %></li>
-		<li><%= link_to "Diff", new_cw_diff_path %></li>
+		<li><%= link_to "Diff", cw_diffs_path %></li>
 		<% if @signed_in %>
 			<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
 			<li>

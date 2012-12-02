@@ -1,6 +1,9 @@
 <% for commit in @current_branch_commits %>
 	<div class="commit">
 		<div class="revision">
+			<% if not @chooseButton.nil? and @chooseButton %>
+				<%= diff commit.id %>
+			<% end %>
 			Revision: <%= link_to commit.id[0..10], project_branch_commit_path(@project.id, @current_branch_name, commit.id) %>
 		</div>
 		<div class="info">

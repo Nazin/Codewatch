@@ -1,0 +1,28 @@
+<% if not @blob.nil? %>
+	<% provide(:title, "File: #{@blob.name}") %>
+
+	<%= breadcrumb true, true %>
+
+	<h1><%= @blob.name %></h1>
+	
+	<% if @current_branch_commits.any? %>
+
+		<div id="commits">
+			<% @chooseButton = true %>
+			<%= render 'source/commits' %>
+		</div>
+	<% else %>
+		<p>There are no commits yet.</p>
+	<% end %>
+		
+	<script type="text/javascript">
+		$(window).scroll(function() {
+			if ($(window).scrollTop() + 100 > $(document).height() - $(window).height() && !scrollLoading) { 
+				loadNextPage('#commits');
+			}
+		});	
+	</script>
+<% else %>
+	<h1>Unknown file</h1>
+	<p>This resource doesn't exist yet (or anymore) in this revision. It could have also been moved or renamed.</p>
+<% end %>

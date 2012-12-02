@@ -45,6 +45,15 @@ class ServersController < ApplicationController
 
 		redirect_to project_servers_path
 	end
+	
+	def status
+		
+		deployment = Deployment.find params[:id]
+		
+		respond_to do |format|
+			format.json { render json: deployment.to_json, status: :created }
+		end
+	end
 
 	def destroy
 		server = Server.find params[:id]

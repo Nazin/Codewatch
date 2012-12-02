@@ -7,9 +7,9 @@
 <h1>Servers</h1>
 
 <% if @deployments.any? %>
-	<div id="projectsList">
+	<div id="projectsList" class="deployments">
 		<% for deployment in @deployments %>
-			<div class="deployment<%= deployment.state != Deployment::State::FINE ? ' failedDeployment' : '' %>">
+			<div class="deployment<%= deployment.state != Deployment::State::FINE ? ' failedDeployment' : '' %>" data-id="<%= deployment.id %>" data-finished="<%= deployment.finished %>">
 				<h4><%= deployment.server.name %></h4> on <%= deployment.created_at.strftime '%A, %d %B %Y (%H:%M)' %>
 				<div class="progress">
 					<% if deployment.filesTotal == 0 %>
@@ -36,6 +36,7 @@
 			</div>
 		<% end %>
 	</div>
+	<%= link_to "", deploy_status_path(@project, '_ID_'), :id => 'deployStatus' %>
 <% end %>
 
 <% if @servers.any? %>

@@ -11,6 +11,7 @@ Www::Application.routes.draw do
 	match '/projects/:project_id/source/:branch/:commit/browse', to: 'source#tree', via: :get
 	match '/projects/:project_id/source/:branch/:commit/browse/:path', constraints: { :path => /[^\/]*/ }, to: 'source#tree', via: :get, as: :project_branch_browse
 	match '/projects/:project_id/source/:branch/:commit/browse/:path/:file', constraints: { :file => /[^\/]+/, :path => /[^\/]*/ }, to: 'source#blob', via: :get, as: :project_branch_file
+	match '/projects/:project_id/source/:branch/:commit/browse/:path/:file/diff', constraints: { :file => /[^\/]+/, :path => /[^\/]*/ }, to: 'source#choose_diff', via: :get, as: :project_choose_diff_file
 	match '/projects/:project_id/source/:branch/:commit/browse/:path/:file/diff/:commit2', constraints: { :file => /[^\/]+/, :path => /[^\/]*/ }, to: 'source#diff', via: :get, as: :project_diff_file
 	
 	match '/projects/:project_id/repository', to: 'repositories#create', via: [:get], as: :create_project_repo
@@ -35,6 +36,7 @@ Www::Application.routes.draw do
 	match '/projects/:project_id/servers/new', to: 'servers#new', via: [:get, :post], as: :new_server
 	match '/projects/:project_id/servers/:id/edit', to: 'servers#edit', via: [:get, :put], as: :edit_server
 	match '/projects/:project_id/servers/:id/deploy', to: 'servers#deploy', via: [:get], as: :deploy_server
+	match '/projects/:project_id/servers/status/:id', to: 'servers#status', via: [:get], as: :deploy_status
 
 	match '/users/edit', to: 'users#edit', as: :user_edit
 	match '/users/:id/edit', to: 'users#update', as: :users_edit
@@ -42,10 +44,13 @@ Www::Application.routes.draw do
 	match '/users/remove_avatar', to: 'users#remove_avatar', via: :delete
 
 	resources :users, only: [:index, :show, :destroy]
-	resources :code_snippets, only: [:index, :new, :create, :show] #TODO :destroy
-	resources :cw_diffs, only: [:new, :create, :show]
+	resources :code_snippets, only: [:index, :show]
+	resources :cw_diffs, only: [:index]
 	resources :sessions, only: [:new, :create, :destroy]
 
+	match '/code_snippets', to: 'code_snippets#index', via: :post
+	match '/cw_diffs', to: 'cw_diffs#index', via: :post
+	
 	match '/projects/dashbaoard', to: 'projects#dashboard'
 	match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
 

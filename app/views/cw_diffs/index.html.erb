@@ -1,0 +1,13 @@
+<% provide(:title, 'Diff') %>
+<h1>Diff</h1>
+
+<p>Please provied urls or codes.</p>
+
+<%= cw_form_for @diff, url: cw_diffs_path do |f| %>
+	<%= f.select :lang, @lexers, include_blank: true, :label => 'Language' %>
+	<%= f.text_field :url_a, :label => 'Snippet 1 Url' %>
+	<%= f.text_area :code_a, :label => 'Snippet 1 Code' %>
+	<%= f.text_field :url_b, :label => 'Snippet 2 Url' %>
+	<%= f.text_area :code_b, :label => 'Snippet 2 Code' %>
+	<%= f.submit 'Diff' %>
+<% end %>

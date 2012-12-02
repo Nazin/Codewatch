@@ -13,15 +13,7 @@ module SourceHelper
 	end
 
 	def blob el
-
-		if @path.nil? || @path == ''
-			path = ' '
-		else
-			path = @path
-			path.gsub! '/', '%3A'
-		end
-		
-		link_to el.name, project_branch_file_path(@project.id, @branch, @commit, path, el.name)
+		link_to el.name, project_branch_file_path(@project.id, @branch, @commit, get_path, el.name)
 	end
 
 	def path_blob diff
@@ -64,7 +56,15 @@ module SourceHelper
 		link_to '..', project_branch_browse_path(@project.id, @branch, @commit, path)
 	end
 	
-	def breadcrumb files=true
+	def choose_diff 
+		link_to "Diff with another revision", project_choose_diff_file_path(@project.id, @branch, @commit, get_path), :class => 'button r'
+	end
+	
+	def diff rev
+		link_to "Choose this revision", project_diff_file_path(@project.id, @branch, @commit, get_path, @blob.name, rev), :class => 'button r'
+	end
+	
+	def breadcrumb files=true, file=false
 		
 		commit_name = @commit == '-' ? 'head commit' : "#{@commit} commit"
 		
@@ -85,7 +85,7 @@ module SourceHelper
 			end
 		end
 	
-		if not @blob.nil? and not params[:commit2].nil?
+		if not @blob.nil? and (not params[:commit2].nil? or file)
 			path = @path
 			
 			if path.nil? || path == ''
@@ -95,11 +95,26 @@ module SourceHelper
 			path.gsub! '/', '%3A'
 			
 			breadcrumb += content_tag 'li', (link_to @blob.name, project_branch_file_path(@project.id, @branch, @commit, path, @blob.name))
-			breadcrumb += content_tag 'li', 'diff with ' + params[:commit2] + ' commit'
+			breadcrumb += content_tag 'li', 'diff with ' + params[:commit2] + ' commit' if not params[:commit2].nil?
+			breadcrumb += content_tag 'li', 'diff' if params[:commit2].nil?
 		elsif not @blob.nil?
 			breadcrumb += content_tag 'li', @blob.name
 		end
 		
 		content_tag 'ul', breadcrumb.html_safe, :id => 'breadcrumb'
+	end
+	
+private 
+	
+	def get_path
+		
+		if @path.nil? || @path == ''
+			path = ' '
+		else
+			path = @path
+			path.gsub! '/', '%3A'
+		end
+		
+		path
 	end
 end

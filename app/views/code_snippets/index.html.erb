@@ -1,22 +1,9 @@
 <% provide(:title, 'Code Snippets') %>
-
-
-
 <h1>Code Snippets</h1>
 
-
-
-<p>Code snippets!</p>
-
-
-<ul class="code_snippets">
-	<% @code_snippets.each do |snippet| %>
-		<li>
-			<%= link_to snippet.title, code_snippet_sha_path(snippet) %>
-		</li>
-	<% end %>
-</ul>
-
-<ul>
-	<%= link_to "Create new", new_code_snippet_path %>
-</ul>
+<%= cw_form_for @code_snippet, url: code_snippets_path do |f| %>
+	<%= f.text_field :title %>
+	<%= f.select :lang, @lexers, include_blank: true, :label => 'Language' %>
+	<%= f.text_area :code %>
+	<%= f.submit 'Submit' %>
+<% end %>

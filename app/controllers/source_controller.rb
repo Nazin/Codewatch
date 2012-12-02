@@ -6,18 +6,7 @@ class SourceController < ApplicationController
 	before_filter :company_member?
 
 	def index
-		
-		repo = @project.repo
-		page = get_page
-		
-		@branches = repo.heads
-		@current_branch_name = params[:branch] || repo.heads.first.name
-		
-		@current_branch_commits = repo.commits @current_branch_name, 15, (page-1)*15
-		
-		if request.xhr?
-			render '_commits', :layout => false
-		end
+		get_commits
 	end
 
 	#shows given commit in a branch
@@ -27,9 +16,9 @@ class SourceController < ApplicationController
 		@branch = params[:branch]
 		
 		if params[:commit].nil? or params[:commit] == '-'
-			commits = repo.commits @branch, 10000
+			commits = repo.commits @branch
 		else
-			commits = repo.commits params[:commit], 10000
+			commits = repo.commits params[:commit]
 		end
 		
 		@commit = commits.first
@@ -110,6 +99,22 @@ class SourceController < ApplicationController
 		end
 	end
 
+	def choose_diff
+		
+		get_branch_and_commit
+		commit = get_commit @commit
+		@tree = get_tree commit
+		
+		if not @tree.nil? 
+		
+			@blob = find_blob @tree, params[:file]
+
+			if not @blob.nil? 
+				get_commits
+			end
+		end
+	end
+	
 	def diff
 		
 		get_branch_and_commit
@@ -180,8 +185,8 @@ private
 		if commit_id.nil? or commit_id == '-'
 			commit = get_head_commit repo, @branch
 		else
-			commits = repo.commits @branch, 10000
-			commit = commits.find { |c| c.id == commit_id }
+			commits = repo.commits commit_id
+			commit = commits.first
 		end
 		
 		commit
@@ -216,6 +221,21 @@ private
 		repo.commits(branch_name).first
 	end
 
+	def get_commits
+
+		repo = @project.repo
+		page = get_page
+		
+		@branches = repo.heads
+		@current_branch_name = params[:branch] || repo.heads.first.name
+		
+		@current_branch_commits = repo.commits @current_branch_name, 15, (page-1)*15
+		
+		if request.xhr?
+			render '_commits', :layout => false
+		end
+	end
+	
 	def get_tree_diffs tree, elements, path
 
 		for el in tree.contents

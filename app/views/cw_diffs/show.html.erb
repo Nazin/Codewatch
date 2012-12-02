@@ -1,32 +1,55 @@
 <h1>Diff</h1>
 
-
-
-<table>
-	<tbody>
-	<tr>
-		<td>
-			<div>
-				<%= render partial: 'diff_snippet', locals: {diff_file: @file_a, size: @size} %>
-			</div>
-		</td>
-		<td>
-			<div>
-				<%= render partial: 'diff_snippet', locals: {diff_file: @file_b, size: @size} %>
-			</div>
-		</td>
-	<tr/>
-	<tr>
-		<td>
-			<div>
+<div id="tabs">
+    <ul>
+        <li class="active"><a href="#lineTab">Line by line</a></li>
+        <li><a href="#charTab">Char by char</a></li>
+    </ul>
+    <div id="lineTab">
+		
+		<div class="diffPart">
+			<table id="highlitedCode" class="diff btless">
+				<tbody>
 				<tr>
-					<%= raw @char_diff %>
-				</tr>
-			</div>
-		</td>
-	</tr>
-	</tbody>
-</table>
-
-
-
+					<td class="lineNumbers"></td>
+					<td>
+						<div>
+							<%= raw @file_a %>
+						</div>
+					</td>
+				</tbody>
+			</table>
+		</div>
+		<div class="diffPart">
+			<table id="highlitedCode2" class="diff btless">
+				<tbody>
+				<tr>
+					<td class="lineNumbers"></td>
+					<td>
+						<div>
+							<%= raw @file_b %>
+						</div>
+					</td>
+				</tbody>
+			</table>
+		</div>
+		<div class="both"></div>
+    </div>
+    <div id="charTab">
+		<div id="codeContainer">
+			<table id="highlitedCode3" class="btless">
+				<tbody>
+				<tr>
+					<td class="lineNumbers">
+						<%= raw gen_line_numbers @lines %>
+					</td>
+					<td>
+						<div>
+							<%= raw @char_diff %>
+						</div>
+					</td>
+				</tbody>
+			</table>
+		</div>
+    </div>
+</div>

@@ -1,22 +1,19 @@
-<h1>CodeSnippets#show</h1>
-<p><%= @code_snippet.title %></p>
+<h1><%= @code_snippet.title %></h1>
 
-<table id="highlitedCode">
-	<tbody>
-	<tr>
-		<td class="lineNumbers">
-			<div>
-				<%= raw gen_line_numbers @lines %>
-			</div>
-		</td>
-		<td>
-			<div>
-				<%= raw @highlighted %>
-			</div>
-		</td>
-	</tbody>
-</table>
-
-<ul>
-	<%= link_to "Snippets home", code_snippets_path %>
-</ul>
+<div id="codeContainer">
+	<table id="highlitedCode">
+		<tbody>
+		<tr>
+			<td class="lineNumbers">
+				<div>
+					<%= raw gen_line_numbers @lines %>
+				</div>
+			</td>
+			<td>
+				<div>
+					<%= raw @highlighted %>
+				</div>
+			</td>
+		</tbody>
+	</table>
+</div>
