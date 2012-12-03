@@ -15,11 +15,12 @@
 
 <h2>Tasks</h2>
 
+<% @url = filter_project_milestone_path @project, @milestone %>
+<%= render '/tasks/filter' %>
+
 <% if @milestone.tasks.empty? %>
 	<p>There are no tasks defined for this milestone.</p>
 <% else %>
-	<% @url = filter_project_milestone_path @project, @milestone %>
-	<%= render '/tasks/filter' %>
 	<div id="commits">
 		<%= render @tasks %>
 	</div>
