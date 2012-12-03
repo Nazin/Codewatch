@@ -22,6 +22,19 @@
 <p><b>State:</b> <%= Task::State.to_list.keys[@task.state-1] %></p>
 <p><b>Priority:</b> <%= Task::Priority.to_list.keys[@task.priority-1] %></p>
 
+<% if @task.comments.any? %>
+
+	<p>&nbsp;</p>
+	<h2>Comments in code</h2>
+	
+	<ul class="normal">
+	<% for comment in @task.comments %>
+		<li><a href="<%= project_branch_file_path @project.id, comment.branch, comment.revision, (comment.path == '' ? ' ': (comment.path.gsub '/', '%3A')), comment.file_name %>#comment_<%= comment.id %>"><%= comment.comment[0..100] %>...</a></li>
+	<% end %>
+	</ul>
+
+<% end %>
+
 <% if @task.tasks_histories.any? %>
 
 	<p>&nbsp;</p>
@@ -31,9 +44,15 @@
 		<p>
 			Changed by <%= link_to history.owner.name, history.owner %>
 			on <%= history.created_at.strftime '%A, %d %B %Y (%H:%M)' %> |
+			<b>Title: </b><%= history.title %> |
 			<b>State:</b> <%= Task::State.to_list.keys[history.state-1] %> |
 			<b>Priority:</b> <%= Task::Priority.to_list.keys[history.priority-1] %> |
 			<b>Assigned to:</b> <%= link_to history.assigned_user.name, history.assigned_user %>
+			<% if not history.deadline.nil? %>
+				 | <b>Deadline:</b> <%= history.deadline.strftime '%d %B %Y' %>
+			<% end %>
+			| <a href="#description_<%= history.id %>" class="show_description">Show description</a>
 		</p>
+		<div id="description_<%= history.id %>" class="previous_description"><%= simple_format history.description %></div>
 	<% end %>
 <% end %>

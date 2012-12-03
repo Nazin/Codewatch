@@ -2,10 +2,11 @@ class TasksController < ApplicationController
 
 	before_filter :company_member?
 	before_filter :company_admin?, only: [:new, :edit, :destroy]
+	before_filter :init_task_filter
 
 	def index
 		
-		@tasks = tasks_of current_user, @company, @project
+		@tasks = get_tasks @project.tasks
 		@milestones = @project.milestones.find(:all, :order => 'deadline')
 		
 		if request.xhr?
@@ -13,6 +14,11 @@ class TasksController < ApplicationController
 		end
 	end
 
+	def filter
+		task_filter
+		redirect_to project_tasks_path
+	end
+	
 	def new
 
 		@task = @project.tasks.build params[:task]
@@ -40,7 +46,7 @@ class TasksController < ApplicationController
 		if request.put? and @task.update_attributes params[:task]
 			log_task_assignment @assigned_user_was != @task.assigned_user
 			flash[:succes] = "Task updated"
-			redirect_to project_tasks_path
+			redirect_to project_task_path @project, @task
 		elsif request.put?
 			flash[:warning] = "Invalid information"
 		end
@@ -59,12 +65,5 @@ private
 		if do_it
 			Log.it Log::Type::TASK_ASSIGNMENT, @project, current_user, {task: @task, user: @task.assigned_user}
 		end
-	end
-
-	def tasks_of user, company, project
-		
-		page = get_page
-		
-		Task.joins(project: {company: :users}).where(users: {id: user.id}, companies: {id: company.id}, projects: {id: project.id}).limit(15).offset((page-1)*15)
 	end
 end

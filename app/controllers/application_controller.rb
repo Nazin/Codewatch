@@ -8,8 +8,47 @@ class ApplicationController < ActionController::Base
 
 	include SessionsHelper
 
-	private
+private
 
+	def init_task_filter
+		
+		if session[:task_filter].nil?
+			session[:task_filter] = {
+				:state => '',
+				:priority => '',
+				:responsible_user_id => ''
+			}
+		end
+		
+		@filter_task = @project.tasks.build session[:task_filter]
+	end
+	
+	def task_filter
+		
+		if request.post?
+			session[:task_filter] = params[:task]
+		end
+		
+		flash[:succes] = "Filters updated"
+	end
+	
+	def get_tasks el
+		
+		page = get_page
+
+		where = '1=1'
+		params = {}
+		
+		for key in session[:task_filter]
+			if session[:task_filter][key[0]] != ''
+				where += " and #{key[0]} = :#{key[0]}"
+				params[key[0].intern] = key[1]
+			end
+		end
+		
+		el.includes(:assigned_user).where(where, params).limit(15).offset((page-1)*15)
+	end
+	
 	def get_page
 		
 		page = params[:page]

@@ -58,6 +58,7 @@
 		<div id="newComment" title="Add comment to selected lines">
 			<%= cw_form_for @comment, url: new_comment_path, remote: true do |f| %>
 				<%= f.text_area :comment %>
+				<%= f.collection_select :task_id, @project.tasks.find(:all, :order => 'title'), :id, :title, {:include_blank => true, :label => 'Assign with task'} %>
 				<%= f.hidden_field :startLine %>
 				<%= f.hidden_field :lines %>
 				<%= f.hidden_field :path %>

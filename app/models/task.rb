@@ -29,9 +29,8 @@ class Task < ActiveRecord::Base
 
 	has_many :tasks_histories
 	has_many :logs
+	has_many :comments
 	
-	has_and_belongs_to_many :comments
-
 	validates :priority, presence: true
 	validates :title, presence: true, length: {maximum: 64}
 	validates :owner, presence: true
@@ -87,9 +86,9 @@ class Task < ActiveRecord::Base
 
 		history = nil
 
-		if state != state_was or priority != priority_was or responsible_user_id_was != responsible_user_id
+		if state != state_was or priority != priority_was or responsible_user_id_was != responsible_user_id or description != description_was or deadline != deadline_was or title != title_was
 
-			history = tasks_histories.build state: state_was, priority: priority_was
+			history = tasks_histories.build state: state_was, priority: priority_was, description: description_was, deadline: deadline_was, title: title_was
 			history.owner = User.find user_id_was
 			history.assigned_user = User.find responsible_user_id_was
 		end

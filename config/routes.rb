@@ -20,9 +20,11 @@ Www::Application.routes.draw do
 	match '/projects/new', to: 'projects#new', via: [:get, :post], as: :new_project
 	match '/projects/:id/edit', to: 'projects#edit', via: [:get, :put], as: :edit_project
 
+	match '/projects/:project_id/tasks/filter', to: 'tasks#filter', via: :post, as: :filter_project_task
 	match '/projects/:project_id/tasks/new', to: 'tasks#new', via: :post, as: :new_project_task
 	match '/projects/:project_id/tasks/:id/edit', to: 'tasks#edit', via: :put, as: :edit_project_task
 
+	match '/projects/:project_id/milestones/:id/filter', to: 'milestones#filter', via: :post, as: :filter_project_milestone
 	match '/projects/:project_id/milestones/new', to: 'milestones#new', via: :post, as: :new_project_milestone
 	match '/projects/:project_id/milestones/:id/edit', to: 'milestones#edit', via: :put, as: :edit_project_milestone
 
@@ -55,8 +57,6 @@ Www::Application.routes.draw do
 	match '/code_snippets/tmp/:sha', to: 'code_snippets#show'
 
 	match '/help', to: 'page#help'
-	match '/about', to: 'page#about'
-	match '/contact', to: 'page#contact'
 
 	match '/signup', to: 'users#signup'
 	match '/signup/:key', to: 'users#signup'

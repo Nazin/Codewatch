@@ -6,6 +6,7 @@
 #  state               :integer(2)      not null
 #  priority            :integer(2)      not null
 #  posted              :datetime        not null
+#  description         :text            not null
 #  task_id             :integer         not null
 #  user_id             :integer         not null
 #  responsible_user_id :integer         not null
@@ -15,7 +16,7 @@
 
 class TasksHistory < ActiveRecord::Base
 
-	attr_accessible :state, :priority, :owner, :assigned_user
+	attr_accessible :state, :priority, :owner, :assigned_user, :description, :title, :deadline
 
 	belongs_to :task
 	belongs_to :owner, class_name: 'User', foreign_key: :user_id

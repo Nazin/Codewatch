@@ -29,11 +29,11 @@
 
 	<h1>Tasks overview</h1>
 
-	<%= render 'filter' %>
-	
 	<% if @tasks.empty? %>
 		<p>There are no tasks defined.</p>
 	<% else %>
+		<% @url = filter_project_task_path @project %>
+		<%= render 'filter' %>
 		<div id="commits">
 			<%= render @tasks %>
 		</div>

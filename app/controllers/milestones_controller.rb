@@ -1,5 +1,9 @@
 class MilestonesController < ApplicationController
 
+	before_filter :company_member?
+	before_filter :company_admin?, only: [:new, :edit, :destroy]
+	before_filter :init_task_filter
+	
 	def new
 
 		@milestone = @project.milestones.build params[:milestone]
@@ -12,12 +16,16 @@ class MilestonesController < ApplicationController
 		end
 	end
 
+	def filter
+		task_filter
+		@milestone = @project.milestones.find_by_id params[:id]
+		redirect_to project_milestone_path @project, @milestone
+	end
+	
 	def show
 		
-		page = get_page
-		
 		@milestone = @project.milestones.find_by_id params[:id]
-		@tasks = @milestone.tasks.limit(15).offset((page-1)*15)
+		@tasks = get_tasks @milestone.tasks
 		
 		if request.xhr?
 			render @tasks, :layout => false
@@ -30,7 +38,7 @@ class MilestonesController < ApplicationController
 
 		if request.put? and @milestone.update_attributes params[:milestone]
 			flash[:succes] = "Milestone updated"
-			redirect_to project_tasks_path
+			redirect_to project_milestone_path(@project, @milestone)
 		elsif request.put?
 			flash[:warning] = "Invalid information"
 		end

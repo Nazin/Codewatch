@@ -21,6 +21,21 @@ $(document).ready(function () {
 		e.preventDefault();
 	});
 
+	if ($('a.show_description').length)
+		$('a.show_description').click(function(e) {
+			e.preventDefault();
+			
+			var el = $($(this).attr('href'));
+			
+			if (el.is(':hidden')) {
+				el.show(500);
+				$(this).html('Hide description');
+			} else {
+				el.hide(500);
+				$(this).html('Show description');
+			}
+		});
+
 	if ($('#projectsList .deployment').length)
 		$('#projectsList .deployment .failInfo a').click(function (e) {
 			e.preventDefault();

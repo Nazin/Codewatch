@@ -81,7 +81,7 @@ class SourceController < ApplicationController
 					@comment.blob = @blob.id
 					@comment.file_name = @blob.name
 					@comment.revision = commit.id
-					@comment.path = @path
+					@comment.path = @path.gsub ':', '/'
 					@comment.branch = @branch
 
 					@comments = @project.comments.order('"comments"."startLine"').find_all_by_path_and_blob @path, @blob.id
