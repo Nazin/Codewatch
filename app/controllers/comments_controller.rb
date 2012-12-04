@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
 
-	before_filter :company_admin?, only: [:destroy]
+	before_filter :company_admin?, only: [:destroy, :edit]
 
 	def new
 
@@ -34,6 +34,19 @@ class CommentsController < ApplicationController
 		end
 	end
 
+	def edit
+		
+		@comment = @project.comments.find params[:id]
+
+		respond_to do |format|
+			if @comment.update_attributes params[:comment]
+				format.json { render json: @comment.to_json(:include => {:author => {:only => [:name, :id]}}), status: :created }
+			else
+				format.json { render json: @comment.errors, :status => :unprocessable_entity }
+			end
+		end
+	end
+	
 	def destroy
 
 		@comment = @project.comments.find params[:id]

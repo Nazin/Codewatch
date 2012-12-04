@@ -60,7 +60,6 @@ class ProjectsController < ApplicationController
 		@project = current_user.projects.find_by_id params[:id]
 		@project.destroy
 		Codewatch::Repositories.new.configure do |git| # provides 20s timeout
-																									 #TODO exception handling ->timeout throws one
 			git.destroy_repo @project
 		end
 

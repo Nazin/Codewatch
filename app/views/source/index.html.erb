@@ -18,14 +18,14 @@
 	<div id="commits">
 		<%= render 'source/commits' %>
 	</div>
+
+	<script type="text/javascript">
+		$(window).scroll(function() {
+			if ($(window).scrollTop() + 100 > $(document).height() - $(window).height() && !cw.isLoading()) { 
+				cw.nextPage('#commits');
+			}
+		});	
+	</script>
 <% else %>
 	<p>There are no commits yet.</p>
 <% end %>
-
-<script type="text/javascript">
-$(window).scroll(function() {
-	if ($(window).scrollTop() + 100 > $(document).height() - $(window).height() && !scrollLoading) { 
-		loadNextPage('#commits');
-	}
-});	
-</script>

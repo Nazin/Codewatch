@@ -78,14 +78,21 @@ class SourceController < ApplicationController
 					@highlighted = @highlighted.gsub '</pre></div></div><div class="line">', '</pre></div>'
 
 					@comment = @project.comments.build params[:comment]
-					@comment.blob = @blob.id
 					@comment.file_name = @blob.name
 					@comment.revision = commit.id
 					@comment.path = @path.gsub ':', '/'
 					@comment.branch = @branch
 
-					@comments = @project.comments.order('"comments"."startLine"').find_all_by_path_and_blob @path, @blob.id
-
+					commits = @project.repo.commits commit.id
+					ids = []
+					
+					for com in commits
+						ids.push com.id if com.id != commit.id
+					end
+		
+					@comments = @project.comments.order('"comments"."startLine"').find_all_by_path_and_revision_and_file_name @path, commit.id, @blob.name
+					@comments2 = @project.comments.order('"comments"."startLine"').where('revision in (?)', ids).find_all_by_path_and_file_name @path, @blob.name
+					
 					@ccomment = CommentComment.new
 				else
 

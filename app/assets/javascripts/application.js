@@ -15,33 +15,87 @@
 //= require_tree .
 //
 
-$(document).ready(function () {
+var cw = null;
 
-	$('a[href=\'#\']').click(function(e) {
-		e.preventDefault();
-	});
-
-	if ($('a.show_description').length)
-		$('a.show_description').click(function(e) {
+var Codewatch = function() {
+	
+	function defaultLinkBehaviour() {
+		$('a[href=\'#\']').click(function(e) {
 			e.preventDefault();
+		});
+	}
+	
+	function tabs() {
+		
+		if ($('#tabs').length) {
+		
+			$('#main').addClass('wide');
+			$('#tabs > div:not(:eq(0))').hide();
+
+			$('#tabs > ul li a').click(function(e) {
+
+				e.preventDefault();
+
+				$('#tabs > ul li.active').removeClass('active');
+				$(this).parent().addClass('active');
+
+				$('#tabs > div').hide();
+				$('#tabs ' + $(this).attr('href')).show();
+			});
+		}
+	}
+	
+	function taskHistoryDescription() {
+		
+		if ($('a.show_description').length)
+			$('a.show_description').click(function(e) {
+				e.preventDefault();
+
+				var el = $($(this).attr('href'));
+
+				if (el.is(':hidden')) {
+					el.show(500);
+					$(this).html('Hide description');
+				} else {
+					el.hide(500);
+					$(this).html('Show description');
+				}
+			});
+	}
+	
+	function deployment() {
+		
+		if ($('#projectsList .deployment').length) {
 			
-			var el = $($(this).attr('href'));
-			
-			if (el.is(':hidden')) {
-				el.show(500);
-				$(this).html('Hide description');
-			} else {
-				el.hide(500);
-				$(this).html('Show description');
+			$('#projectsList .deployment .failInfo a').click(function (e) {
+				e.preventDefault();
+				$(this).next().toggle(100);
+			});
+		
+			var el = $('#projectsList.deployments div.deployment:first-child[data-finished=false]:not(.failedDeployment)');
+
+			if (el.length) {
+
+				var id = el.attr('data-id');
+
+				var interval = setInterval(function() {
+					$.get($('#deployStatus').attr('href').replace('_ID_', id), function(data) {
+
+						var percentage = Math.round(data.filesProceeded/(data.filesTotal*1.0)*100);
+
+						el.find('.progress > div').width(percentage + '%');
+
+						if (percentage == 100 || data.finished)
+							clearInterval(interval);
+
+						if (data.state != 1)
+							location.href = location.href;
+					})
+				}, 5000);
 			}
-		});
-
-	if ($('#projectsList .deployment').length)
-		$('#projectsList .deployment .failInfo a').click(function (e) {
-			e.preventDefault();
-			$(this).next().toggle(100);
-		});
-
+		}
+	}
+	
 	function insertLines(element) {
 		
 		if ($(element).length) {
@@ -61,63 +115,20 @@ $(document).ready(function () {
 			$(element + ' td.lineNumbers').html('<pre>' + lines + '</pre>')
 		}
 	}
-
-	insertLines('table#highlitedCode.diff');
-	insertLines('table#highlitedCode2.diff');
-
-	if ($('#projectsList.deployments').length) {
+	
+	var CodeReview = function() {
 		
-		var el = $('#projectsList.deployments div.deployment:first-child[data-finished=false]:not(.failedDeployment)');
-		
-		if (el.length) {
-			
-			var id = el.attr('data-id');
-
-			var interval = setInterval(function() {
-				$.get($('#deployStatus').attr('href').replace('_ID_', id), function(data) {
-					
-					var percentage = Math.round(data.filesProceeded/(data.filesTotal*1.0)*100);
-					
-					el.find('.progress > div').width(percentage + '%');
-					
-					if (percentage == 100 || data.finished)
-						clearInterval(interval);
-					
-					if (data.state != 1)
-						location.href = location.href;
-				})
-			}, 5000);
-		}
-	}
-
-	if ($('#tabs').length) {
-		
-		$('#main').addClass('wide');
-		$('#tabs > div:not(:eq(0))').hide();
-
-		$('#tabs > ul li a').click(function(e) {
-
-			e.preventDefault();
-
-			$('#tabs > ul li.active').removeClass('active');
-			$(this).parent().addClass('active');
-
-			$('#tabs > div').hide();
-			$('#tabs ' + $(this).attr('href')).show();
-		});
-	}
-
-	if ($('table#highlitedCode div.highlight pre div.line').length) {
-
 		function makeSelectable() {
 			
 			$('table#highlitedCode div.highlight pre').selectable({
 				filter: 'div.line',
 				stop: function (event, ui) {
 
-					var prev = -1, startLine = -1, lines = 0;
+					var prev = -1, startLine = -1, lines = 0, code = '';
 
-					$('.ui-selected', this).each(function () {
+					$('.ui-selected', this).each(function(i, e) {
+
+						code += $(e).html() + "\n";
 
 						var index = $('table#highlitedCode div.highlight pre div.line').index(this);
 
@@ -136,6 +147,7 @@ $(document).ready(function () {
 
 						$('#comment_startLine').val(startLine);
 						$('#comment_lines').val(lines);
+						$('#comment_code').val($.trim(code));
 						$('#newComment').dialog('open');
 						$('#new_comment .errors').empty();
 					}
@@ -143,26 +155,90 @@ $(document).ready(function () {
 			});
 		}
 		
-		makeSelectable();
-
-		$('#commentAddition').click(function() {
+		function codeSelection(id) {
 			
-			if ($(this).hasClass('disable')) {
-				$('table#highlitedCode div.highlight pre').selectable('destroy');
-				$(this).removeClass('disable').html('Enable comment addition');
-			} else {
-				makeSelectable();
-				$(this).addClass('disable').html('Disable comment addition');
-			}
-		});
+			var startLine = parseInt($('#comments .comment[data-id=' + id + ']').data('start-line'))-1;
+			var lines = parseInt($('#comments .comment[data-id=' + id + ']').data('lines')-1);
+				
+			$('pre.ui-selectable div.line:gt(' + startLine + '):lt(' + lines + '), pre.ui-selectable div.line:eq(' + startLine + ')').addClass('hover');
+		}
+		
+		function codeDeselection() {
+			$('pre.ui-selectable div.line.hover').removeClass('hover');
+		}
+		
+		function initEdit() {
+			
+			$('#editCommentButton').click(function(e) {
+				e.preventDefault();
 
-		function initComments() {
+				var id = $('#commentDetails').data('id');
 
-			$('#comments .comment').unbind('click');
+				if ($('#editComment form').data('origUrl') == undefined)
+					$('#editComment form').data('origUrl', $('#editComment form').attr('action'));
+
+				$('#editComment form').attr('action', $('#editComment form').data('origUrl').replace('_ID_', id));
+
+				$('#editComment form #edit_form_comment_comment').val($('.comment[data-id=' + id + ']').html());
+				$('#editComment form #edit_form_comment_task_id').val($('.comment[data-id=' + id + ']').data('task'));
+
+				$('#editComment').dialog('open');
+			});
+
+			$('#edit_form_new_comment').bind('ajax:beforeSend',function (evt, xhr, settings) {
+
+				var $submitButton = $(this).find('input[name=commit]');
+
+				if ($submitButton.val() == 'Submitting...')
+					return;
+
+				$submitButton.data('origText', $submitButton.val());
+				$submitButton.val('Submitting...');
+				$('#edit_form_new_comment .errors').empty();
+			}).bind('ajax:complete',function (evt, xhr, status) {
+
+				var $submitButton = $(this).find('input[name=commit]');
+				$submitButton.val($submitButton.data('origText'));
+			}).bind('ajax:success',function (evt, data, status, xhr) {
+
+				$('#edit_form_new_comment .errors').empty();
+
+				var comment = $.parseJSON(xhr.responseText);
+
+				$('.comment[data-id=' + comment.id + ']').html(comment.comment);
+				$('.comment[data-id=' + comment.id + ']').data('task', comment.task_id == null ? '' : comment.task_id);
+
+				$('#commentDetails > .comment').html(comment.comment);
+
+				$('#editComment').dialog('close');
+			}).bind('ajax:error', function (evt, xhr, status, error) {
+
+				var errors, errorText;
+
+				try {
+					errors = $.parseJSON(xhr.responseText);
+				} catch (err) {
+					errors = {message:'Please reload the page and try again'};
+				}
+
+				errorText = 'There were errors with the submission: <ul>';
+
+				for (error in errors)
+					errorText += '<li>' + error + ': ' + errors[error] + '</li>';
+
+				errorText += '</ul>';
+
+				$('#edit_form_new_comment .errors').html(errorText);
+			});
+		}
+		
+		function commentsResize(container) {
+			
+			$(container + ' .comment').unbind('click');
 
 			var lines = new Array();
 
-			$('#comments .comment').each(function () {
+			$(container + ' .comment').each(function () {
 
 				for (var i = $(this).data('start-line'); i < $(this).data('start-line') + $(this).data('lines'); i++) {
 
@@ -173,56 +249,73 @@ $(document).ready(function () {
 				}
 			});
 
-			var lineWidth = $('table#highlitedCode div.highlight pre div.line').width() - 100,
+			var lineWidth = $('#comments').width(),
 				lineHeight = $('table#highlitedCode div.highlight pre div.line').outerHeight(),
-				offsetLeft = 0, prevWidth = 0;
+				offsetLeft = 0, prevWidth = 0, elementOuterWidth = 12, totalLines = $('table#highlitedCode div.highlight pre div.line').length;
 
-			$('#comments .comment').each(function () {
+			$(container + ' .comment').each(function () {
 
 				var max = 1, startLine = $(this).data('start-line'), elines = $(this).data('lines');
 
-				for (var i = startLine; i < startLine + elines; i++) {
+				if (totalLines > startLine) {
 
-					if (lines[i] != undefined && lines[i] > max)
-						max = lines[i];
-				}
+					for (var i = startLine; i < startLine + elines; i++) {
 
-				var newWidth = lineWidth / max - 4;
+						if (lines[i] != undefined && lines[i] > max)
+							max = lines[i];
+					}
 
-				if (newWidth != 0 && offsetLeft + prevWidth + newWidth < lineWidth)
-					offsetLeft += prevWidth;
-				else
-					offsetLeft = 0;
+					var newWidth = lineWidth / max - elementOuterWidth;
 
-				$(this).css({
-					width:newWidth,
-					top:1 + lineHeight * (startLine - 1),
-					height:elines * lineHeight - 4,
-					left:offsetLeft
-				});
+					if (newWidth != 0 && offsetLeft + prevWidth + newWidth < lineWidth)
+						offsetLeft += prevWidth;
+					else
+						offsetLeft = 0;
 
-				prevWidth = newWidth + 4;
+					$(this).css({
+						width: newWidth,
+						top: 5 + lineHeight * (startLine - 1),
+						height: elines * lineHeight - elementOuterWidth,
+						left: offsetLeft
+					});
+
+					prevWidth = newWidth + elementOuterWidth;
+				} else
+					$(this).hide();
 			});
+		}
+		
+		function commentClick(container, selectCode) {
+			
+			$(container + ' .comment').click(function () {
 
-			if ($('#showHideComments').html() == 'Show comments')
-				$('#showHideComments').click();
+				var id = $(this).data('id');
 
-			$('#comments .comment').click(function () {
-
+				$('#commentDetails').data('id', id);
+				
+				$('#showCommentedCode').html('Show code')
+				
+				if (selectCode)
+					$('#showCommentedCode').hide();
+				else
+					$('#showCommentedCode').show();
+				
 				if ($('#deleteComment').length) {
 
 					if ($('#deleteComment').data('origUrl') == undefined)
 						$('#deleteComment').data('origUrl', $('#deleteComment').attr('href'));
 
-					$('#deleteComment').attr('href', $('#deleteComment').data('origUrl').replace('_ID_', $(this).data('id')));
+					$('#deleteComment').attr('href', $('#deleteComment').data('origUrl').replace('_ID_', id));
 				}
 
 				if ($('#new_comment_comment').data('origUrl') == undefined)
 					$('#new_comment_comment').data('origUrl', $('#new_comment_comment').attr('action'));
 
-				$('#new_comment_comment').attr('action', $('#new_comment_comment').data('origUrl').replace('_ID_', $(this).data('id')));
+				$('#new_comment_comment').attr('action', $('#new_comment_comment').data('origUrl').replace('_ID_', id));
 
-				$.get($('#commentDetails').data('comments').replace('_ID_', $(this).data('id')), function (data) {
+				$('#commentDetails .comments').html('');
+
+				$.get($('#commentDetails').data('comments').replace('_ID_', id), function (data) {
 
 					html = '';
 
@@ -235,22 +328,46 @@ $(document).ready(function () {
 				$('#commentDetails > .comment').html($(this).html());
 				$('#commentDetails .info').html('posted by <a href="' + $(this).data('author-url') + '">' + $(this).data('author') + '</a> on ' + $(this).data('posted'));
 				$('#commentDetails').show();
+				
+				if (selectCode)
+					setTimeout(function() {codeSelection(id);}, 50);
 
-				location.hash = '#comment_' + $(this).data('id')
+				location.hash = '#comment_' + id;
 			});
 		}
+		
+		function initComments(all) {
 
-		$('#new_comment').bind('ajax:beforeSend',function (evt, xhr, settings) {
+			commentsResize('#comments');
+			commentClick('#comments', true);
+			
+			if (all) {
+				commentsResize('#old_comments');
+				commentClick('#old_comments', false);
+			}
 
-			var $submitButton = $(this).find('input[name=commit]');
+			$('#comments .comment').unbind('mouseenter').unbind('mouseleave');
 
-			if ($submitButton.val() == 'Submitting...')
-				return;
+			$('#comments .comment').mouseenter(function() {
+				codeSelection($(this).data('id'));
+			}).mouseleave(function() {
+				codeDeselection();
+			});
+		}
+		
+		function initAddition() {
+			
+			$('#new_comment').bind('ajax:beforeSend',function (evt, xhr, settings) {
 
-			$submitButton.data('origText', $submitButton.val());
-			$submitButton.val('Submitting...');
-			$('#new_comment .errors').empty();
-		}).bind('ajax:complete',function (evt, xhr, status) {
+				var $submitButton = $(this).find('input[name=commit]');
+
+				if ($submitButton.val() == 'Submitting...')
+					return;
+
+				$submitButton.data('origText', $submitButton.val());
+				$submitButton.val('Submitting...');
+				$('#new_comment .errors').empty();
+			}).bind('ajax:complete',function (evt, xhr, status) {
 
 				var $submitButton = $(this).find('input[name=commit]');
 				$submitButton.val($submitButton.data('origText'));
@@ -261,7 +378,7 @@ $(document).ready(function () {
 				$('#newComment').dialog('close');
 
 				var comment = $.parseJSON(xhr.responseText);
-				var html = '<div class="comment" data-id="' + comment.id + '" data-start-line="' + comment.startLine + '" data-posted="' + comment.created_at + '" data-lines="' + comment.lines + '" data-author="' + comment.author.name + '" data-author-url="/users/' + comment.author.id + '">' + comment.comment + '</div>';
+				var html = '<div class="comment" data-id="' + comment.id + '" data-start-line="' + comment.startLine + '" data-task="' + (comment.task_id == null ? '' : comment.task_id) + '" data-posted="' + comment.created_at + '" data-lines="' + comment.lines + '" data-author="' + comment.author.name + '" data-author-url="/users/' + comment.author.id + '">' + comment.comment + '</div>';
 
 				var prev = null, broken = false;
 
@@ -282,7 +399,7 @@ $(document).ready(function () {
 				else
 					$('#comments > div').append(html);
 
-				initComments();
+				initComments(false);
 			}).bind('ajax:error', function (evt, xhr, status, error) {
 
 				var errors, errorText;
@@ -302,18 +419,21 @@ $(document).ready(function () {
 
 				$('#new_comment .errors').html(errorText);
 			});
+		}
+		
+		function initCommenting() {
+			
+			$('#new_comment_comment').bind('ajax:beforeSend',function (evt, xhr, settings) {
 
-		$('#new_comment_comment').bind('ajax:beforeSend',function (evt, xhr, settings) {
+				var $submitButton = $(this).find('input[name=commit]');
 
-			var $submitButton = $(this).find('input[name=commit]');
+				if ($submitButton.val() == 'Submitting...')
+					return;
 
-			if ($submitButton.val() == 'Submitting...')
-				return;
-
-			$submitButton.data('origText', $submitButton.val());
-			$submitButton.val('Submitting...');
-			$('#new_comment_comment .errors').empty();
-		}).bind('ajax:complete',function (evt, xhr, status) {
+				$submitButton.data('origText', $submitButton.val());
+				$submitButton.val('Submitting...');
+				$('#new_comment_comment .errors').empty();
+			}).bind('ajax:complete',function (evt, xhr, status) {
 
 				var $submitButton = $(this).find('input[name=commit]');
 				$submitButton.val($submitButton.data('origText'));
@@ -345,75 +465,145 @@ $(document).ready(function () {
 
 				$('#new_comment_comment .errors').html(errorText);
 			});
+		}
+		
+		function initButtons() {
+			
+			$('#commentAddition').click(function() {
+			
+				if ($(this).hasClass('disable')) {
+					$('table#highlitedCode div.highlight pre').selectable('destroy');
+					$(this).removeClass('disable').html('Enable comment addition');
+				} else {
+					makeSelectable();
+					$(this).addClass('disable').html('Disable comment addition');
+				}
+			});
+			
+			$('#commentDetails a#closeCommentBox').click(function (e) {
+				e.preventDefault();
+				$('#commentDetails').hide();
+				var scr = document.body.scrollTop;
+				location.hash = '#';
+				document.body.scrollTop = scr;
+				codeDeselection();
+			});
+		}
+		
+		function initDialogs() {
+			
+			$('#newComment, #editComment').dialog({
+				autoOpen: false,
+				modal: true,
+				width: 600,
+				resizable: false,
+				draggable: false,
+				beforeClose: function (event, ui) {
+					$('table#highlitedCode div.highlight pre div.line').removeClass('ui-selected');
+				}
+			});
+		}
+		
+		function initRest() {
+			
+			$('#old_comments').height($('#codeContainer').height());
 
-		$(window).keydown(function (e) {
-			if (e.keyCode == 17 || e.keyCode == 27)
-				$('table#highlitedCode div.highlight pre div.line').removeClass('ui-selected');
-		});
+			$('#showCommentedCode').click(function(e) {
+				e.preventDefault();
+				
+				if ($('#commentDetails .comment pre').is(':hidden')) {
+					$('#showCommentedCode').html('Hide code');
+					$('#commentDetails .comment pre').show(500);
+				} else {
+					$('#showCommentedCode').html('Show code');
+					$('#commentDetails .comment pre').hide(500);
+				}
+			});
 
-		$('#newComment').dialog({
-			autoOpen:false,
-			modal:true,
-			width:600,
-			resizable:false,
-			draggable:false,
-			beforeClose:function (event, ui) {
-				$('table#highlitedCode div.highlight pre div.line').removeClass('ui-selected');
+			$(window).keydown(function (e) {
+				if (e.keyCode == 17 || e.keyCode == 27)
+					$('table#highlitedCode div.highlight pre div.line').removeClass('ui-selected');
+			});
+
+			if (location.hash != '') {
+
+				var parts = location.hash.split('_');
+
+				if (parts[0] == '#comment')
+					$('.comment[data-id=' + parts[1] + ']').click();
 			}
-		});
-
-		$('#comments').css({
-			top:$('#highlitedCode').position().top + 6,
-			left:$('#highlitedCode div.highlight').position().left + 100
-		});
-
-		initComments();
-
-		$('#commentDetails a#closeCommentBox').click(function (e) {
-			e.preventDefault();
-			$('#commentDetails').hide();
-			location.hash = '';
-		})
-
-		$('#showHideComments').click(function (e) {
-			e.preventDefault();
-
-			if ($(this).html() == 'Hide comments') {
-				$('#comments').hide();
-				$(this).html('Show comments');
-			} else {
-				$('#comments').show();
-				$(this).html('Hide comments');
+		}
+		
+		function init() {
+			
+			if ($('table#highlitedCode div.highlight pre div.line').length) {
+				
+				makeSelectable();
+				
+				initComments(true);
+				initAddition();
+				initEdit();
+				
+				initCommenting();
+				initButtons();
+				
+				initDialogs();
+				initRest();
 			}
-		});
-
-		if (location.hash != '') {
-
-			var parts = location.hash.split('_');
-
-			if (parts[0] == '#comment')
-				$('#comments .comment[data-id=' + parts[1] + ']').click();
+		}
+		
+		return {
+			init: init
 		}
 	}
-});
-
-var scrollActive = true;
-var scrollLoading = false;
-var page = 1;
-
-function loadNextPage(element) {
 	
-	if (scrollActive) {
-		scrollLoading = true;
+	var scrollActive = true;
+	var scrollLoading = false;
+	var page = 1;
 
-		$.get(location.href + '?page=' + (page+1), function(data) {
+	function loadNextPage(element) {
 
-			if ($.trim(data) != '') {
-				$(element).append(data);
-				page++;
-				scrollLoading = false;
-			} else
-				scrollActive = false;
-		}, 'html');
+		if (scrollActive) {
+			scrollLoading = true;
+
+			$.get(location.href + '?page=' + (page+1), function(data) {
+
+				if ($.trim(data) != '') {
+					$(element).append(data);
+					page++;
+					scrollLoading = false;
+				} else
+					scrollActive = false;
+			}, 'html');
+		}
 	}
-}
+	
+	function isLoading() {
+		return scrollLoading;
+	}
+	
+	function init() {
+		
+		defaultLinkBehaviour();
+		tabs();
+		taskHistoryDescription();
+		deployment();
+		
+		insertLines('table#highlitedCode.diff');
+		insertLines('table#highlitedCode2.diff');
+		
+		var cr = CodeReview();
+		cr.init();
+	}
+	
+	return {
+		init: init,
+		nextPage: loadNextPage,
+		isLoading: isLoading
+	}
+};
+
+$(document).ready(function() {
+	cw = Codewatch();
+	cw.init();
+});

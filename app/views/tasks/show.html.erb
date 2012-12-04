@@ -29,7 +29,10 @@
 	
 	<ul class="normal">
 	<% for comment in @task.comments %>
-		<li><a href="<%= project_branch_file_path @project.id, comment.branch, comment.revision, (comment.path == '' ? ' ': (comment.path.gsub '/', '%3A')), comment.file_name %>#comment_<%= comment.id %>"><%= comment.comment[0..100] %>...</a></li>
+		<li>
+			<a href="<%= project_branch_file_path @project.id, comment.branch, comment.revision, (comment.path == '' ? ' ': (comment.path.gsub '/', '%3A')), comment.file_name %>#comment_<%= comment.id %>"><%= comment.comment[0..100] %>...</a><br />
+			in file <i><%= comment.path + '/' + comment.file_name %></i>
+		</li>
 	<% end %>
 	</ul>
 

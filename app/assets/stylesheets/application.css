@@ -646,6 +646,10 @@ div#codeContainer {
 	overflow: auto;
 }
 
+div#codeContainer.commentable {
+	margin-right: 330px;
+}
+
 table#highlitedCode, table#highlitedCode2, table#highlitedCode3 {
 	border: 1px dotted #999;
 	width: 100%;
@@ -679,6 +683,10 @@ table#highlitedCode div.highlight .ui-selecting, table#highlitedCode2 div.highli
 	background: #F0F9FF;
 }
 
+div.line:hover, div.line.hover {
+	background: #E0F7FF;
+}
+
 .fileListing {
 	line-height: 1.3;
 }
@@ -698,40 +706,40 @@ textarea#task_description {
 	width: 500px;
 }
 
-#newComment label {
+#newComment label, #editComment label {
 	display: none;
 }
 
-#newComment label#comment_task_id_label {
+#newComment label#comment_task_id_label, #editComment label#comment_task_id_label {
 	display: block;
 	float: none;
 	width: auto;
 	text-align: left;
 }
 
-#newComment div.e {
+#newComment div.e, #editComment div.e {
 	margin-left: 0;
 }
 
-#newComment form {
+#newComment form, #editComment form {
 	margin: 0;
 }
 
-#newComment .codewatchForm form .send {
+#newComment .codewatchForm form .send, #editComment .codewatchForm form .send {
 	margin-left: 0;
 }
 
-#newComment .codewatchForm form textarea {
+#newComment .codewatchForm form textarea, #editComment .codewatchForm form textarea {
 	height: 100px;
 	width: 568px;
 }
 
-#new_comment .errors, #commentDetails .commentForm .errors {
+#new_comment .errors, #commentDetails .commentForm .errors, #edit_form_new_comment .errors {
 	color: red;
 	margin: 10px;
 }
 
-#new_comment .errors ul, #commentDetails .commentForm .errors ul {
+#new_comment .errors ul, #commentDetails .commentForm .errors ul, #edit_form_new_comment .errors ul {
 	list-style-type: disc;
 	margin-left: 20px;
 }
@@ -743,31 +751,56 @@ ul.normal {
 
 ul.normal li {
 	margin: 5px 0;
+	line-height: 1.3;
 }
 
-#comments {
-	position: absolute;
+ul.normal li a {
+	font-weight: bold;
 }
 
-#comments > div {
+#old_commentsHeader, #commentsHeader {
+	font-weight: bold;
+	text-align: center;
+}
+
+#old_commentsHeader, #old_comments {
+	padding-left: 10px;
+	margin-left: 10px;
+}
+
+#comments, #old_comments, #old_commentsHeader, #commentsHeader {
+	float: right;
+	width: 150px;
+	min-height: 10px;
+}
+
+#old_comments {
+	border-left: 1px dotted #999;
+}
+
+#comments > div, #old_comments > div {
 	position: relative;
 }
 
-#comments > div div.comment {
+#comments > div div.comment, #old_comments > div div.comment {
+	border: 1px solid #fff;
 	position: absolute;
-	border: 1px solid yellowgreen;
-	background: #FAFAFA;
-	padding: 2px;
+	background: #1F794D;
+	padding: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	opacity: 0.7;
 	cursor: pointer;
 	overflow: hidden;
+	color: #fff;
 }
 
-#comments > div div.comment:hover {
-	opacity: 1;
+#comments > div div.comment > pre, #old_comments > div div.comment > pre {
+	display: none;
+}
+
+#old_comments > div div.comment {
+	background: #325006;
 }
 
 #commentDetails {
@@ -787,7 +820,12 @@ ul.normal li {
 }
 
 #commentDetails .comment {
-	margin: 10px 0;
+	margin: 20px 0;
+}
+
+#commentDetails .comment pre {
+	display: none;
+	margin-top: 20px
 }
 
 #commentDetails .info {

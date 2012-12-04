@@ -9,12 +9,26 @@
 	
 		<%= choose_diff %>
 		<a href="#" class="button r disable" id="commentAddition">Disable comment addition</a>
-		<% if @comments && @comments.any? %>
-			<a href="#" class="button r" id="showHideComments">Hide comments</a>
-		<% end %>
 		<div class="both">&nbsp;</div>
 		
-		<div id="codeContainer">
+		<div id="old_commentsHeader" title="Position could not be accurate">Previous comments</div>
+		<div id="commentsHeader">Current comments</div>
+		<div class="both"></div>
+		<div id="old_comments">
+			<div>
+				<% for comment in @comments2 %>
+					<div class="comment" data-start-line="<%= comment.startLine %>" data-id="<%= comment.id %>" data-posted="<%= comment.created_at.strftime '%A, %d %B %Y (%H:%M)' %>" data-task="<%= comment.task.nil? ? '' : comment.task.id %>" data-lines="<%= comment.lines %>" data-author="<%= comment.author.name %>" data-author-url="<%= user_path(comment.author) %>"><%= comment.comment %><pre id="highlitedCode2"><%= raw comment.code %></pre></div>
+				<% end %>
+			</div>
+		</div>
+		<div id="comments">
+			<div>
+				<% for comment in @comments %>
+					<div class="comment" data-start-line="<%= comment.startLine %>" data-id="<%= comment.id %>" data-posted="<%= comment.created_at.strftime '%A, %d %B %Y (%H:%M)' %>" data-task="<%= comment.task.nil? ? '' : comment.task.id %>" data-lines="<%= comment.lines %>" data-author="<%= comment.author.name %>" data-author-url="<%= user_path(comment.author) %>"><%= comment.comment %></div>
+				<% end %>
+			</div>
+		</div>
+		<div id="codeContainer" class="commentable">
 			<table id="highlitedCode">
 				<tbody>
 				<tr>
@@ -31,10 +45,13 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="both"></div>
 		<div id="commentDetails" data-comments="<%= get_comment_path @project, '_ID_' %>">
 			<a href="#" id="closeCommentBox" class="button r">Close</a>
+			<a href="#" id="showCommentedCode" class="button r" title="Show commented code">Show code</a>
 			<% if admin? %>
 				<%= link_to "Delete", delete_comment_path(@project, '_ID_'), :class => 'button r', :id => 'deleteComment', method: :delete, confirm: 'Are you sure?' %>
+				<a href="#" class="button r" id="editCommentButton">Edit</a>
 			<% end %>
 			<div class="both"></div>
 			<div class="comment"></div>
@@ -48,13 +65,6 @@
 				<% end %>
 			</div>
 		</div>
-		<div id="comments">
-			<div>
-				<% for comment in @comments %>
-					<div class="comment" data-start-line="<%= comment.startLine %>" data-id="<%= comment.id %>" data-posted="<%= comment.created_at.strftime '%A, %d %B %Y (%H:%M)' %>" data-lines="<%= comment.lines %>" data-author="<%= comment.author.name %>" data-author-url="<%= user_path(comment.author) %>"><%= comment.comment %></div>
-				<% end %>
-			</div>
-		</div>
 		<div id="newComment" title="Add comment to selected lines">
 			<%= cw_form_for @comment, url: new_comment_path, remote: true do |f| %>
 				<%= f.text_area :comment %>
@@ -63,9 +73,17 @@
 				<%= f.hidden_field :lines %>
 				<%= f.hidden_field :path %>
 				<%= f.hidden_field :branch %>
-				<%= f.hidden_field :blob %>
 				<%= f.hidden_field :file_name %>
 				<%= f.hidden_field :revision %>
+				<%= f.hidden_field :code %>
+				<div class="errors"></div>
+				<%= f.submit "Save comment" %>
+			<% end %>
+		</div>
+		<div id="editComment" title="Edit comment">
+			<%= cw_form_for @comment, url: edit_comment_path(@project, '_ID_'), remote: true, namespace: 'edit_form', method: 'put' do |f| %>
+				<%= f.text_area :comment %>
+				<%= f.collection_select :task_id, @project.tasks.find(:all, :order => 'title'), :id, :title, {:include_blank => true, :label => 'Assign with task'} %>
 				<div class="errors"></div>
 				<%= f.submit "Save comment" %>
 			<% end %>

@@ -3,6 +3,7 @@ Www::Application.routes.draw do
 
 	match '/projects/:project_id/comments/new', to: 'comments#new', via: :post, as: :new_comment
 	match '/projects/:project_id/comments/:id', to: 'comments#destroy', via: :delete, as: :delete_comment
+	match '/projects/:project_id/comments/:id', to: 'comments#edit', via: :put, as: :edit_comment
 	match '/projects/:project_id/comments/:id', to: 'comments#show', via: :get, as: :get_comment
 	match '/projects/:project_id/comments/:id/new', to: 'comments#new2', via: :post, as: :new_comment_comment
 

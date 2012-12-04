@@ -16,8 +16,8 @@
 		
 	<script type="text/javascript">
 		$(window).scroll(function() {
-			if ($(window).scrollTop() + 100 > $(document).height() - $(window).height() && !scrollLoading) { 
-				loadNextPage('#commits');
+			if ($(window).scrollTop() + 100 > $(document).height() - $(window).height() && !cw.isLoading()) { 
+				cw.nextPage('#commits');
 			}
 		});	
 	</script>
