@@ -62,19 +62,20 @@ class Server < ActiveRecord::Base
 
 			@do_not_validate_connection = true
 
-			server = self
-			server.state = Server::State::DEPLOYING
-			server.save!
+			@server = self
+			@server.state = Server::State::DEPLOYING
+			@server.save!
 
 			spawn_block :method => :thread do
 
-				repo = server.project.repo
+				repo = @server.project.repo
 
 				head = repo.commits.first
 
 				@deployment = Deployment.new
-				@deployment.server = server
+				@deployment.server = @server
 				@deployment.user = user
+				@deployment.revision = head.id
 
 				if revision == ''
 					if localRepoPath != ''
@@ -102,38 +103,38 @@ class Server < ActiveRecord::Base
 
 					connection.close
 
-					server.state = State::FINE
-					server.revision = head.id
+					@server.state = State::FINE
+					@server.revision = head.id
 				rescue Codewatch::HostUnreachable
 					@deployment.state = Deployment::State::CONNECTION_PROBLEM
-					server.state = State::FAILED
+					@server.state = State::FAILED
 				rescue Codewatch::PortUnreachable
 					@deployment.state = Deployment::State::CONNECTION_PROBLEM
-					server.state = State::FAILED
+					@server.state = State::FAILED
 				rescue Codewatch::WrongCredentials
 					@deployment.state = Deployment::State::CONNECTION_PROBLEM
-					server.state = State::FAILED
+					@server.state = State::FAILED
 				rescue Codewatch::PathNotAccessible => e
 					@deployment.state = Deployment::State::ACCESSIBILITY_PROBLEM
 					@deployment.info = e.message
-					server.state = State::FAILED
+					@server.state = State::FAILED
 				rescue Codewatch::PathNotWritable => e
 					@deployment.state = Deployment::State::WRITE_PROBLEM
 					@deployment.info = e.message
-					server.state = State::FAILED
+					@server.state = State::FAILED
 				rescue Exception => e
 					@deployment.state = Deployment::State::CONNECTION_PROBLEM
-					server.state = State::FAILED
+					@server.state = State::FAILED
 					@deployment.info = e.message
 				end
 
-				if server.state == State::FAILED
-					Log.it Log::Type::DEPLOYMENT_FAILED, server.project, user
+				if @server.state == State::FAILED
+					Log.it Log::Type::DEPLOYMENT_FAILED, @server.project, user
 				end
 
 				@deployment.finished = true
 				@deployment.save!
-				server.save
+				@server.save!
 			end
 		end
 	end
@@ -142,13 +143,13 @@ class Server < ActiveRecord::Base
 		attr_accessor :b_blob, :a_blob, :a_path, :b_path, :deleted_file, :new_file, :tree
 	end
 
-	private
+private
 
 	def revision_validate
 
 		if revision != ''
 
-			repo = server.project.repo
+			repo = project.repo
 
 			begin
 				repo.commits revision
@@ -162,7 +163,7 @@ class Server < ActiveRecord::Base
 
 		if localRepoPath != ''
 
-			repo = server.project.repo
+			repo = project.repo
 
 			errors[:localRepoPath] << " does not exist" if (repo.tree/localRepoPath).nil?
 		end

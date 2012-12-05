@@ -48,7 +48,7 @@
 				<span>No revisions deployed</span>
 			<% else %>
 				<span>Revision on server:</span>
-				<span><%= link_to server.revision[0..10], project_source_path(@project, server.revision) %></a></span>
+				<span><%= link_to server.revision[0..10], project_branch_commit_path(@project, 'master', server.revision) %></a></span>
 			<% end %>
 			<% if user? %>
 				<span class="links">
